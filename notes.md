@@ -9,6 +9,7 @@
 - [MDN](https://developer.mozilla.org)
 
 ## Simon Introduction Notes
+
 ### HTML
 Basic Setup of the website.
 - Nothing actually works. It is just the appearance.
@@ -30,6 +31,7 @@ Basic Setup of the website.
 - uses the favicon
 #### `deployFiles.sh`
 - bash script
+
 ### CSS
 It seems like CSS separated the formatting and visuals from html.
 - no functionality either
@@ -47,6 +49,29 @@ It seems like CSS separated the formatting and visuals from html.
 #### `play.css`, `play.html`, `scores.css`, `scores.html`
 - rather than doing everything manually in html, it looks like they took all the formatting out and almost made classes for the different elements in css that they can reference later.
 - for scores, css defines a `td` and it looks like html can reference that
+
+### React
+- no functionality
+- looks the same?
+#### `deployReact.sh`
+- new file
+#### `index.html`, `index.jsx`
+- a lot simpler
+- requires javascript
+#### `package.json`, `package-lock.json`
+- importing different packages
+- `package-lock` makes it work for different operating systems?
+#### `public` folder
+- contains all the images
+- now contains sounds
+#### `src`
+- each window has its own folder with functionality, formatting, but no html
+- what is the difference between js and jsx?
+#### `src/app.css`
+- a lot simpler than previous versions
+#### `src/app.jsx`
+- it looks like the app no longer runs on html, but is run through Javascript
+
 
 ## AWS Notes
 
