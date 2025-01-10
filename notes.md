@@ -1,4 +1,5 @@
 # CS 260 Notes
+See also [class notes](/classNotes.md)
 
 [My startup](https://simon.cs260.click)
 
