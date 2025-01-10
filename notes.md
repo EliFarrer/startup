@@ -87,3 +87,4 @@ Now the login works and the app is actually functional. It seems to get updates 
 
 ## HTML Notes
 this is testing a pull command
+now i am testing fetch
