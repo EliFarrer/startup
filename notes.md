@@ -8,6 +8,46 @@
 - [Canvas](https://byu.instructure.com)
 - [MDN](https://developer.mozilla.org)
 
+## Simon Introduction Notes
+### HTML
+Basic Setup of the website.
+- Nothing actually works. It is just the appearance.
+- You can click things to log in, but it doesn't actually check the password or verify anything
+#### `about.html`
+- it looks like in the header, it sets the width of the application to the device width
+- it has a title
+- it has a menu with different options (I guess html can handle menus and some basic functionality)
+- this contains the **about** page (uses `placeholder.jpg` in this) 
+#### `play.html`
+- we can see the setup of players and notifications
+- beneath that it looks like it is creating the shapes of the buttons with different colors.
+#### `scores.html`
+- it looks like the beginning of all the html files are the same (menu setup)
+- most of this is just formatting
+#### `index.html`
+- this is the default page that is linked to
+- button types/classes
+- uses the favicon
+#### `deployFiles.sh`
+- bash script
+### CSS
+It seems like CSS separated the formatting and visuals from html.
+- no functionality either
+- looks a lot better though
+#### `about.css`
+- looks like setting up metadata
+- changes from the html version. It seems like it is now connected to css
+#### `about.html`
+- has some increased navigation?
+- same basic info at the bottom
+#### `deployFiles.sh`, `favicon.ico`, `placeholder.jpg`
+- looks about the same
+#### `main.css`
+- setup for css?
+#### `play.css`, `play.html`, `scores.css`, `scores.html`
+- rather than doing everything manually in html, it looks like they took all the formatting out and almost made classes for the different elements in css that they can reference later.
+- for scores, css defines a `td` and it looks like html can reference that
+
 ## AWS Notes
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
