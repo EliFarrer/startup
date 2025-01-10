@@ -72,6 +72,16 @@ It seems like CSS separated the formatting and visuals from html.
 #### `src/app.jsx`
 - it looks like the app no longer runs on html, but is run through Javascript
 
+### Service
+Now the login works and the app is actually functional. It seems to get updates from other players as well although i am not sure if those are automated or not.
+#### `service/index.js`
+- creates and handles new users and returning users (resets every time the window is closes)
+- handles score updating
+#### `service/package-lock.json`
+- seems to have information needed for handling data transfer to a server?
+  - regular expressions?
+#### `service/package.json`
+- has basic info for the website
 
 ## AWS Notes
 
