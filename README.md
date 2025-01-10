@@ -1,4 +1,5 @@
 # Your startup name here
+Edit readme from vs code
 
 [My Notes](notes.md)
 
