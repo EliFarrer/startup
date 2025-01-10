@@ -1,6 +1,5 @@
 # Your startup name here
-Edit readme from vs code
-now from github
+I can use this file on any exam.
 
 [My Notes](notes.md)
 
