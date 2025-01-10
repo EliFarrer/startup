@@ -1,5 +1,4 @@
 # Your startup name here
-I can use this file on any exam.
 
 [My Notes](notes.md)
 
