@@ -1,8 +1,9 @@
 # Your startup name here
 
-[My Notes](notes.md)
+[notes](notes.md)
+[class notes](classNotes.md)
 
-A brief description of the application here. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+An app that halps you practice your morse code skills. It gives you a letter and you have to type out the correct sequence. If you don't get the right sequence, your score goes down, if you do, it goes up. You have one minute to do as many as possible.
 
 
 > [!NOTE]
@@ -25,8 +26,7 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 - [ ] One or more rough sketches of your application. Images must be embedded in this file using Markdown image references.
 
 ### Elevator pitch
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Have you ever wanted to get really good at morse code? Have you ever wanted to be able to tap out messages without anyone knowing? This app can help you learn how to do this. It gives you one minute to tap out as many letters as you can. The more you get the more your score icnreases. The best part it, you can see how well your friends are doing based on their score. Then you can communicate covertly with ease.
 
 ### Design
 
