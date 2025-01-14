@@ -10,11 +10,11 @@ An app that halps you practice your morse code skills. It gives you a letter and
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] Proper use of Markdown
+- [x] Proper use of Markdown
 - [x] A concise and compelling elevator pitch
 - [x] Description of key features
 - [x] Description of how you will use each technology
-- [ ] One or more rough sketches of your application. Images must be embedded in this file using Markdown image references.
+- [x] One or more rough sketches of your application. Images must be embedded in this file using Markdown image references.
 
 ### Elevator pitch
 Have you ever wanted to get really good at morse code? Have you ever wanted to be able to tap out messages without anyone knowing? This app can help you learn how to do it! It gives you one minute to tap out as many letters as you can. The more you get the more your score increases. The best part it, you can see how well your friends are doing based on their score. Then, no matter the situation, you can communicate covertly with ease!
