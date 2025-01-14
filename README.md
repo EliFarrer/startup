@@ -21,16 +21,9 @@ Have you ever wanted to get really good at morse code? Have you ever wanted to b
 
 ### Design
 
-![Design image](morseDesign.jpg)
+![Design image](design.jpg)
 
 There would be three windows, Login, Play, and Scoreboard. The background of each would change every time you started a new round or went to a diffferent window. It would pull nature photos from a public image api.
-
-```mermaid
-sequenceDiagram
-    actor You
-    actor Website
-    You->>Website: Replace this with your design
-```
 
 ### Key features
 
