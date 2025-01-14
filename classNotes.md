@@ -99,3 +99,11 @@ You can push changes (which become pull requests). The owner can look at your ch
 This allows us to work on a feature without interrupting the main branch of code.
 `git branch <name>` lets you create a branch. You can `checkout` that branch and `commit` to it. To merge both branches, you do `git merge <name>` where name is the name of the branch.
 If you don't end up wanting the feature, just never merge it.
+
+# Dev Environment
+React is just more javascript that makes web development easier. It also makes it so that you can route (move between pages). The websocket is where we push things from the server to the browser because it is normally the other way around. The websocket is only active when the page is open.
+Look up uml diagrams. Endpoints are just methods or functions that we can call on a server. The service can be thought of a class. The endpoints are the methods.Need a third party call to other servers and endpoints. Third party services are on a github repo on the assignment. The thrid party serever can be called by the frontend or even the backend. Have your frontend call someone else's backend. Call the dinosaur game.
+How does the diagram work?
+
+## ssh into your server
+ssh, give it key file, with ubuntu@<dns> Then you can give it shell commands. THe Caddyfile is how it knows how to redirect the server
