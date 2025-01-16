@@ -1,5 +1,5 @@
 # CS 260 Notes
-See also [class notes](/classNotes.md)
+See also [lecture notes](/lectureNotes.md)
 
 [My startup](https://simon.cs260.click)
 
@@ -89,3 +89,6 @@ Now the login works and the app is actually functional. It seems to get updates 
 ## HTML Notes
 this is testing a pull command
 now i am testing fetch
+
+## VIM Notes
+Starts in command mode, press `i` to go to instert mode. See [Vim Cheat Sheet](https://vim.rtorr.com/) and the [Class Notes](https://github.com/webprogramming260/.github/blob/main/profile/essentials/editors/editors.md) on the commands.
