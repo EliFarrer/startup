@@ -1,4 +1,4 @@
-# Intro to class
+# Intro to class 1/19/25
 Tim Cook hiring specifications
 - collaborate
 - creativity
@@ -100,10 +100,97 @@ This allows us to work on a feature without interrupting the main branch of code
 `git branch <name>` lets you create a branch. You can `checkout` that branch and `commit` to it. To merge both branches, you do `git merge <name>` where name is the name of the branch.
 If you don't end up wanting the feature, just never merge it.
 
-# Dev Environment
+# Dev Environment 1/14/25
 React is just more javascript that makes web development easier. It also makes it so that you can route (move between pages). The websocket is where we push things from the server to the browser because it is normally the other way around. The websocket is only active when the page is open.
 Look up uml diagrams. Endpoints are just methods or functions that we can call on a server. The service can be thought of a class. The endpoints are the methods.Need a third party call to other servers and endpoints. Third party services are on a github repo on the assignment. The thrid party serever can be called by the frontend or even the backend. Have your frontend call someone else's backend. Call the dinosaur game.
 How does the diagram work?
 
 ## ssh into your server
 ssh, give it key file, with ubuntu@<dns> Then you can give it shell commands. THe Caddyfile is how it knows how to redirect the server
+
+# Server 1/16/25
+Today we are renting EC2 Web service for the serer, and using Route53 DNS to get our dns (Domain-Name-System).
+
+## Technology Stack
+What technology are you using? All of these are basically abstractions. Our tech stack `React > Caddy2 > Node js > mongoDB`. Browsers always have a javascript is in. Node js is just the chrome interpreter for js that we can use outside of a web browser. Caddy is routing to either your startup or you project. Then we don't have to get two servers.
+
+The frontend is code that executes on the browser (html, js, css, React). The backend is all the server stuff. Two apps communicating (frontend and backend).
+
+## How does the internet work?
+Each device has an ip address (public). Our devices are connected to an ISP (internet service provider). THese all talk to each other and route to different computers and eventually get to our device. We want to be able to talk to multiple devices at once from our device. So each device has multiple ports. So like port 443 is a public html port, and then connects and moves you over to a private port that is temporary. The front door is 443.
+
+Communicatoin layers
+
+| Layer | Example | Purpose |
+| ---- | ---- | ---- | ---- |
+| Application | HTTPS | Functionality like browsing |
+| Transport | TCP/UDP | Packet delivery |
+| Internet | IP | Establishing connections |
+| Link | Fiber, hardware | Physical connections |
+
+UDP doesn't care if all the packets are recieved (gaming)
+TCP manages sending and resending packets.
+
+## Domain Name System (DNS)
+walmart.com is a domain name but we are just connecting to an ip address. Browser looks at dns system that connects a web address to an ip address. Then the browser takes that and connects to the actual computer in walmart.
+
+- `dig +short byu.edu` tells you the ip address for byu.
+- `curl -v byu.edu` ipaddress:port.
+- `whois byu.edu`
+
+### Domain names
+react.simon.cs260.click
+
+subdomain.*secondary.top
+
+When you buy your domain name you buy the sld and tld. 
+
+`top` or `click` is a top level domain (tld): like `com`, `edu` (this reduces the search space).
+
+You are in charge of the subdomains and can have any amount you want.
+
+### TLD's
+originals: `com`, `org`, `edu`, `gov`, `mil`, `int`, `net`
+country: `uk`, `cn`, `tv`
+generic: `click`, `gold`, `ceo`, `fishing`
+
+### localhost `127.0.0.1`
+The only domain name that is hard coded.
+
+### DNS record types
+A/AAAA address records
+CNAME are just aliases
+
+**Make sure to respond to the email to confirm**
+
+## Servers
+dns with Route 53, get a server with ec2 > Launch instance. Make sure to do it in virginia. Give the server a name, lee-cs260-webserver, what operating system you are using is a custom one. t2.micro.....
+
+key pair (ssh) into the server in virginia. Private key on your computer (not on github!)
+
+Create a security group (ssh, anywhere, https and http)
+
+then launch instance
+
+public ip address (network settings > network settings)
+
+
+
+Now I can only listen on one port, so we have Caddy listen on port 443 that will assign our two web services to one web service or another.
+
+`ssh into student account`
+ls
+Caddyfile tells things where to port to.
+the html is the base thing
+put your domain name in the caddy file.
+`sudo service caddy restart` will apply the settings.
+
+DNS
+A record and you put in your ip address.
+Wildcard
+
+records and record types, relate to our mental model
+
+Create/edit records, and put the ip address in it. Records are just aliases.
+
+ssh -i key ubutu@ipaddressordomainname
