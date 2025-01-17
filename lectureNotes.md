@@ -109,75 +109,92 @@ How does the diagram work?
 ssh, give it key file, with ubuntu@<dns> Then you can give it shell commands. THe Caddyfile is how it knows how to redirect the server
 
 # Server 1/16/25
-Today we are renting EC2 Web service for the serer, and using Route53 DNS to get our dns (Domain-Name-System).
+Today we are renting EC2 Web service for the server, and using Route53 DNS to get our dns (Domain-Name-System).
 
 ## Technology Stack
-What technology are you using? All of these are basically abstractions. Our tech stack `React > Caddy2 > Node js > mongoDB`. Browsers always have a javascript is in. Node js is just the chrome interpreter for js that we can use outside of a web browser. Caddy is routing to either your startup or you project. Then we don't have to get two servers.
+What technology are you using? All of these are basically abstractions. Our tech stack `React > Caddy2 > Node js > mongoDB`.
+- `Nodejs`: Browsers always have a javascript is in, React is just the chrome js interpreter taken out and used locally. Node js is just the chrome interpreter for js that we can use outside of a web browser.
+- `Caddy2` Routes different domain names to either your startup or you project. This way, we don't need to buy multiple servers for every project we have.
 
-The frontend is code that executes on the browser (html, js, css, React). The backend is all the server stuff. Two apps communicating (frontend and backend).
+> The frontend is code that executes on the browser (html, js, css, React). The backend is all the server stuff. Two apps communicating (frontend and backend).
 
 ## How does the internet work?
-Each device has an ip address (public). Our devices are connected to an ISP (internet service provider). THese all talk to each other and route to different computers and eventually get to our device. We want to be able to talk to multiple devices at once from our device. So each device has multiple ports. So like port 443 is a public html port, and then connects and moves you over to a private port that is temporary. The front door is 443.
+Each device has an ip address (public). Our devices are connected to an ISP (internet service provider). These all talk to each other and route to different computers and eventually get to our device. 
+> for us, `Caddy2` makes it so that we can route different `dns` names to different ports.
 
-Communicatoin layers
+The problem is, humans aren't good at memorizing numbers, so we give symbolic names (called the domain name system `dns`) to ip addresses. When we want to connect to a computer, our computer takes our `walmart.com` and sends it to the Domain Name System to get the corresponding ip address. We then search through the internet net of wires until we find the right computer and then we can connect to it.
+> `dig +short dnsName` will tell you the ip address of a dns name.
 
+> When we wnat to connect to a computer, our computer hops across a ton of different computers. We can see this by `traceroute dns`.
+
+### Ports
+We want to be able to talk to multiple devices at once from our device. So each device has multiple ports. So like port `443` is a public html port, and then connects and moves you over to a private port that is temporary. The front door is `443`.
+
+### TCP and IP layers:
 | Layer | Example | Purpose |
-| ---- | ---- | ---- | ---- |
-| Application | HTTPS | Functionality like browsing |
+| ---- | ---- | ---- |
+| Application | HTTPS, SSH | Functionality like browsing, ssh|
 | Transport | TCP/UDP | Packet delivery |
 | Internet | IP | Establishing connections |
 | Link | Fiber, hardware | Physical connections |
 
-UDP doesn't care if all the packets are recieved (gaming)
-TCP manages sending and resending packets.
+- UDP doesn't care if all the packets are recieved (gaming)
+- TCP manages sending and resending packets.
 
 ## Domain Name System (DNS)
-walmart.com is a domain name but we are just connecting to an ip address. Browser looks at dns system that connects a web address to an ip address. Then the browser takes that and connects to the actual computer in walmart.
+`walmart.com` is a domain name but we are just connecting to an ip address. Browser looks at dns system that connects a web address to an ip address. Then the browser takes that and connects to the actual computer in walmart. Some dns names have multiple ip addresses for them for redundancy.
 
-- `dig +short byu.edu` tells you the ip address for byu.
 - `curl -v byu.edu` ipaddress:port.
-- `whois byu.edu`
 
 ### Domain names
-react.simon.cs260.click
+`react.simon.cs260.click` == `subdomain.*secondary.top`
 
-subdomain.*secondary.top
-
-When you buy your domain name you buy the sld and tld. 
-
-`top` or `click` is a top level domain (tld): like `com`, `edu` (this reduces the search space).
+When you buy your domain name you buy the sld (secondary level domain) and tld (top level domain). 
 
 You are in charge of the subdomains and can have any amount you want.
 
 ### TLD's
+Looks at this first to reduce search space.
 originals: `com`, `org`, `edu`, `gov`, `mil`, `int`, `net`
 country: `uk`, `cn`, `tv`
 generic: `click`, `gold`, `ceo`, `fishing`
 
 ### localhost `127.0.0.1`
-The only domain name that is hard coded.
+The only domain name that is hard coded. This is my computer.
 
 ### DNS record types
-A/AAAA address records
-CNAME are just aliases
+- A/AAAA address records map a domain name to an ip address
+- CNAME are just aliases map a domain name to another domain name
 
-**Make sure to respond to the email to confirm**
+> `whois byu.edu` will give you information about a domain name
+
+**Make sure to respond to the email to confirm for the assignment**
 
 ## Servers
-dns with Route 53, get a server with ec2 > Launch instance. Make sure to do it in virginia. Give the server a name, lee-cs260-webserver, what operating system you are using is a custom one. t2.micro.....
+We also need to buy the server that hosts the ip address. Then, we can connect (through DNS record types), our dns to our ip address (server).
 
-key pair (ssh) into the server in virginia. Private key on your computer (not on github!)
+### Instructions
+1) dns with Route 53, get a server with ec2 > Launch instance. Make sure to do it in virginia. Give the server a name, lee-cs260-webserver, what operating system you are using is a custom one. t2.micro.....
+2) key pair (ssh) into the server in virginia. Private key on your computer (not on github!)
+3) Create a security group (ssh, anywhere, https and http)
+4) then launch instance
+5) public ip address (network settings > network settings)
 
-Create a security group (ssh, anywhere, https and http)
-
-then launch instance
-
-public ip address (network settings > network settings)
+## EC2
 
 
+## Caddy
+Caddy listens to http requests and responds or reroutes the request. So we can have multiple web services or projects as a single one. This is called a `gateway` or `reverse proxy`. Basically caddy can send out files like `index.html`, or re route to services like an app.
 
 Now I can only listen on one port, so we have Caddy listen on port 443 that will assign our two web services to one web service or another.
 
+### `Caddyfile`
+- determines where static files come from, and where to send proxy requests.
+### `public_html`
+- the files that come up when someone requests the root.
+
+
+## Logging into our server
 `ssh into student account`
 ls
 Caddyfile tells things where to port to.
