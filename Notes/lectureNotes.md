@@ -224,7 +224,11 @@ Web certifiacates are made by a 3rd party. We use public and private key encrypt
 
 So we just edited the caddyfile to accept `https`
 
-
+## `deployFiles.sh`
+Gets the key file, dns name
+Removes the old code
+adds a new directory
+scp's the new code into the new directory
 
 
 
