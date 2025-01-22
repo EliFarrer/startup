@@ -1,5 +1,6 @@
 # CS 260 Notes
-See also [lecture notes](/lectureNotes.md)
+See also [lecture notes](Notes/lectureNotes.md)
+See also [html notes](Notes/html.md)
 
 [My startup](https://simon.cs260.click)
 

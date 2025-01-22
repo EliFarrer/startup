@@ -224,67 +224,6 @@ Web certifiacates are made by a 3rd party. We use public and private key encrypt
 
 So we just edited the caddyfile to accept `https`
 
-# HTML 1/21/25
-HTML is hyper text markup language. This provides the structure stuff.
-
-## Tags
-- `<!DOCTYPE html>` what kind of document you are using
-- `<html lang = "en">    </html>`
-    - `<head>` metadata, most of the time doesn't get rendered
-    - `<body>` the stufff that gets rendered
-    - `<title>` is the thing that shows up on the tab
-    - `<header>` page header
-    - `<main>` main content
-    - `<footer>` footer of page
-    - `<section>` section in page
-    - `<div>` is just a general division, don't use it if there is a better label. It is a vertical block element
-    - `span` inline span of content
-    - `h<1-9>` different headings
-    - `<p>` paragraph
-    - `<table>` table
-    - `<ol, ul>` ordered or unordered list
-    - `a` anchor tag, has a link to another document
-    - `<img>`
-        - `alt=` text if image can't render, or accessibility reasons
-        - `src=` the url to the image
-        - `width=` width in pixels
-        - `height=` height in pixels
-    - `head` header information
-HTML Works with tags.
-
-## Characters
-- &: &amp;
-- <: &lt;
-- >: &gt;
-- ": &quot
-- ': &apos
-
-What is the data structure that a browser uses to represent html -> trees. Top node is `html` element, `head` and `body` child. `title` has a child text noed of the text.
-
-When you write CSS or JS, you reference these nodes. This tree structure is the Document Object Model (DOM).
-
-To represent this, we use the `LiveServer` extension. Later, when we use react, it will do this automatically. Browser makes a request http://127.0.0.1:5500/index.html to IP 127.0.0.1 on port 5500. Live Server extension is listening on 5500. The live server then sends the data back. The live server injects some code that will automatically refresh it.
-
-Developer tools, network -> headers, payload, preview, response. If we want to host it locally, caopy the image to your computer and put it in the directory.
-
-src = "http://127.0.0.1:5500/image.png, where 5502 is the port. This is an absolute url
-
-## Structure
-Audio, video, canvas, svg, zoom in and out
-Do the stuff and then study simon.
-
-`git clone simon url`
-
-`deploy files` script, (take a closer look)
-
-hostname is the dns server or the server ip address.
-
-service simon or srevice
-
-Local vs one on the server
-
-Need github link in footer.
-
 
 
 
