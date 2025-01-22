@@ -165,7 +165,8 @@ The only domain name that is hard coded. This is my computer.
 ### DNS record types
 - A/AAAA address records map a domain name to an ip address
 - CNAME are just aliases map a domain name to another domain name
-
+- NS the one that gives you authority (linked to public dns records)
+- SOA is th einfo for my contact info
 > `whois byu.edu` will give you information about a domain name
 
 **Make sure to respond to the email to confirm for the assignment**
@@ -180,8 +181,6 @@ We also need to buy the server that hosts the ip address. Then, we can connect (
 4) then launch instance
 5) public ip address (network settings > network settings)
 
-## EC2
-
 
 ## Caddy
 Caddy listens to http requests and responds or reroutes the request. So we can have multiple web services or projects as a single one. This is called a `gateway` or `reverse proxy`. Basically caddy can send out files like `index.html`, or re route to services like an app.
@@ -193,7 +192,6 @@ Now I can only listen on one port, so we have Caddy listen on port 443 that will
 ### `public_html`
 - the files that come up when someone requests the root.
 
-
 ## Logging into our server
 `ssh into student account`
 ls
@@ -202,12 +200,98 @@ the html is the base thing
 put your domain name in the caddy file.
 `sudo service caddy restart` will apply the settings.
 
-DNS
-A record and you put in your ip address.
-Wildcard
+## SSH into server
+```
+ssh -i [key pair file] ubuntu@[ip address]
+```
 
-records and record types, relate to our mental model
+### EC2
+This is where we rent a server from amazon to run all our code on.
+> See also info about elastic ip addresses `34.202.198.8`
 
-Create/edit records, and put the ip address in it. Records are just aliases.
+### Route 53
+This is where we register a domain name. It connects to the DNS service to register a TLD.
+dns name is now connected to my ip address of the server i rented. `morsecodeclicker.click`
 
-ssh -i key ubutu@ipaddressordomainname
+It is here we create records that handle different subdomain names.
+
+### HTTPS, TLS, and web certificates
+Right now, our connection is not secure.
+
+TLS is the protocol for how we encrypt data.
+
+Web certifiacates are made by a 3rd party. We use public and private key encryptiopn. Web certificates used to be super expensive, but some mozilla people came up with a way to make it free. It is called `Let's Encrypt`. Caddy uses this.
+
+So we just edited the caddyfile to accept `https`
+
+# HTML 1/21/25
+HTML is hyper text markup language. This provides the structure stuff.
+
+## Tags
+- `<!DOCTYPE html>` what kind of document you are using
+- `<html lang = "en">    </html>`
+    - `<head>` metadata, most of the time doesn't get rendered
+    - `<body>` the stufff that gets rendered
+    - `<title>` is the thing that shows up on the tab
+    - `<header>` page header
+    - `<main>` main content
+    - `<footer>` footer of page
+    - `<section>` section in page
+    - `<div>` is just a general division, don't use it if there is a better label. It is a vertical block element
+    - `span` inline span of content
+    - `h<1-9>` different headings
+    - `<p>` paragraph
+    - `<table>` table
+    - `<ol, ul>` ordered or unordered list
+    - `a` anchor tag, has a link to another document
+    - `<img>`
+        - `alt=` text if image can't render, or accessibility reasons
+        - `src=` the url to the image
+        - `width=` width in pixels
+        - `height=` height in pixels
+    - `head` header information
+HTML Works with tags.
+
+## Characters
+- &: &amp;
+- <: &lt;
+- >: &gt;
+- ": &quot
+- ': &apos
+
+What is the data structure that a browser uses to represent html -> trees. Top node is `html` element, `head` and `body` child. `title` has a child text noed of the text.
+
+When you write CSS or JS, you reference these nodes. This tree structure is the Document Object Model (DOM).
+
+To represent this, we use the `LiveServer` extension. Later, when we use react, it will do this automatically. Browser makes a request http://127.0.0.1:5500/index.html to IP 127.0.0.1 on port 5500. Live Server extension is listening on 5500. The live server then sends the data back. The live server injects some code that will automatically refresh it.
+
+Developer tools, network -> headers, payload, preview, response. If we want to host it locally, caopy the image to your computer and put it in the directory.
+
+src = "http://127.0.0.1:5500/image.png, where 5502 is the port. This is an absolute url
+
+## Structure
+Audio, video, canvas, svg, zoom in and out
+Do the stuff and then study simon.
+
+`git clone simon url`
+
+`deploy files` script, (take a closer look)
+
+hostname is the dns server or the server ip address.
+
+service simon or srevice
+
+Local vs one on the server
+
+Need github link in footer.
+
+
+
+
+
+
+
+
+
+# Questions
+Hosted zone
