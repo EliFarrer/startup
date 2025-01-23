@@ -78,6 +78,13 @@ HTML Works with tags.
 
 What is the data structure that a browser uses to represent html -> trees. Top node is `html` element, `head` and `body` child. `title` has a child text noed of the text.
 
+```
+<body>
+<p>     CSS </p>
+</body>
+````
+This will have 4 nodes, `body`, `p`, `text`, `     CSS `
+
 When you write CSS or JS, you reference these nodes. This tree structure is the Document Object Model (DOM).
 
 To represent this, we use the `LiveServer` extension. Later, when we use react, it will do this automatically. Browser makes a request http://127.0.0.1:5500/index.html to IP 127.0.0.1 on port 5500. Live Server extension is listening on 5500. The live server then sends the data back. The live server injects some code that will automatically refresh it.
