@@ -1,0 +1,9 @@
+p {
+    font-size: 2em;
+    color: orange;
+    width: 50%;
+}
+
+p:hover {
+    width: 100%;
+}
