@@ -81,3 +81,78 @@ head has metadata (including title)
 > a `*` will apply to all elements (give a bordre)
 
 Responsive dimensions
+
+## Responsive Design
+5 Major tools
+### `<meta name="viewport" content="width=device-width, initial-scale=1">`
+This tag tells it to not automatically scale things. `initial-scale` says to not squeeze pixels down
+
+### `aside`
+```
+aside {
+    float: right;
+    padding: 3em;
+    margin: 0.5em;
+    boarder: black solid thin;
+}
+```
+Basically wraps an image and sticks it on the right.
+
+### `display` in `<div>` or `span`
+For `div` the default is block, for `span`, the default is inline
+`display` parameter is in your css.
+- `block` takes up entire width of container with height of the content
+- `inline` height and width of the content
+- `flex` parent container display is flex, children are laid out in a flexible way
+- `grid` all children laid out in a grid format
+
+#### `grid`
+Want to have a box with a bunch of cards. so we use `<div class="containter">`. `div` is the random element. You can use it to represent things that are not defined.
+
+In CSS
+```
+.container {
+    display: grid;  // default is block
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-auto-rows: 300px;
+    grid-gap: 1dm;
+}
+```
+At least 300 px wide, 1 fr is a fractional unit will divide the space you among the children.
+```.card:nth-child(odd) {
+    //new color
+}
+```
+Border radius is based on em. So if we change the size of the font it will change the curve of the corners. em is the current element, rem is the root m element.
+
+#### `flex`
+```
+.container {
+    display: flex;
+}
+
+.item {
+    flex: 0 0 50px;
+}
+```
+First value is grow, second shrink, third is basis (default).
+
+In body level we have column wise (header, main, and footer)
+Then inside that we have another flex organized row wise.
+
+### Media Queries
+```
+@media (orientation: portrait) {
+    div {
+        transform: rotate(270deg);
+    }
+}
+```
+Will rotate an element. When it is in portrait, all `div` elements will be rotated.
+
+You can use this to change the orientation of a `flex` container too.
+
+### CSS frameworks
+Bootstrap and Tailwind is basically CSS that is copied and pasted.s
+`cdn` is content delivery network
+
