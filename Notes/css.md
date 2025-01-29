@@ -25,11 +25,55 @@ This makes it so your format can be consistent across multiple html files.
 ```<link rel="stylesheet", href="/test/styles.css">```
 This specifies that we are linking to a stylesheet with the name `styles.css`
 
-You can also do sudo things where when I hover over the paragraph, it will change the font to green.
+### Selectors
+#### Type Selector
+Selects all elements of the given name, ie `div` or `p`.
+#### Class Selector
+Selects all elements with the `class` attribute. It requires a `.` in CSS.
+```
+.spacious { marign: 2em; }
+```
+Will select all html elements that have the attribute, `<p class=spacious>hello</p>`
+#### Id Selector
+Does the same thing with the `id` attribute and requires a `#` sign.
+Generally. There is only one element of a specific id.
+#### Attribute Selector
+You can select elements based on their attributes.
+```
+p[href='summary.png'] {
+    color: red;
+}
+```
+You can even do `p[href*='https://']`
+
+### Pseudo Selector
+This lets us do things when you hover over the paragraph. THere are a bunch of other things as well.
 ```
 p:hover {
     color: green;
 }
+```
+
+> Type or universal selector precedes the class or id selector.
+
+### Multiple Selectors
+- element class selectors `p.highlight`
+- List means any given selectors `body, section`
+- Descendant a list of descendants `body section`
+- Child a list of direct children `section > p`
+- Pseudo state based `p:hover`
+
+### Combinators
+| Combinator       | Meaning                    | Example        | Description                                |
+| ---------------- | -------------------------- | -------------- | ------------------------------------------ |
+| Descendant       | A list of descendants      | `body section` | Any section that is a descendant of a body |
+| Child            | A list of direct children  | `section > p`  | Any p that is a direct child of a section  |
+| General sibling  | A list of siblings         | `div ~ p`      | Any p that has a div sibling               |
+| Adjacent sibling | A list of adjacent sibling | `div + p`      | Any p that has an adjacent div sibling     |
+
+
+
+
 ```
 
 > MDN is a great place to play around with css
@@ -42,15 +86,8 @@ Html: ```<p id="cow">Cows are cool<p>```
 
 CSS: ```#cow {  font-weight:bold;   }```
 
-- Class selectors applyto things of a class. Html: `<p class="intro">Cows are cool<p>`, CSS: `.intro {    font-weight:bold;   }`
-
-- element calss selectors `p.highlight`
-- List means any given selectors `body, section`
-- Descendant a list of descendants `body section`
-- Child a list of direct children `section > p`
-- Pseudo state based `p:hover`
-
-`@import url()` to import a font from google fonts. This will import the font onto whatever fdevice it is running on.
+## Fonts
+`@import url()` to import a font from google fonts. This will import the font onto whatever device it is running on.
 
 ## Animations
 ```
