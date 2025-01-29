@@ -21,7 +21,7 @@ Have you ever wanted to get really good at morse code? Have you ever wanted to b
 
 ### Design
 
-![Design image](design.jpg)
+![Design image](images/design.jpg)
 
 There would be three windows, Login, Play, and Scoreboard. The background of each would change every time you started a new round or went to a diffferent window. It would pull nature photos from a public image api.
 
@@ -59,15 +59,15 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **HTML pages** - I did not complete this part of the deliverable.
-- [ ] **Proper HTML element usage** - I did not complete this part of the deliverable.
-- [ ] **Links** - I did not complete this part of the deliverable.
-- [ ] **Text** - I did not complete this part of the deliverable.
-- [ ] **3rd party API placeholder** - I did not complete this part of the deliverable.
-- [ ] **Images** - I did not complete this part of the deliverable.
-- [ ] **Login placeholder** - I did not complete this part of the deliverable.
-- [ ] **DB data placeholder** - I did not complete this part of the deliverable.
-- [ ] **WebSocket placeholder** - I did not complete this part of the deliverable.
+- [x] **HTML pages** - 3 html pages. One index, one for playing, and the last a scoreboard.
+- [x] **Proper HTML element usage** - Utilizes different HTML elements.
+- [x] **Links** - Each page has links to the others
+- [x] **Text** - Text for all elements is included.
+- [x] **3rd party API placeholder** - The background image will change every time a new round is started.
+- [x] **Images** - Added a favicon and background image. (With other samples in my `images` directory)
+- [x] **Login placeholder** - Username and password placeholders.
+- [x] **DB data placeholder** - The player scores will be pulled from the database.
+- [x] **WebSocket placeholder** - The Updates section will include live scores from other players.
 
 ## 🚀 CSS deliverable
 
