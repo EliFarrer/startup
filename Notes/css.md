@@ -74,8 +74,6 @@ p:hover {
 
 
 
-```
-
 > MDN is a great place to play around with css
 > a great CSS debugger is in the inspector on chrome
 
