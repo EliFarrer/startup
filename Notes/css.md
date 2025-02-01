@@ -207,10 +207,17 @@ Responsive dimensions
 
 ## Responsive Design
 5 Major tools
-### `<meta name="viewport" content="width=device-width, initial-scale=1">`
+- `none` the element exists but wont be displayed
+- `block` the width will fill the parent element (this is like `p` or `div`)
+- `inline` the width will only be as big as the content (this is like `b` or `span`)
+- `flex` flexible orientation
+- `grid` grid orientation
+
+### `<meta name="viewport" content="width=device-width,initial-scale=1">`
 This tag tells it to not automatically scale things. `initial-scale` says to not squeeze pixels down
 
-### `aside`
+### `float` property
+Lets inline text wrap around it.
 ```
 aside {
     float: right;
@@ -221,16 +228,42 @@ aside {
 ```
 Basically wraps an image and sticks it on the right.
 
-### `display` in `<div>` or `span`
-For `div` the default is block, for `span`, the default is inline
-`display` parameter is in your css.
-- `block` takes up entire width of container with height of the content
-- `inline` height and width of the content
-- `flex` parent container display is flex, children are laid out in a flexible way
-- `grid` all children laid out in a grid format
+### `@media` selector
+This will detect landscape or portrait and adjust automatically
 
-#### `grid`
+```
+@media (orientation: portrait) {
+  div {
+    transform: rotate(270deg);
+  }
+}
+```
+
+This will make it so your aside dissappears when in portrait mode
+```
+@media (orientation: portrait) {
+  aside {
+    display: none;
+  }
+}
+```
+
+### `grid`
 Want to have a box with a bunch of cards. so we use `<div class="containter">`. `div` is the random element. You can use it to represent things that are not defined.
+
+Html
+```
+<div class="container">
+  <div class="card"></div>
+  <div class="card"></div>
+  <div class="card"></div>
+  <div class="card"></div>
+  <div class="card"></div>
+  <div class="card"></div>
+  <div class="card"></div>
+  <div class="card"></div>
+  <div class="card"></div>
+</div>```
 
 In CSS
 ```
@@ -241,6 +274,8 @@ In CSS
     grid-gap: 1dm;
 }
 ```
+We display things in `grid` mode. `fr` is fractional unit (so if we have 3 of these, it would be 1/3)
+
 At least 300 px wide, 1 fr is a fractional unit will divide the space you among the children.
 ```.card:nth-child(odd) {
     //new color
@@ -248,14 +283,47 @@ At least 300 px wide, 1 fr is a fractional unit will divide the space you among 
 ```
 Border radius is based on em. So if we change the size of the font it will change the curve of the corners. em is the current element, rem is the root m element.
 
-#### `flex`
+### `flex`
+This is good for sectioning your webpage.
 ```
 .container {
     display: flex;
+    flex-direction: column;
+    margin: 0;
+    height: 100vh;
 }
 
 .item {
     flex: 0 0 50px;
+}
+```
+
+Or if you have multiple elements:
+```
+header {
+  flex: 0 80px;
+}
+
+footer {
+  flex: 0 30px;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+}
+```
+
+We can split it up according to what child gets what. Imagine a webpage with navigation on the left in this example:
+```
+section:nth-child(1) {
+  flex: 1;
+  background-color: hsl(180, 10%, 80%);
+}
+section:nth-child(2) {
+  flex: 3;
+  background-color: white;
 }
 ```
 First value is grow, second shrink, third is basis (default).
@@ -263,17 +331,26 @@ First value is grow, second shrink, third is basis (default).
 In body level we have column wise (header, main, and footer)
 Then inside that we have another flex organized row wise.
 
-### Media Queries
+#### Dealing with screen size and shape
 ```
 @media (orientation: portrait) {
-    div {
-        transform: rotate(270deg);
-    }
+  main {
+    flex-direction: column;
+  }
+}
+
+@media (max-height: 700px) {
+  header {
+    display: none;
+  }
+  footer {
+    display: none;
+  }
 }
 ```
-Will rotate an element. When it is in portrait, all `div` elements will be rotated.
+Will rotate the flex direction when it is in portrait. It will stack the elements on top of each other when it is in portrait.
 
-You can use this to change the orientation of a `flex` container too.
+
 
 ### CSS frameworks
 Bootstrap and Tailwind is basically CSS that is copied and pasted.s
