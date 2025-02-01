@@ -28,6 +28,12 @@ This specifies that we are linking to a stylesheet with the name `styles.css`
 ### Selectors
 #### Type Selector
 Selects all elements of the given name, ie `div` or `p`.
+```
+p {
+    <!--Stuff-->
+}
+```
+
 #### Class Selector
 Selects all elements with the `class` attribute. It requires a `.` in CSS.
 ```
@@ -46,7 +52,7 @@ p[href='summary.png'] {
 ```
 You can even do `p[href*='https://']`
 
-### Pseudo Selector
+#### Pseudo Selector
 This lets us do things when you hover over the paragraph. THere are a bunch of other things as well.
 ```
 p:hover {
@@ -56,7 +62,7 @@ p:hover {
 
 > Type or universal selector precedes the class or id selector.
 
-### Multiple Selectors
+#### Multiple Selectors
 - element class selectors `p.highlight`
 - List means any given selectors `body, section`
 - Descendant a list of descendants `body section`
@@ -71,7 +77,61 @@ p:hover {
 | General sibling  | A list of siblings         | `div ~ p`      | Any p that has a div sibling               |
 | Adjacent sibling | A list of adjacent sibling | `div + p`      | Any p that has an adjacent div sibling     |
 
+## Common CSS Properties
+| Property           | Value                              | Example             | Discussion                                                                     |
+| ------------------ | ---------------------------------- | ------------------- | ------------------------------------------------------------------------------ |
+| background-color   | color                              | `red`               | Fill the background color                                                      |
+| border             | color width style                  | `#fad solid medium` | Sets the border using shorthand where any or all of the values may be provided |
+| border-radius      | unit                               | `50%`               | The size of the border radius                                                  |
+| box-shadow         | x-offset y-offset blu-radius color | `2px 2px 2px gray`  | Creates a shadow                                                               |
+| columns            | number                             | `3`                 | Number of textual columns                                                      |
+| column-rule        | color width style                  | `solid thin black`  | Sets the border used between columns using border shorthand                    |
+| color              | color                              | `rgb(128, 0, 0)`    | Sets the text color                                                            |
+| cursor             | type                               | `grab`              | Sets the cursor to display when hovering over the element                      |
+| display            | type                               | `none`              | Defines how to display the element and its children                            |
+| filter             | filter-function                    | `grayscale(30%)`    | Applies a visual filter                                                        |
+| float              | direction                          | `right`             | Places the element to the left or right in the flow                            |
+| flex               |                                    |                     | Flex layout. Used for responsive design                                        |
+| font               | family size style                  | `Arial 1.2em bold`  | Defines the text font using shorthand                                          |
+| grid               |                                    |                     | Grid layout. Used for responsive design                                        |
+| height             | unit                               | `.25em`             | Sets the height of the box                                                     |
+| margin             | unit                               | `5px 5px 0 0`       | Sets the margin spacing                                                        |
+| max-[width/height] | unit                               | `20%`               | Restricts the width or height to no more than the unit                         |
+| min-[width/height] | unit                               | `10vh`              | Restricts the width or height to no less than the unit                         |
+| opacity            | number                             | `.9`                | Sets how opaque the element is                                                 |
+| overflow           | [visible/hidden/scroll/auto]       | `scroll`            | Defines what happens when the content does not fix in its box                  |
+| position           | [static/relative/absolute/sticky]  | `absolute`          | Defines how the element is positioned in the document                          |
+| padding            | unit                               | `1em 2em`           | Sets the padding spacing                                                       |
+| left               | unit                               | `10rem`             | The horizontal value of a positioned element                                   |
+| text-align         | [start/end/center/justify]         | `end`               | Defines how the text is aligned in the element                                 |
+| top                | unit                               | `50px`              | The vertical value of a positioned element                                     |
+| transform          | transform-function                 | `rotate(0.5turn)`   | Applies a transformation to the element                                        |
+| width              | unit                               | `25vmin`            | Sets the width of the box                                                      |
+| z-index            | number                             | `100`               | Controls the positioning of the element on the z axis     
 
+## Units
+| Unit | Description                                                      |
+| ---- | ---------------------------------------------------------------- |
+| px   | The number of pixels                                             |
+| pt   | The number of points (1/72 of an inch)                           |
+| in   | The number of inches                                             |
+| cm   | The number of centimeters                                        |
+| %    | A percentage of the parent element                               |
+| em   | A multiplier of the width of the letter `m` in the parent's font |
+| rem  | A multiplier of the width of the letter `m` in the root's font   |
+| ex   | A multiplier of the height of the element's font                 |
+| vw   | A percentage of the viewport's width                             |
+| vh   | A percentage of the viewport's height                            |
+| vmin | A percentage of the viewport's smaller dimension                 |
+| vmax | A percentage of the viewport's larger dimension                  |
+
+## Color
+| Method       | Example                   | Description                                                                                                                                                                                                       |
+| ------------ | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| keyword      | `red`                     | A set of predefined colors (e.g. white, cornflowerblue, darkslateblue)                                                                                                                                            |
+| RGB hex      | `#00FFAA22` or `#0FA2`    | Red, green, and blue as a hexadecimal number, with an optional alpha opacity                                                                                                                                      |
+| RGB function | `rgb(128, 255, 128, 0.5)` | Red, green, and blue as a percentage or number between 0 and 255, with an optional alpha opacity percentage                                                                                                       |
+| HSL          | `hsl(180, 30%, 90%, 0.5)` | Hue, saturation, and light, with an optional opacity percentage. Hue is the position on the 365 degree color wheel (red is 0 and 255). Saturation is how gray the color is, and light is how bright the color is. |
 
 
 > MDN is a great place to play around with css
@@ -85,9 +145,39 @@ Html: ```<p id="cow">Cows are cool<p>```
 CSS: ```#cow {  font-weight:bold;   }```
 
 ## Fonts
-`@import url()` to import a font from google fonts. This will import the font onto whatever device it is running on.
+`font-family` is the main thing to help you determine fonts. You list them out in order of priority.
+
+Four font families
+- `Serif` small stroke at the end of letters
+- `sans-serif` no extra strokes
+- `fixed` all the characters are the same size
+- `symbol` non character languages
+
+### Importing
+This will host the font on your server.
+```
+@font-face {
+  font-family: 'Quicksand';
+  src: url('https://cs260.click/fonts/quicksand.ttf');
+}
+
+p {
+  font-family: Quicksand;
+}
+```
+
+This will make them download it
+```
+@import url('https://fonts.googleapis.com/css2?family=Rubik Microbe&display=swap');
+
+p {
+  font-family: 'Rubik Microbe';
+}
+```
 
 ## Animations
+Our animation name is demo. This is the same name we put in keyframes. Keyframes will generate smooth transitions from different points in thime.
+
 ```
 p {
     text-align: center;
@@ -110,8 +200,6 @@ p {
 }
 ```
 Across 3 seconds it starts at 0 width, and 95% through the 3 seconds, it will be at 21 width, and then the last 5% of the time it will shrink down to 20vh
-
-head has metadata (including title)
 
 > a `*` will apply to all elements (give a bordre)
 
