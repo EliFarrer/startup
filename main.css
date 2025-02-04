@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
 body {
     display: flex;
@@ -7,7 +8,8 @@ body {
 
 header {
     flex: 0 50px;
-    background-color: #9ecae8
+    background-color: #9ecae8;
+    font-family: "Black Ops One";
 }
 
 main {
@@ -17,8 +19,8 @@ main {
 
 footer {
     flex: 0 30px;
-    background-color: #9ecae8
-
+    background-color: #9ecae8;
+    font-family: "Black Ops One";
 }
 
 #popup {
@@ -30,7 +32,6 @@ footer {
     background-image: url('images/background3.png');
     background-repeat: no-repeat;
     scale: 100%;
-    /* filter: brightness(300%); */
     background-position: center;
     border-radius: 50px;
 
