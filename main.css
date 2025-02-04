@@ -16,7 +16,37 @@ footer {
     flex: 0 30px;
 }
 
-#updates {
+#popup {
     background-color: rgb(209, 221, 221);
     border-radius: 5px;
+}
+
+#background-image {
+    background-image: url('images/background3.png');
+    background-repeat: no-repeat;
+    scale: 100%;
+    /* filter: brightness(300%); */
+    background-position: center;
+    border-radius: 50px;
+
+}
+
+#back {
+    background-color: hsla(180, 15%, 84%, 0.651);
+    border-radius: 10px;
+    width: 50%;
+}
+
+@media (max-height: 600px) {
+    header {
+        display: none
+    }
+    footer {
+        display: none
+    }
+
+    main {
+        flex: 1 100vh;
+    }
+
 }
