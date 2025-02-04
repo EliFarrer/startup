@@ -1,0 +1,22 @@
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    flex: 0 50px
+}
+
+main {
+    flex: 1 calc(100vh - 80px)
+}
+
+footer {
+    flex: 0 30px;
+}
+
+#updates {
+    background-color: rgb(209, 221, 221);
+    border-radius: 5px;
+}
