@@ -17,7 +17,6 @@
         integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
         crossorigin="anonymous"
       />
-        
     </head>
 
 
@@ -25,7 +24,7 @@
 
     <header>        
         <!--navigation-->
-        <nav class="navbar navbar-expand-lg bg-body-tertiary" style="background-color: #9ecae8">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
 
                 <!-- the href in the navbar is where it takes you when you click on the image -->
@@ -67,24 +66,24 @@
 
         <div class="container-fluid text-center" id="background-image">
             <div class="container-fluid" id="back">
-            <p3>Logged in as <input type="text" placeholder="Eli Farrer"></p3>
-            <label class="timeRemaining">Time left: <input type="text"></label>
-            <label class="score">Score: <input type="text"></label>
+            <p3>Logged in as <input class="form-control-sm" placeholder="Eli Farrer"></p3>
+            <label class="timeRemaining">Time left: <input class="form-control-sm" placeholder="30 seconds"></label>
+            <label class="score">Score: <input class="form-control-sm" placeholder="20"></label>
             <h1> M </h1> 
-            <h5>Your input:<input type="text" placeholder="_ _"></h5>
+            <h5>Your input:<input class="form-control-sm" placeholder="_ _"></h5>
             <div class="tapInput">       
-                <button>_</button>
-                <button>.</button>
+                <button class="btn btn-primary" type="submit">_</button>
+                <button class="btn btn-primary" type="submit">.</button>
             </div>
 
-            <div class="reset"><button>RESET</button></div>
+                <button class="btn btn-secondary" type="submit">RESET</button>
             </div>
 
         </div>
     </main>
 
-    <footer class="container-fluid", style="background-color: #9ecae8">
-        <p3>Author: Eli Farrer <a href=https://github.com/EliFarrer/startup.git>GitHub</a></p3>
+    <footer class="container-fluid">
+        <p3>Author: Eli Farrer <a type="button" class="btn btn-link" href=https://github.com/EliFarrer/startup.git>GitHub</a></p3>
     </footer>
 </body>
 

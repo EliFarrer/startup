@@ -2,18 +2,22 @@
 body {
     display: flex;
     flex-direction: column;
+    min-width: 250px;
 }
 
 header {
-    flex: 0 50px
+    flex: 0 50px;
+    background-color: #9ecae8
 }
 
 main {
-    flex: 1 calc(100vh - 80px)
+    flex: 0 calc(100vh - 80px)
 }
 
 footer {
     flex: 0 30px;
+    background-color: #9ecae8
+
 }
 
 #popup {
@@ -35,6 +39,8 @@ footer {
     background-color: hsla(180, 15%, 84%, 0.651);
     border-radius: 10px;
     width: 50%;
+    min-width: 200px;
+    background-position: center;
 }
 
 @media (max-height: 600px) {
