@@ -53,7 +53,7 @@ These are features that would be good to add, but would not be necessary to make
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Server deployed and accessible with custom domain name** - [My server link](https://yourdomainnamehere.click).
+- [x] **Server deployed and accessible with custom domain name** - [My server link](https://yourdomainnamehere.click).
 
 ## 🚀 HTML deliverable
 
@@ -73,12 +73,12 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Header, footer, and main content body** - I did not complete this part of the deliverable.
-- [ ] **Navigation elements** - I did not complete this part of the deliverable.
-- [ ] **Responsive to window resizing** - I did not complete this part of the deliverable.
-- [ ] **Application elements** - I did not complete this part of the deliverable.
-- [ ] **Application text content** - I did not complete this part of the deliverable.
-- [ ] **Application images** - I did not complete this part of the deliverable.
+- [x] **Header, footer, and main content body** - Each page has a header, footer and main content. The headers and footers are consistent across pages.
+- [x] **Navigation elements** - There is a top navigation bar.
+- [x] **Responsive to window resizing** - The header and footer disappears when the window gets to small. Everything stays in a good position and does not slide around.
+- [x] **Application elements** - All elements for the application are represented.
+- [x] **Application text content** - The text content is all there. The header and footers have unique imported fonts.
+- [x] **Application images** - The image now sizes with the application and has rounded edges. It will change with an API later.
 
 ## 🚀 React part 1: Routing deliverable
 
