@@ -238,3 +238,55 @@ scp's the new code into the new directory
 
 # Questions
 Hosted zone
+
+
+# 2/6/25
+Start with the simon css repository. name it `simon-react-p1`.
+All of the files are in one directory.
+Vite will become our new server.
+We need to change our project to be an npm project. 
+`npm init -y` will say yes to everything.
+uses package.json file.
+`scripts` section are commands that will run everything on the right.
+`npm run thing`
+install vite `npm install vite@latest -D` means we only do it when we are bundling.
+- this adds a dependencies. It will keep track of these `devDependencies`
+- creates `node_modules` is all the soucre code we take from the web.
+    - We don't want to git commit this to github. We will just assume that the user will install those things.
+edit the scripts
+`npm run dev`
+- type h for options
+
+We want to reorganize our flat file structure
+Rename `main.css` to `app.css`. So we no longer have an `index.html`. So we add it in the main directory.
+We add the correct things into our `index.html`
+Then we add an `index.jsx`
+Throw the jsx file in there.
+We used to use bootstrap in our css, and we `import 'bootstrap/dist/....` So we `npm install bootstrap react-bootstrap`. So we install `bootstrap` and `react-bootstrap`. 
+This adds these to our dependencies. `bootstrap` is then added into `/node_modules`
+We are also installing `react` which will do the same thing.
+`npm run dev` will run the thing.
+Now we will display some stuff.
+
+You can't bring the body tag in, so we copy all the `header`, `main`, and `body` code. Then we past it in to the return.
+JSX is not html. If you have keywords that javascript uses, you need to change them so it doesn't get confused. Change `class` to `className`
+
+This is basically just setting up the infractructure.
+
+Now we create a `login.jsx` that just returns the login module. Then we reference it in `app.jsx`. Note that you need to import it as well. `import {Login} from '.login/login';`. Then you just copy the login info into the thing. We had to destructure the object.
+Login is now done.
+
+Then we go through to our other files and add `file.jsx` and update the functions.
+
+Now we need a router in our `App`. `<BrowserRouter> stuff </BrowserRotuer>`. Then instead of anchor links (which are run by chrome), we want our website. So it will talk to its parent and the parent weill tell it to go. Change it to `NavLink`, it is not an `href` anymore, but a `to`
+
+Then we add routes. This will route to different pages.
+
+We have two components in `app.jsx`, one is `App` and the other is `NotFound`
+
+Command shift l will multi select. 
+
+Once we do all this, we can get rid of the html files.
+
+We need to bundle the thing up before we send it over. `npm run build`, this creates things in `/assets` that will make it ready to run in the browser. So we need a `deployReact.sh`, and there is the real script to use. Then it scp's the build directory.
+
