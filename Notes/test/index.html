@@ -1,14 +1,26 @@
 <head>
     <script src="index.js"></script>
     <link rel="stylesheet", href="styles.css">
+    <script>
+      function Hello() {
+        console.log("Hi!");
+      }
+    </script>
 </head>
-<header>
+<main>
+  <header>
     <div>home</div>
     <div>play</div>
     <div>about</div>
+    <button onclick="Hello()">HI</button>
+    <button onclick="goodbye()">BYE</button>
+    <button onclick="yeet()">yeet</button>
+
   </header>
-  <main>
+  <body>
     <div>login</div>
     <div>password</div>
-  </main>
+    <button onclick="alert('You just clicked the button')">Click me!</button>
+  </body>
   <footer>GitHub</footer>
+</main>
