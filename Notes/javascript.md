@@ -16,6 +16,12 @@ Functions are basically the same as python but with `{}` and the keyword `functi
 If you forget to pass in a paramater, depending on the type, you could get `NaN` for numbers, or `undefined` for strings.
 If you add an extra parameter, it will not care about it.
 
+> Comments are the same as c++
+> good form uses a `;` at the end
+
+## Where to use JS
+Codepen or the Inspector on Chrome under Console
+
 ### Lambda functions
 `(parameter) => body`
 ```
@@ -31,7 +37,7 @@ Arrays
 `const arr = ['hello', 'world'];` means that we can't assing words to a different thing, but you can adjust the values of the array.
 - `arr.forEach(function)` for each element in array, it will use as a parameter for function
 
-## Writing code in a file
+## Writing JS with HTML
 We can do inline, referenced, or script tag.
 
 ### Referenced file
@@ -55,20 +61,60 @@ function sayGoodbye() {
 </script>
 ```
 
-## Can we use JS outside of a browser
-This is Node js. Ryan Dahl did this. He took V8 the open source interpreter and put it inside an executable program. Type `node` into our terminal. `.exit` will exit.
+## Can we use JS outside of a browser `Node.js`
+This is Node js. Ryan Dahl did this. He took V8 (the Chromium open source interpreter) and put it inside an executable program. Type `node` into our terminal. `.exit` will exit. This means we can use js on the backend and on the frontend.
 
 He introduced JavaScript runtime called Node.
 
-NPM is the Node package manager. It is the `pip` equivalent. NPM also manages packages, installation, package versions, and execution of projects.
+Installed `Node` with `nvm` with `npm`.
 
-Create our own npm packages. `npm init -y` will init the package. You can write any shell command in these scripts.
+`npm` is the `N`ode `P`ackage `M`anager. It is the `pip` equivalent. NPM also manages packages, installation, package versions, and execution of projects.
 
-Use someone else's package. `npm install package`. `require(package)`
+### Running node
+`node -e "console.log("hello world")` will execute js in your console. If you just type `node` then it will run in interpretive node.
 
-`npm run joke` will run it.
+`node file.js` will execute the file.
 
-inside index.js
+### `npm`
+If you want to use a package,
+1) install the package using `npm`
+2) `require` that package in your code
+
+> `npm uninstall package` will uninstall
+
+Before this happens, your code needs to be able to use `npm`. We create a directory and then move into it and run `npm init` in it.
+> `-y` when you init a directory will create it automatically without having to answer a bunch of questions.
+
+`npm run program` will run it.
+
+### Package.json
+In the directory we just made will be `package.json`
+1) contains metadata
+2) the default JS file `main`
+3) commands to do things like run or test or distribute code `scripts`
+4) dependencies
+
+```
+{
+  "name": "npmtest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
+```
+
+> when you add dependencies, `npm` will create `package-lock.json` which contains the versions of packages and the `node_modules` directory which contians all the package source code. Don't check these into github!
+
+> when you clone a directory, use `npm install` inside the directory to copy all the packages down.
+
+### Example
+inside `index.js`
 ```
 const giveMeAJoke = require('give-me-a-joke');
 
@@ -78,11 +124,7 @@ setinterval(() => {
     }, 1000);
 });
 ```
-Debug something with command in VS code. Use Node.js
-
-Front end javascript debug in browser.
-
-Back end use vs code with Node.js
+> Debug something with command in VS code. Use Node.js Front end javascript debug in browser. Back end use vs code with Node.js
 
 
 Launch.json is how we make launch configurations.
