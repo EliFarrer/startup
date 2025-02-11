@@ -89,33 +89,32 @@ function sayGoodbye() {
 </script>
 ```
 
-## Can we use JS outside of a browser `Node.js`
+# Can we use JS outside of a browser `Node.js`
 This is Node js. Ryan Dahl did this. He took V8 (the Chromium open source interpreter) and put it inside an executable program. Type `node` into our terminal. `.exit` will exit. This means we can use js on the backend and on the frontend.
 
-He introduced JavaScript runtime called Node.
-
 Installed `Node` with `nvm` with `npm`.
-
-`npm` is the `N`ode `P`ackage `M`anager. It is the `pip` equivalent. NPM also manages packages, installation, package versions, and execution of projects.
 
 ### Running node
 `node -e "console.log("hello world")` will execute js in your console. If you just type `node` then it will run in interpretive node.
 
 `node file.js` will execute the file.
 
-### `npm`
+### Node Package Manager
+`npm` is the `N`ode `P`ackage `M`anager. It is the `pip` equivalent. NPM also manages packages, installation, package versions, and execution of projects.
+
 If you want to use a package,
 1) install the package using `npm`
 2) `require` that package in your code
 
 > `npm uninstall package` will uninstall
 
+#### Setup a directory
 Before this happens, your code needs to be able to use `npm`. We create a directory and then move into it and run `npm init` in it.
 > `-y` when you init a directory will create it automatically without having to answer a bunch of questions.
 
-`npm run program` will run it.
+#### Running something using NPM
+In the `package.json` file created when we try to run node, will be a `scripts` key. Next to it you can put a terminal command that will execute node on a file. This is called a launch configuration.
 
-### Package.json
 In the directory we just made will be `package.json`
 1) contains metadata
 2) the default JS file `main`
@@ -133,9 +132,14 @@ In the directory we just made will be `package.json`
   "license": "ISC",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "node main.js"
   }
+  "runtimeArgs": ["--watch"],
 }
 ```
+Note that `dev` is a command that is run when we do `npm run dev` which will run `node main.js`.
+
+Note that `runtimeArgs` will add `--watch` as a parameter, so when you do `npm run dev`, it will actuall do `node --watch main.js`. This makes it so that node will restart automatically when you make a change while debugging.
 
 > when you add dependencies, `npm` will create `package-lock.json` which contains the versions of packages and the `node_modules` directory which contians all the package source code. Don't check these into github!
 
@@ -153,17 +157,12 @@ setinterval(() => {
 });
 ```
 
-## Debuggin JS
+## Debugging with Node
 You can debug on the backend and frontend using `node`.
 Curl is a command line browser. It can cause breakpoints as well.
 
-
 > Debug something with command in VS code. Use Node.js Front end javascript debug in browser. Back end use vs code with Node.js
-
-
-Launch.json is how we make launch configurations.
-`"runtimeArgs": ["--watch"]` will have it update your files and run them.
-
+s
 ## More advanced js
 ```
 console.log('Hello World');
