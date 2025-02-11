@@ -193,7 +193,17 @@ React has a function calle `React.useState(0);` which passes back an array with 
 
 # Questions
 npm install vite?
+What is the difference between a .js and a .jsx file.?
 running js vs running jsx?
+Debugging them....
 Isn't js just on a browser?
 `script` in json `dev: vite` `npm run dev`
 what is jsx, node...
+
+# Answers
+we use react to work with JS and HTML. jsx is a special flavor of js but with htmx which means you can put html tags in js. React takes jsx files and reads it and turns it into js that the browser can understand. babel is on the server. makes it so we can run jsx files. vite is a packageing thing. 
+
+
+node package manager. When installing vite or react we install them into the app. Express....
+
+npm install dependencies
