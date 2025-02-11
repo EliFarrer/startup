@@ -3,7 +3,7 @@ We aren't actually learning javascript. Brendan Eich made JS. Inspired by Scheme
 
 Semi colons are optional, sometimes it does matter, but not often.
 
-`let var = <val>` set a variable
+`let var = <val>` set a variable (scope is the block it is in)
 `const var = <val>` constant variable
 
 Default objects in javascript.
@@ -124,6 +124,12 @@ setinterval(() => {
     }, 1000);
 });
 ```
+
+## Debuggin JS
+You can debug on the backend and frontend using `node`.
+Curl is a command line browser. It can cause breakpoints as well.
+
+
 > Debug something with command in VS code. Use Node.js Front end javascript debug in browser. Back end use vs code with Node.js
 
 
