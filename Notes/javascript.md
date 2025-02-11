@@ -23,6 +23,23 @@ If you add an extra parameter, it will not care about it.
 Codepen or the Inspector on Chrome under Console
 
 ### Lambda functions
+```
+const add = functin (a,b=0) {
+  return a + b;
+}
+
+function doMath(operation, a, b) {
+  return operation(a,b);
+}
+
+console.log(doMath(add, 5, 3)); // predefined function
+
+console.log(doMath(function (a,b) { return a - b; }, 5, 3));  // anonymous function
+
+console.log(doMath((a,b) => a-b, 5, 3));  // arrow syntax
+```
+Composing functions in functions is super common in js and react.
+
 `(parameter) => body`
 ```
 (word) => console.log(word)
@@ -36,6 +53,17 @@ You can mix `+` (concatenation) and `+` (addition). concatenation will always be
 Arrays
 `const arr = ['hello', 'world'];` means that we can't assing words to a different thing, but you can adjust the values of the array.
 - `arr.forEach(function)` for each element in array, it will use as a parameter for function
+
+### Arrow functions
+```
+() => 3;
+() => { 3; };
+() => { return 3; };
+```
+If you don't include a `return` keyword on multi line arrow functions, it won't return anything
+
+### Closure
+Create a function that has the parameters, and also any variables that were active when the funciton was created. Creates something that knows the state when it was created.
 
 ## Writing JS with HTML
 We can do inline, referenced, or script tag.
@@ -135,3 +163,128 @@ Curl is a command line browser. It can cause breakpoints as well.
 
 Launch.json is how we make launch configurations.
 `"runtimeArgs": ["--watch"]` will have it update your files and run them.
+
+## More advanced js
+```
+console.log('Hello World');
+```
+
+### Console.log
+This is super helpful for debugging.
+
+- `%s` is a string
+- `%c` is html or css stuff
+
+`console.time('demo time');` will print out the different in time when we call `console.timeEnd('demo time');`
+
+```
+console.count('a');
+console.count('a');
+console.count('b');
+```
+
+## Arrays
+`const a = [1, 2, 3];`
+
+- `a.map((i) => i + i);`
+- `a.reduce((v1, v2) => v1 + v2);`
+- `a.sort((v1, v2) => v2 - v1);`
+
+## Objects
+Objects are basically key-value pairs, basically a dictionary or a map.
+
+```
+const obj = {
+  a: 3,
+  b: 'fish',
+  c: [1, true, 'dog'],
+  d: { e: false},
+  f: function () { return 'hello'; },
+};
+```
+
+`Object`
+- `.entries(obj)`
+- `.keys(obj)`
+- `.values(obj)`
+- `delete obj.a;` will delete
+
+## Classes and Inheritance
+```
+class Person {
+  constructor(name) {
+    this.name = name;
+  }
+
+  print() {
+    return 'My name is ' + this.name;
+  }
+}
+
+class employee extends person {
+  constructor(name, position) {
+    super(name);
+    this.position = position;
+  }
+
+  print() {}  // overload the superclass defined print.
+}
+```
+
+## Destructing objects
+```
+const a = [1, 2, 5, 5];
+const [b, c] = a; will take the first two values out of a
+const [b, c, ...others] = a; will get the first two and throw everything else in others.
+
+const o = { a: 1, b: 'animals', c: ['fish', 'cats'] }
+const {a, c} = o; // makes two variables corresponding to the keys of `a` and `c`
+
+function Clicker({initialCount}) {
+  const [count, update] = React.useState(initialCount);
+  return <div onClick={() => update(count + 1)}>Click count: {count}</div>;
+}
+```
+
+## Other useful things
+```
+setTimeout(() => console.log('time is up'), 2000);
+console.log('timeout will happen later');
+
+setInterval...
+```
+
+## JSON files
+textual representation.
+
+```
+const json = JSON.stringify(obj);
+
+const objFromJson = JSON.parse(json);
+```
+> JSON doesn't have any undefined or other things like that so it will get dropped.
+
+Within your browser, there is local storage. We can store stuff on that users computer. 
+
+`localStorage.setItem('object', JSON.stringify(myObject));`
+
+`localStorage.getItem('object');`
+
+`'object'` is the name of the thing we are storing.
+
+We see this in the application tab > Local storage.
+
+## 
+`useState` to get component state
+`useEffect` when a change happens.....
+
+``` function UseEffectHookDemo() {
+  React.useEffect(() => {
+
+  })
+}
+```
+
+nothing will render every time
+[] will only do the first time
+[count1] will render every thime count1 changes.

@@ -182,3 +182,18 @@ Notes:
 - get the `color` and the `colorFunc`
 - write our own function to change the color
 - Set the style to that color and have it call a function `onMouseOver`.
+
+find the root element in document, then render it.
+
+# How does react work?
+JSX it is returning 
+`onClick={Increment}`
+JS and react aren't connected, we aren't re rendering jsx. React doens't know. So we need to let React know what state variables are important.
+React has a function calle `React.useState(0);` which passes back an array with the value of the state variable, and then the second thing is the function to change that. The const is on the array, not the values on the array.
+
+# Questions
+npm install vite?
+running js vs running jsx?
+Isn't js just on a browser?
+`script` in json `dev: vite` `npm run dev`
+what is jsx, node...
