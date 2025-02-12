@@ -7,7 +7,24 @@ Remember react is just javascript that is commonly used combined with HTML. Othe
 
 Jordan Walke made React.
 
-JSX is where Javascript and html are paired together. It then uses `Babel` or `Vite` to separate them when you transpile.
+JSX is where Javascript and HTML are paired together. It then uses `Babel` or `Vite` to separate them. It can take something like:
+```
+const i = 3;
+const list = (
+  <ol class="big">
+    <li>Item {i}</li>
+    <li>Item {3 + i}</li>
+  </ol>
+);
+```
+Which will convert to:
+```
+const i = 3;
+const list = React.createElement('ol', { class: 'big' }, React.createElement('li', null, 'Item ', i), React.createElement('li', null, 'Item ', 3 + i));
+```
+This is obviously more complicated looking, but the comptuer understand it super well.
+
+
 - `const jsx = <p>Hello World</p>;` this will not work in the browser
 - `const jsx = React.createElement("p", null, "Hello World");` will transpile it with `Babel`
     - `null` represents no elements
@@ -16,6 +33,56 @@ JSX is where Javascript and html are paired together. It then uses `Babel` or `V
 
 Transpiling happens on the server, execution happens on the browser. We can do this in CodePen.
 
+## Setup
+```
+mkdir reactDemo && cd reactDemo
+npm init -y
+npm install vite@latest -D
+npm install react react-dom
+```
+This will initalize a new `npm` directory with `vite` and `react` installed.
+
+In our HTML file, we need to include a `<script>` tag to pull our React code in. We also include where we want the root of our code to be.
+```
+<body>
+  <div id="root"></div>
+  <script type="module" src="/index.jsx"></script>
+</body>
+```
+
+Then in our `index.jsx` file, we:
+1) Import `React`
+2) Import `ReactDOM`
+3) Define a function that will return our `App`
+4) Render the app by finding the `root` and calling our `App` function.
+```
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+
+function App() {
+  return <div>Hello React</div>;
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+```
+
+Now we can compile the jsx using vite and host it. We do this with `npx vite`. This will run the node package without referencing the `package.json` file. We normally do this for js code that runs as a command line program.
+
+Once we do this, we can click on the `localhost` link that it gives us.
+
+
+
+
+
+
+
+
+
+
+
+
+## Hello World
 ```
 const Hello() {
     return <div>Hello React</div>;
@@ -25,7 +92,7 @@ const root = ReactDOM.createRoot(document.querySelector('#root'));
 root.render(<Hello />);
 ```
 
-We inject the code at `'#root'`. The `{}` allow us to escape the html to put in javascript.s
+We inject the code at `'#root'`. The `{}` allow us to escape the html to put in javascript.
 
 This will inject the phrases.
 ```
@@ -44,9 +111,9 @@ In javascript, it passes in a single parameter into functions. Props, but if we 
 > Note that React functions need to be capitalized or they wont work.
 
 # Router
-Wehen we click a button, it needs to change the state.
+When we click a button, it needs to change the state.
 
-Single page application, we keep the header and footer an dthen pull in the login, play, or scoreboard.
+Single page application, we keep the header and footer and then pull in the login, play, or scoreboard.
 
 `NavLink` is a special react component
 
@@ -68,18 +135,6 @@ Adding routing
 # React Methods
 `React.`
 - `createElement` will generate HMTL and when the user interacts with those, React will react.
-
-# Hello World
-Initalize with vite:
-```
-mkdir reactDemo && cd reactDemo
-npm init -y
-npm install vite@latest -D
-npm install react react-dom
-```
-
-
-`npx vite` will run a node package without referencing the `package.json` file.
 
 # Components
 This allows you to separate your code.
