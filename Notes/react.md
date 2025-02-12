@@ -33,7 +33,7 @@ This is obviously more complicated looking, but the comptuer understand it super
 
 Transpiling happens on the server, execution happens on the browser. We can do this in CodePen.
 
-## Setup
+# Setup
 ```
 mkdir reactDemo && cd reactDemo
 npm init -y
@@ -71,81 +71,17 @@ Now we can compile the jsx using vite and host it. We do this with `npx vite`. T
 
 Once we do this, we can click on the `localhost` link that it gives us.
 
-
-
-
-
-
-
-
-
-
-
-
-## Hello World
-```
-const Hello() {
-    return <div>Hello React</div>;
-};
-
-const root = ReactDOM.createRoot(document.querySelector('#root'));
-root.render(<Hello />);
-```
-
-We inject the code at `'#root'`. The `{}` allow us to escape the html to put in javascript.
-
-This will inject the phrases.
-```
-const Hello = ({ phrase }) => {
-    return {
-        <div>Hello {phrase}</div>;
-    }
-};
-
-const root = ReactDOM.createRoot(document.querySelector('#root'));
-root.render(<div><Hello phrase="Friends"/><Hello pharse="enemies" /></div>);
-```
-
-In javascript, it passes in a single parameter into functions. Props, but if we use `{name}` we can pull out an individual element of those properties.
-
-> Note that React functions need to be capitalized or they wont work.
-
-# Router
-When we click a button, it needs to change the state.
-
-Single page application, we keep the header and footer and then pull in the login, play, or scoreboard.
-
-`NavLink` is a special react component
-
-# Compiling JSX
-Toolchain.
-Vite runs babel for you and means you don't need to do the Go Live.
-
-In scripts and dev, do vite.
-
-Run vite.
-`npm run dev`
-
-Type o and hit enter.
-
-Debugging, the other index.jsx file is what it is actually runnning.
-
-Adding routing
-
-# React Methods
-`React.`
-- `createElement` will generate HMTL and when the user interacts with those, React will react.
-
-# Components
+# Components (Functions)
 This allows you to separate your code.
 
-JSX (node) file
+JSX file
 ```
 <div>
   Component: <Demo />
 </div>
 ```
-`Demo` is a react component. The JSX file grabs it from react. `Demo` is not actually valid, but it is replaced with HTML.
+`Demo` is a react component. The JSX file grabs it from react. `Demo` is not actually valid in HTML, but it is replaced with HTML.
+> Note that these functions need to be capitalized.
 
 React
 ```function Demo() {
@@ -156,7 +92,7 @@ React
 
 So we end up with this `<div>Component: <b>Hello world</b></div>`
 
-Note that you don't need a function:
+Note that you don't need a function, you can just use variables:
 ```
 const hello = <div>Hello</div>;
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -165,7 +101,7 @@ root.render(hello);
 Gets
 `<div>Hello</div>`
 
-Each component can return components inside of it.
+> Each component can return components inside of it. (Functions calling functions)
 
 # CSS
 Works basically the same, but use `className` on an element (in HTML) and not `class` because class is a JS keyword.
@@ -239,6 +175,63 @@ Notes:
 - Set the style to that color and have it call a function `onMouseOver`.
 
 find the root element in document, then render it.
+
+
+
+
+## Hello World
+```
+const Hello() {
+    return <div>Hello React</div>;
+};
+
+const root = ReactDOM.createRoot(document.querySelector('#root'));
+root.render(<Hello />);
+```
+
+We inject the code at `'#root'`. The `{}` allow us to escape the html to put in javascript.
+
+This will inject the phrases.
+```
+const Hello = ({ phrase }) => {
+    return {
+        <div>Hello {phrase}</div>;
+    }
+};
+
+const root = ReactDOM.createRoot(document.querySelector('#root'));
+root.render(<div><Hello phrase="Friends"/><Hello pharse="enemies" /></div>);
+```
+
+In javascript, it passes in a single parameter into functions. Props, but if we use `{name}` we can pull out an individual element of those properties.
+
+> Note that React functions need to be capitalized or they wont work.
+
+# Router
+When we click a button, it needs to change the state.
+
+Single page application, we keep the header and footer and then pull in the login, play, or scoreboard.
+
+`NavLink` is a special react component
+
+# Compiling JSX
+Toolchain.
+Vite runs babel for you and means you don't need to do the Go Live.
+
+In scripts and dev, do vite.
+
+Run vite.
+`npm run dev`
+
+Type o and hit enter.
+
+Debugging, the other index.jsx file is what it is actually runnning.
+
+Adding routing
+
+# React Methods
+`React.`
+- `createElement` will generate HMTL and when the user interacts with those, React will react.
 
 # How does react work?
 JSX it is returning 
