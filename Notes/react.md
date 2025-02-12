@@ -71,6 +71,26 @@ Now we can compile the jsx using vite and host it. We do this with `npx vite`. T
 
 Once we do this, we can click on the `localhost` link that it gives us.
 
+## Hello World
+We inject the code at `'#root'`. The `{}` allow us to escape the html to put in javascript.
+
+This will inject the phrases.
+```
+const Hello = ({ phrase }) => {
+    return {
+        <div>Hello {phrase}</div>;
+    }
+};
+
+const root = ReactDOM.createRoot(document.querySelector('#root'));
+root.render(<div><Hello phrase="Friends"/><Hello phrase="enemies" /></div>);
+```
+
+In javascript, it passes in a single parameter into functions (`props` is what it is normally called), but if we use brackets (`{name}`) we can pull out an individual element of those properties.
+
+> Note that React functions need to be capitalized or they wont work.
+
+
 # Components (Functions)
 This allows you to separate your code.
 
@@ -130,7 +150,10 @@ function App() {
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<App />);
 ```
-The `useState` function returns a state and also a function to update the state. So in the html, `onClick` will call `onClicked` and update the `clicked` state. That is then what we return in the html.
+
+The `useState` function returns a state and also a function to update the state (`updateClicked`). So in the html `<p>`, `onClick` will call `onClicked` and update the `clicked` state. That is then what we return in the html.
+
+> ` \` ${} \` ` is basically an f-string (with backticks around it)
 
 Here is an example of using states
 ```
@@ -174,38 +197,8 @@ Notes:
 - write our own function to change the color
 - Set the style to that color and have it call a function `onMouseOver`.
 
-find the root element in document, then render it.
-
-
-
-
-## Hello World
-```
-const Hello() {
-    return <div>Hello React</div>;
-};
-
-const root = ReactDOM.createRoot(document.querySelector('#root'));
-root.render(<Hello />);
-```
-
-We inject the code at `'#root'`. The `{}` allow us to escape the html to put in javascript.
-
-This will inject the phrases.
-```
-const Hello = ({ phrase }) => {
-    return {
-        <div>Hello {phrase}</div>;
-    }
-};
-
-const root = ReactDOM.createRoot(document.querySelector('#root'));
-root.render(<div><Hello phrase="Friends"/><Hello pharse="enemies" /></div>);
-```
-
-In javascript, it passes in a single parameter into functions. Props, but if we use `{name}` we can pull out an individual element of those properties.
-
-> Note that React functions need to be capitalized or they wont work.
+# Why it is called React
+A components properties/state will react to actions and update them by calling the `render` function.
 
 # Router
 When we click a button, it needs to change the state.
@@ -213,6 +206,23 @@ When we click a button, it needs to change the state.
 Single page application, we keep the header and footer and then pull in the login, play, or scoreboard.
 
 `NavLink` is a special react component
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Compiling JSX
 Toolchain.
