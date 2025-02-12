@@ -7,7 +7,7 @@ Remember react is just javascript that is commonly used combined with HTML. Othe
 
 Jordan Walke made React.
 
-JSX is where Javascript and HTML are paired together. It then uses `Babel` or `Vite` to separate them. It can take something like:
+JSX is where Javascript and HTML are paired together. It then uses `Babel` or `Vite` (which runs `Babel`) to separate them. It can take something like:
 ```
 const i = 3;
 const list = (
@@ -225,9 +225,6 @@ Single page application, we keep the header and footer and then pull in the logi
 
 
 # Compiling JSX
-Toolchain.
-Vite runs babel for you and means you don't need to do the Go Live.
-
 In scripts and dev, do vite.
 
 Run vite.
@@ -235,33 +232,8 @@ Run vite.
 
 Type o and hit enter.
 
-Debugging, the other index.jsx file is what it is actually runnning.
-
 Adding routing
 
 # React Methods
 `React.`
 - `createElement` will generate HMTL and when the user interacts with those, React will react.
-
-# How does react work?
-JSX it is returning 
-`onClick={Increment}`
-JS and react aren't connected, we aren't re rendering jsx. React doens't know. So we need to let React know what state variables are important.
-React has a function calle `React.useState(0);` which passes back an array with the value of the state variable, and then the second thing is the function to change that. The const is on the array, not the values on the array.
-
-# Questions
-npm install vite?
-What is the difference between a .js and a .jsx file.?
-running js vs running jsx?
-Debugging them....
-Isn't js just on a browser?
-`script` in json `dev: vite` `npm run dev`
-what is jsx, node...
-
-# Answers
-we use react to work with JS and HTML. jsx is a special flavor of js but with htmx which means you can put html tags in js. React takes jsx files and reads it and turns it into js that the browser can understand. babel is on the server. makes it so we can run jsx files. vite is a packageing thing. 
-
-
-node package manager. When installing vite or react we install them into the app. Express....
-
-npm install dependencies
