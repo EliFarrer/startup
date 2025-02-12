@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
-
 import './styles.css';
+import ReactDOM from 'react-dom/client';
+import React from 'react';
 
 
 function Page({ color }) {

@@ -201,13 +201,49 @@ Notes:
 A components properties/state will react to actions and update them by calling the `render` function.
 
 # Router
-When we click a button, it needs to change the state.
+A router makes is so that we only need one HTML page. When we click a button that would normally sqitch a page, it will instead just replace the content. There are a lot of routing packages. We are using `react-router-dom` which inherits a lot from `react-router`.
 
-Single page application, we keep the header and footer and then pull in the login, play, or scoreboard.
+The basic way to do this is a `BrowserRouter` component that covers the whole app. It has a `Link` or `NavLink` component that captures events. It then modifies what is rendered using `Routes` component with the `to` and `path` attributes.
 
-`NavLink` is a special react component
+This is what it looks like:
+```
+function Page({ color }) {
+  return (
+    <div className="page" style={{ backgroundColor: color }}>
+      <h1>{color}</h1>
+    </div>
+  );
+}
 
+function App() {
+  return (
+    <BrowserRouter>
+      <div className="app">
+        <nav>
+          <NavLink to="/">Red</NavLink>
+          <NavLink to="/green">Green</NavLink>
+          <NavLink to="/blue">Blue</NavLink>
+        </nav>
 
+        <main>
+          <Routes>
+            <Route path="/" element={<Page color="red" />} exact />
+            <Route path="/green" element={<Page color="green" />} />
+            <Route path="/blue" element={<Page color="blue" />} />
+          </Routes>
+        </main>
+      </div>
+    </BrowserRouter>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+```
+
+The `BrowserRouter` covers the whole component return. The `NavLinks` handle the navigation.
+
+We can install `npm install react-router-dom` to get it.
 
 
 
@@ -225,9 +261,7 @@ Single page application, we keep the header and footer and then pull in the logi
 
 
 # Compiling JSX
-In scripts and dev, do vite.
-
-Run vite.
+`vite`
 `npm run dev`
 
 Type o and hit enter.
