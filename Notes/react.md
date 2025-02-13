@@ -260,8 +260,33 @@ From Github
 > - Deployment - Automated packaging and delivery of code from the development environment to the production environment.
 > The toolchain that we use for our React project consists of GitHub as the code repository, Vite for JSX, TS, development and debugging support, ESBuild for converting to ES6 modules and transpiling (with Babel underneath), Rollup for bundling and tree shaking, PostCSS for CSS transpiling, and finally a simple bash script (deployReact.sh) for deployment.
 
+# Vite
+This code runs a vite demo
+```
+npm create vite@latest demoVite -- --template react
+cd demoVite
+npm install
+npm run dev
+```
+Packages created:
+- `index.html` where all the `main.jsx` components are loaded in
+- `package.json` package and script commands 
+- `package-lock.json` versions for packages
+- `vite.config.js` sets up react for development
+- `vite.svg` the vite logo
+- `main.jsx` the code entry point
+- `index.css` css file
+- `App.jsx` a component loaded into `main.jsx`
+- `App.css` the css for `App`
+- `react.svg` the react logo
 
+![connections](./test/demoVite/connections.png)
 
+Vite uses `.jsx` files.
+
+Commands: 
+- `npm run dev` puts a temporary interactive version out there
+- `npm run build` calls `vite build` and does a bunch of toolchain stuff (transpiles, minifies, injects JS) and outputs everything to a newly created sub-directory called `dist`. In there is some really gross looking `js`, `svg`, and `css` that you deploy. Note that this is what is sent to the browser adnd so the file structure is going to be pretty different.
 
 
 
