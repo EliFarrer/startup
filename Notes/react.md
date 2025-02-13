@@ -267,6 +267,90 @@ From Github
 
 
 
+# React
+How react tells you it needs to re render
+Properties to components (parameters passed into components)
+State on components (the component declares state, if that ever changes, it will re render)
+
+The color changes, react updates, then the child component that says the color will change
+
+React basically has a table that contains all the states. When they change, it will re render all the components.
+
+In the React thing, we have the `render` thing. There is no html called `ColorPicker`, so it knows it is react. `Result`
+`onChange` it will call a function. 
+
+If we take out the `useState`, and change the change function to not call the react `updateColor`, we will do it ourselves.
+
+`e` is an event that happens.
+
+Nothing happens, it got called the first time. We first loaded it up and it got called. ColorPicker is not being called super often. The external table is our global variable. Then our timer is basically the update step of react.
+
+Try to add a border. JSX is not html. JSX does not do styles. You need to give it an object. So we use `{}` to escape out of JSX, and `{}` to create an object.
+So it looks like this `<div style={{border: "1px solid black" }}>`
+
+The assignment is to use a textbox instead rather than a colorpicker. It needs to be a textbox. Change input `<input type="Text" onChange=<onChange>`. You can type any valid css color into it now and it will work out.
+
+
+
+For phase 2, there is a simon react repository, there is a fully functional React thing
+
+He took the CSS with pt 1 react version to demonstrate how to get to the next part.
+
+What needs to be reactive in the about page? What needs to change? The picture and the quote will change
+
+In the source code everything is hard coded. Remember react with paramaeters or state. State variable in this case. So we add `const [quote, setQuote] = React.useState('...loading')` and then in the actual quote spot, we put `{quote}`.
+
+Change the useState to be an object `const [quote, setQuote] = React.useState({text:'...loading',author:'Lee Jensen'});` Then we just do `{quote.text}` and `{quote.author}` in the respective spots.
+
+Then we need a function
+```
+function fetchQuote() {
+  setQuote({text: 'Words are cheap. Showe me the code.', author: 'Linus Torvalds" });
+}
+```
+
+Whenever our main `About` funciton is being calle,d that means things are getting rendered. so we just want to call `fetchQuote();` somewhere in our `About` function.
+
+This willl actually cause problems. It will re-render too much. `useEffect` will hook into the life cycle of react. That is how we respond to the lifecycle of the component.
+```
+React.useEffect(() => {
+  setQuote({text: 'Words are cheap. Showe me the code.', author: 'Linus Torvalds" });
+}, []);
+```
+Remembner the empty array will make it only render the first time.
+
+Remember to fix all the `class` to `className`
+
+If you want to add an `onClick` or something like that, we can put it in the array.
+
+
+For the image
+`const [image, setImage] = React.useState('placeholder.jpg');`
+
+Then in the image representation, we do `{image}`
+
+we can set the image in React.useState to null and that will make it not render.
+
+Then in the event thing, we set the image to the actual image.
+
+```
+let imgHTML = <div>...loading</div>;
+if (image) {
+  let imgHTML = (
+    <div id="picture" className="picture-box">
+      <img src={image} alt="random" />
+    </div>
+  )
+}
+```
+
+Or we can write javascript straight in jsx
+```
+{image && (/*the whole image thing*/)}, if the image is not there, it will 
+
+
+Remember vite will combine all the thigns into one (you can see this with npm ... dist), so the file paths will change because of vite.
+
 
 
 
