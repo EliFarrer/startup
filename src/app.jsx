@@ -29,7 +29,7 @@ export default function App() {
               <div className="collapse navbar-collapse" id="navbarNav">
                   <ul className="navbar-nav">
                       <li className="nav-item">
-                          <NavLink className='nav-link' to='login'>Login</NavLink>
+                          <NavLink className='nav-link' to=''>Login</NavLink>
                       </li>
                       <li className="nav-item">
                           <NavLink className='nav-link' to='play'>Play</NavLink>
@@ -42,10 +42,13 @@ export default function App() {
           </div>
           </nav>
       </header>
-  
-      <main className="container-fluid text-center">
-        Stuff displays here!
-      </main>
+
+      <Routes>
+        <Route path='/' element={<Login />} exact />
+        <Route path='/play' element={<Play />} />
+        <Route path='/scoreboard' element={<Scoreboard />} />
+        <Route path='*' element={<NotFound />} />
+      </Routes>
   
       <footer className="container-fluid">
           <p3>Author: Eli Farrer <a type="button" className="btn btn-link" href="https://github.com/EliFarrer/startup.git">GitHub</a></p3>
@@ -53,4 +56,8 @@ export default function App() {
     </body>
     </BrowserRouter>
   )
+}
+
+function NotFound() {
+    return <main className='container-fluid bg-secondary text-center'>404: Return to sender. Address unknown.</main>;
 }
