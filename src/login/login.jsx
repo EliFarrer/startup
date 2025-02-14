@@ -18,7 +18,7 @@ export function Login() {
             <input className="form-control-sm" type="password" placeholder="password" />
         </div>
         <NavLink className='btn btn-primary' to='play'>Login</NavLink>
-        <NavLink className='btn btn-primary' to='play'>Create Account</NavLink>
+        <NavLink className='btn btn-secondary' to='play'>Create Account</NavLink>
         </form>
         </div>
     </main>
