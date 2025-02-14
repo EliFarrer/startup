@@ -320,7 +320,7 @@ Add some development scripts in `package.json`
   "preview": "vite preview"
 }
 ```
-- `dev` is for general debuggin, the auto reloading HTTP server
+- `dev` is for general debugging, the auto reloading HTTP server
 - `build` builds the production version (the simplified one with the crazy files)
 - `preview` basically build and then dev. It bundles everything together and then does the hot reloading server
 
