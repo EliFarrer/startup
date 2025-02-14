@@ -288,6 +288,133 @@ Commands:
 - `npm run dev` puts a temporary interactive version out there
 - `npm run build` calls `vite build` and does a bunch of toolchain stuff (transpiles, minifies, injects JS) and outputs everything to a newly created sub-directory called `dist`. In there is some really gross looking `js`, `svg`, and `css` that you deploy. Note that this is what is sent to the browser adnd so the file structure is going to be pretty different.
 
+# How to move over React from a MPA (multi page application) to a SPA
+Major parts:
+1) Convert HTLM and CSS to use Vite and React
+2) Use JS to make it interactive and complete
+
+**Porting** Convert from one way of doing things to another
+
+1) Install and configure Vite
+2) Reorganize the code
+3) Convert to React Bootstrap
+4) Enable React
+5) Create app component
+6) Create view components
+7) Create the router
+8) Convert HTML to React components
+9) Replace deployment script
+
+## Install and configure Vite
+Initalize a npm package, install vite in the root directory
+```
+npm init -y
+npm install vite@latest -D
+```
+
+Add some development scripts in `package.json`
+```
+"scripts": {
+  "dev": "vite",
+  "build": "vite build",
+  "preview": "vite preview"
+}
+```
+- `dev` is for general debuggin, the auto reloading HTTP server
+- `build` builds the production version (the simplified one with the crazy files)
+- `preview` basically build and then dev. It bundles everything together and then does the hot reloading server
+
+Update `.gitignore` so it doesn't include `node_modules`
+
+## Reorganize the Code
+We take the flat file system we had and we reorganize it to look something like:
+```
+├─ public                      # Static assets used in the app
+│   ├─ favicon.ico
+│   └─ placeholder.jpg
+└─ src                         # Frontend React code
+    ├─ app.css                 # Top level styles
+    ├─ about                   # About component
+    ├─ login                   # Login component
+    ├─ play                    # Game play component
+    └─ scores                  # Scores component
+```
+File Organization
+- `public` holds images and sounds
+- `src` holds all the react code (we split this up into the different pages)
+
+## Convert to React Bootstrap
+React Bootstrap allows you to treat Bootstrap widgets as react components.
+
+Install it: `npm install bootstrap react-bootstrap`
+
+Put this at the top of your file: `import 'bootstrap/dist/css/bootstrap.min.css';`
+
+To use a specific component:
+```
+import Button from 'react-bootstrap/Button';
+
+export function NavButton({ text, url }) {
+  const navigate = useNavigate();
+  return (
+    <Button variant="primary" onClick={() => navigate({ url })}>
+      {text}
+    </Button>
+  );
+}
+```
+
+## Enable React
+Install react tools with: `npm install react react-dom react-router-dom`
+
+We create a new `index.html` that will be the new entry point for react. The other `index.html` we rename to `login.html`. It should look like this:
+```
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+
+    <title>Simon React</title>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <script type="module" src="/index.jsx"></script>
+  </body>
+</html>
+```
+Notice the `root` id.
+
+
+We then create an `index.jsx` file that will inject all the other code we need.
+```
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './src/app';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+```
+
+## Create App component
+Now we want an `App` we can inject. So under `src` we create an `app.jsx` file with the following temporary contents:
+```
+import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './app.css';
+
+export default function App() {
+  return <div className="body bg-dark text-light">App will display here</div>;
+}
+```
+Note that this doesn't have a `body` element. So we edit the `app.css` to select the class `body` and not the element `body`.
+
+Then we edit `app.jsx` so it contains the header and footer (this will be consistent across pages). Then we rename `class` to `className` to not confuse js.
+
+## Create View components
 
 
 
