@@ -18,9 +18,7 @@ export default function App() {
                   {/* <!-- the href in the navbar is where it takes you when you click on the image --> */}
               {/* <!-- logo --> */}
               <a className="navbar-brand" href=".">
-                  <img src="logo.png" alt="logo" width="30px" height="30px" />
-                  _ _ _ RS .
-              </a>
+                  <img src="logo.png" alt="logo" width="30px" height="30px" /> _ _ _ RS .</a>
   
               {/* <!-- button elements --> */}
               <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
