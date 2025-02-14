@@ -15,10 +15,9 @@ export default function App() {
           <nav className="navbar navbar-expand-lg">
           <div className="container-fluid">
   
-                  {/* <!-- the href in the navbar is where it takes you when you click on the image --> */}
-              {/* <!-- logo --> */}
-              <a className="navbar-brand" href=".">
-                  <img src="logo.png" alt="logo" width="30px" height="30px" /> _ _ _ RS .</a>
+            {/* <!-- the href in the navbar is where it takes you when you click on the image --> */}
+            {/* <!-- logo --> */}
+              <NavLink className='navbar-brand' to=''><img src="logo.png" alt="logo" width="30px" height="30px" /> _ _ _ RS .</NavLink>
   
               {/* <!-- button elements --> */}
               <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,7 +48,7 @@ export default function App() {
       </Routes>
   
       <footer className="container-fluid">
-          <p3>Author: Eli Farrer <a type="button" className="btn btn-link" href="https://github.com/EliFarrer/startup.git">GitHub</a></p3>
+        <p3>Author: Eli Farrer <NavLink type="button" className="btn btn-link" to="https://github.com/EliFarrer/startup.git">GitHub</NavLink></p3>
       </footer>
     </body>
     </BrowserRouter>
