@@ -86,7 +86,7 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 - [x] **Bundled using Vite** - Vite was the easy part...
 - [x] **Components** - Each page is split up into components. I may split them up more if I want to reuse components, but as of now, I am fine.
-- [x] **Router** - The navigation tabs are fully functional.
+- [x] **Router** - The navigation tabs are fully functional. So are the login and create account tags.
 
 ## 🚀 React part 2: Reactivity
 
