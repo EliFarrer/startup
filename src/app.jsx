@@ -30,16 +30,12 @@ export default function App() {
                   <ul className="navbar-nav">
                       <li className="nav-item">
                           <NavLink className='nav-link' to='login'>Login</NavLink>
-                          {/* <a className="nav-link active" aria-current="page" href="index.html">Home</a> */}
                       </li>
                       <li className="nav-item">
                           <NavLink className='nav-link' to='play'>Play</NavLink>
-
-                          {/* <a className="nav-link" aria-current="page" href="play.html">Play</a> */}
                       </li>
                       <li>
                           <NavLink className='nav-link' to='scoreboard'>Scoreboard</NavLink>
-                          {/* <a className="nav-link" aria-current="page" href="scoreboard.html">Scoreboard</a> */}
                       </li>
                   </ul>
               </div>
