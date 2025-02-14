@@ -415,9 +415,160 @@ Note that this doesn't have a `body` element. So we edit the `app.css` to select
 Then we edit `app.jsx` so it contains the header and footer (this will be consistent across pages). Then we rename `class` to `className` to not confuse js.
 
 ## Create View components
+Now we make files like `login.jsx`, `play.jsx`, `scores.jsx`, and `about.jsx`. These are the basic representations for applications views. We will eventually populate these, but not right now.
 
+Login would look like:
+```
+import React from 'react';
 
+export function Login() {
+  return (
+    <main className="container-fluid bg-secondary text-center">
+      <div>login displayed here</div>
+    </main>
+  );
+}
+```
 
+At this point, our file structure look like this:
+```
+└─ src
+    ├─ app.css                 # Top level styles
+    ├─ about                   # About component
+    │   └─ about.jsx
+    ├─ login                   # Login component
+    │   └─ login.jsx
+    ├─ play                    # Game play component
+    │   └─ play.jsx
+    └─ scores                  # Scores component
+        └─ scores.jsx
+```
+
+## Create the router
+The router will display each component as the navigation requests. The router basically decides waht to display.
+
+Import this into `app.jsx`.
+```
+import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
+import { Login } from './login/login';
+import { Play } from './play/play';
+import { Scores } from './scores/scores';
+import { About } from './about/about';
+```
+
+Then we wrap all of the `App` component elements in `BrowserRouter` so it has control.
+```
+export default function App() {
+  return (
+    <BrowserRouter>
+      <!-- The previous component elements go here -->
+    </BrowserRouter>
+  );
+}
+```
+
+## Navigating routes
+Now we update the `<a>` tags to be React friendly: `<a className="nav-link" href="play.html">Play</a>` will become `<NavLink className='nav-link' to='play'>Play</NavLink>`
+
+## Injecting the routed component
+The router changes the rendered component and it appears in place of the Routes element. This element replaces the `main` element in component HTML.
+```
+ <main>App components go here</main>
+
+ // to
+
+<Routes>
+  <Route path='/' element={<Login />} exact />
+  <Route path='/play' element={<Play />} />
+  <Route path='/scores' element={<Scores />} />
+  <Route path='/about' element={<About />} />
+  <Route path='*' element={<NotFound />} />
+</Routes>
+```
+Note the `*` unknown path specifier. There is this neat function we can use to display an unknown url.
+```
+function NotFound() {
+  return <main className="container-fluid bg-secondary text-center">404: Return to sender. Address unknown.</main>;
+}
+```
+
+## Converting to React components
+Steps for each page:
+1) copy the `main` element to the `jsx` file and put it as the return value. We don't need to copy the header and footer cause they are already in the app component.
+2) Rename `class` to `className`
+3) Move the css over to the component using an `import` statement like `import './scores.css';`.
+
+## Deployment
+Here is our new react deployment script:
+```
+while getopts k:h:s: flag
+do
+    case "${flag}" in
+        k) key=${OPTARG};;
+        h) hostname=${OPTARG};;
+        s) service=${OPTARG};;
+    esac
+done
+
+if [[ -z "$key" || -z "$hostname" || -z "$service" ]]; then
+    printf "\nMissing required parameter.\n"
+    printf "  syntax: deployReact.sh -k <pem key file> -h <hostname> -s <service>\n\n"
+    exit 1
+fi
+
+printf "\n----> Deploying React bundle $service to $hostname with $key\n"
+
+# Step 1
+printf "\n----> Build the distribution package\n"
+rm -rf build
+mkdir build
+npm install # make sure vite is installed so that we can bundle
+npm run build # build the React front end
+cp -rf dist/* build # move the React front end to the target distribution
+
+# Step 2
+printf "\n----> Clearing out previous distribution on the target\n"
+ssh -i "$key" ubuntu@$hostname << ENDSSH
+rm -rf services/${service}/public
+mkdir -p services/${service}/public
+ENDSSH
+
+# Step 3
+printf "\n----> Copy the distribution package to the target\n"
+scp -r -i "$key" build/* ubuntu@$hostname:services/$service/public
+
+# Step 5
+printf "\n----> Removing local copy of the distribution package\n"
+rm -rf build
+rm -rf dist
+```
+
+## Final Result
+```
+├─ LICENSE
+├─ README.md
+├─ deployReact.sh              # React specific deployment
+├─ index.html                  # Single HTML file for the App
+├─ index.jsx                   # Loads the top level component
+├─ package.json                # Defines dependent modules
+├─ public                      # Static assets used in the app
+│   ├─ favicon.ico
+│   └─ placeholder.jpg
+└─ src                         # Frontend React code
+    ├─ app.jsx                 # Top level component
+    ├─ app.css
+    ├─ about                   # About component
+    │   ├─ about.css
+    │   └─ about.jsx
+    ├─ login                   # Login component
+    │   └─ login.jsx
+    ├─ play                    # Game play component
+    │   ├─ play.jsx
+    │   └─ play.css
+    └─ scores                  # Scores component
+        ├─ scores.css
+        └─ scores.jsx
+```
 
 # React
 How react tells you it needs to re render
