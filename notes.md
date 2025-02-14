@@ -93,3 +93,10 @@ now i am testing fetch
 
 ## VIM Notes
 Starts in command mode, press `i` to go to instert mode. See [Vim Cheat Sheet](https://vim.rtorr.com/) and the [Class Notes](https://github.com/webprogramming260/.github/blob/main/profile/essentials/editors/editors.md) on the commands.
+
+
+
+
+# Questions
+How do I route with the login button?
+Change the background image in `play` from just being in css.
