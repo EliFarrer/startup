@@ -650,15 +650,9 @@ if (image) {
 Or we can write javascript straight in jsx
 ```
 {image && (/*the whole image thing*/)}, if the image is not there, it will 
-
+```
 
 Remember vite will combine all the thigns into one (you can see this with npm ... dist), so the file paths will change because of vite.
-
-
-
-
-
-
 
 # Compiling JSX
 `vite`
@@ -671,3 +665,18 @@ Adding routing
 # React Methods
 `React.`
 - `createElement` will generate HMTL and when the user interacts with those, React will react.
+
+## State and Effect
+`useState` to get component state
+`useEffect` when a change happens.....
+
+``` function UseEffectHookDemo() {
+  React.useEffect(() => {
+
+  })
+}
+```
+
+nothing will render every time
+[] will only do the first time
+[count1] will render every thime count1 changes.

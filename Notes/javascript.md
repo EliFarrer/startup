@@ -11,20 +11,31 @@ Default objects in javascript.
 
 `console.log(message)` will print something out
 
-## Functions
-Functions are basically the same as python but with `{}` and the keyword `function`. You can use default parameters in the same way as python.
-If you forget to pass in a paramater, depending on the type, you could get `NaN` for numbers, or `undefined` for strings.
-If you add an extra parameter, it will not care about it.
+`console.log('${var}=${var})` is basically the python f-string version
 
 > Comments are the same as c++
 > good form uses a `;` at the end
+
+You can mix `+` (concatenation) and `+` (addition). concatenation will always be used if a string is involved.
+
+
+
+## Functions
+Functions are first class objects which means they can be assigned to a variable.
+
+Functions are basically the same as python but with `{}` and the keyword `function`. You can use default parameters in the same way as python.
+
+> You can declare functions in functions.
+
+> If you forget to pass in a paramater, depending on the type, you could get `NaN` for numbers, or `undefined` for strings. If you add an extra parameter, it will not care about it.
 
 ## Where to use JS
 Codepen or the Inspector on Chrome under Console
 
 ### Lambda functions
+These are normally used so you can pass a function into another function.
 ```
-const add = functin (a,b=0) {
+const add = function (a,b=0) {
   return a + b;
 }
 
@@ -38,7 +49,6 @@ console.log(doMath(function (a,b) { return a - b; }, 5, 3));  // anonymous funct
 
 console.log(doMath((a,b) => a-b, 5, 3));  // arrow syntax
 ```
-Composing functions in functions is super common in js and react.
 
 `(parameter) => body`
 ```
@@ -46,13 +56,7 @@ Composing functions in functions is super common in js and react.
 ```
 
 So we can assign lambdas to a name by saying `const f = () => 3;` which will assign our unknown lambda to `f`.
-If you want to use multiple lines with lambda, you do need to use `{}`
-
-You can mix `+` (concatenation) and `+` (addition). concatenation will always be used if a string is involved.
-
-Arrays
-`const arr = ['hello', 'world'];` means that we can't assing words to a different thing, but you can adjust the values of the array.
-- `arr.forEach(function)` for each element in array, it will use as a parameter for function
+If you want to use multiple lines with lambda, you do need to use `{}`.
 
 ### Arrow functions
 ```
@@ -60,10 +64,110 @@ Arrays
 () => { 3; };
 () => { return 3; };
 ```
-If you don't include a `return` keyword on multi line arrow functions, it won't return anything
+> If you don't include a `return` keyword and the function has a single expression, it will automatically return. If you have curly braces, it will act like a normal function.
 
 ### Closure
 Create a function that has the parameters, and also any variables that were active when the funciton was created. Creates something that knows the state when it was created.
+
+```
+function makeClosure(init) {
+  let closureValue = init;
+  return () => {
+    return `closure ${++closureValue}`;
+  };
+}
+```
+We make a function that returns a function. Later we can call it.
+```
+const closure = makeClosure(0);
+
+console.log(closure());
+// OUTPUT: closure 1
+
+console.log(closure());
+// OUTPUT: closure 2
+```
+It can still act like it is in the scope even though it isn't.
+
+### Functions in React
+Using normal functions
+```
+function App() {
+  const [count, setCount] = React.useState(0);
+
+  function Increment() {
+    setCount(count + 1);
+  }
+
+  function Decrement() {
+    setCount(count - 1);
+  }
+
+  return (
+    <div>
+      <h1>Count: {count}</h1>
+      <button onClick={Increment}>n++</button>
+      <button onClick={Decrement}>n--</button>
+    </div>
+  );
+}
+```
+
+Using arrow functions
+```
+function App() {
+  const [count, setCount] = React.useState(0);
+
+  return (
+    <div>
+      <h1>Count: {count}</h1>
+      <button onClick={() => setCount(count+1)}>n++</button>
+      <button onClick={() => setCount(count-1)}>n--</button>
+    </div>
+  );
+}
+```
+
+There is one problem. It is possible that the `count` was changed between when we edited it and when it was updated. So that means sometimes when we click the button it may change and other times it may not. So the way we fix this is `setCount((prevCount) => prevCount+1);`
+So it becomes like this:
+```
+function App() {
+  const [count, setCount] = React.useState(0);
+
+  return (
+    <div>
+      <h1>Count: {count}</h1>
+      <button onClick={() => setCount((prevCount) => prevCount + 1)}>n++</button>
+      <button onClick={() => setCount((prevCount) => prevCount - 1)}>n--</button>
+    </div>
+  );
+}
+```
+
+Things start to look a little clunky so...
+```
+function App() {
+  const [count, setCount] = React.useState(0);
+
+  function counterOpFactory(op) {
+    return () => setCount((prevCount) => op(prevCount));
+  }
+
+  const incOp = counterOpFactory((c) => c + 1);
+  const decOp = counterOpFactory((c) => c - 1);
+  const tenXOp = counterOpFactory((c) => c * 10);
+
+  return (
+    <div>
+      <h1>Count: {count}</h1>
+      <button onClick={incOp}>n++</button>
+      <button onClick={decOp}>n--</button>
+      <button onClick={tenXOp}>n*10</button>
+    </div>
+  );
+}
+```
+This makes it so we have less code and can create any funcitons we need.
 
 ## Writing JS with HTML
 We can do inline, referenced, or script tag.
@@ -183,11 +287,20 @@ console.count('b');
 ```
 
 ## Arrays
-`const a = [1, 2, 3];`
-
-- `a.map((i) => i + i);`
-- `a.reduce((v1, v2) => v1 + v2);`
-- `a.sort((v1, v2) => v2 - v1);`
+`const arr = ['hello', 'world'];` means that we can't assing words to a different thing, but you can adjust the values of the array.
+Array
+- push add an item to the end of the array
+- pop remove an item from the end of the array
+- slice return a sub-array
+- sort run a function to sort an array in place
+- values freates an iterator for use with a `for of` loop
+- find find the first item satisfied by a test function
+- forEach run a function on each array item
+- reduce run a function to reduce each array item to a single item
+- map run a function to map an array to a new array
+- filter run a function to remove items
+- every run a function to test if all items match
+- some run a function to test if any items match
 
 ## Objects
 Objects are basically key-value pairs, basically a dictionary or a map.
@@ -273,17 +386,37 @@ Within your browser, there is local storage. We can store stuff on that users co
 
 We see this in the application tab > Local storage.
 
-## 
-`useState` to get component state
-`useEffect` when a change happens.....
+# JavaScript console
+This is the `print` statement thing.
 
-``` function UseEffectHookDemo() {
-  React.useEffect(() => {
+`console.log('hello');` is to log
 
-  })
-}
+## Formatted messages
+`console.log('hello %s', 'world');`
+## CSS styles
+`console.log('%c JavaScript demo', 'font-size:1.5em; color:green;');`
+- the `%c` specifies the CSS style
+
+## Timers
+This is to see how long a piece of code is running.
+```
+console.time('demo time');
+for (let i = 0; i < 10000000; i++) {}
+// ... some code that takes a long time.
+console.timeEnd('demo time');
+// OUTPUT: demo time: 12.74 ms
+```
+## Count
+```
+console.count('a');
+// OUTPUT: a: 1
+console.count('a');
+// OUTPUT: a: 2
+console.count('b');
+// OUTPUT: b: 1
 ```
 
-nothing will render every time
-[] will only do the first time
-[count1] will render every thime count1 changes.
+
+
+# Questions
+- prevCount in arrow functions with react.usestate
