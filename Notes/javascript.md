@@ -416,6 +416,81 @@ console.count('b');
 // OUTPUT: b: 1
 ```
 
+# Promises
+## Motivation
+Each task takes a different amount of time. We want to do them all but in different amounts of time. Getting a bunch of requests is like this.
+
+Browser rendering is single threaded. You can only run one task at one. If we write a basic fibonacci function and run it in the browser. It will render the website useless becaus of single threading.
+
+## How Promises work
+A promise is when a task is done it will alert that it is done.
+
+- pending: currently working on the task
+- fulfilled: task is done successfully
+- rejected: task failed
+
+```
+function callback(resolve) {
+  resolve('done');  // the task is complete
+}
+
+const p = new Promise(callback);
+
+p.then((result) => console.log(result));  // if you want to do something
+```
+`then` is when it is resolved, it will call that function.
+`Promise` is a promise object. you pass it a function and it passes its resolve function in as a parameter to your function.
+
+Declared a function -> go to new Promise -> resolve it so it is done => check to make sure it is done or fulfilled -> ...
+
+in callback, `setTimeout(() => { resolve('done');}, 4000);
+
+If we want to change the item
+
+```
+function goShow(item) {
+  return (resolve) => {
+    setTimeout(() => {
+      resolve(item);
+    }, 5000);
+  };
+}
+
+const p = new Promise(goShop('milk'));
+```
+
+Reject function
+```
+let p = new Promise((resolve, reject) => {
+  if (Math.random() < 0.5) {
+    resolve ('Success!');
+  } else {
+    reject('Failure!');
+  }
+});
+// more stuff
+```
+This isn't really used becaus ethe one below is much more powerful.
+
+We can use then catch and finally to chain our options..... The catch will catch either of the previous thens.... Catch will always catch what was rejected. Finally will always be exectued.
+
+In the pizza one, all of the calls return promises for the next calls.
+
+# Async Await
+A common pattern would happen with lots of chaining of thens.... So we made a cleaner syntax
+
+Await is a new syntax that pulls the result out of then and returns it rather than the promise itself.
+
+we have a promise syntax and awayit syntax. it returns the result, like 'heads' or 'tails'
+
+If there is stuff you have to do after all the thens, you need to use await. Line by line you should use await.
+
+The trouble with await is it is just syntactic sugar. It is literally just a then. When it compiles, it just puts it all in a big fat then block. 
+
+`async` says it returns a promise. If you put this on a function, it just made a function.
+
+If you use an await, you have to be async, and everything above you have to be async.
+
 
 
 # Questions
