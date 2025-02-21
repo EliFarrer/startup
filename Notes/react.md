@@ -716,3 +716,61 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<Clicker />);
 ```
 This example will render on the first time because of the `[]` and it will keep the database open until it is clicked 5 times or so. `cleanup` is triggered after these 5 clicks.
+
+# Reactivity
+React keeps a table of `state` values. Whenever we `updateState` (returned from `React.useState()`), it will update. These updates are asyncronous so don't depend on them in the next line of code.
+
+```
+function ColorPicker() {
+  const [color, updateColor] = React.useState('#737AB0');
+
+  function onChange(e) {
+    updateColor(e.target.value);
+  }
+
+  return (
+    <div>
+      <h1>Pick a color</h1>
+      <Result selectedColor={color} />
+
+      <p>
+        <span>Pick a color: </span>
+        <input type="color" onChange={onChange} value={color} />
+      </p>
+    </div>
+  );
+}
+
+function Result({ selectedColor }) {
+  return (
+    <div>
+      <p>
+        Your color: <span style={{ color: selectedColor }}>{selectedColor}</span>
+      </p>
+    </div>
+  );
+}
+```
+The parent is `ColorPicker()` with a `Result()` child. The `CP` passes `color` to result as `selectedColor`. So whenever we change our color, it is passed into `Result` which will change in its end.
+
+Basically , React does this but a lot better than we can:
+```
+let color;
+let colorNext;
+
+React.useState = (defaultValue) => {
+  color = color || defaultValue;
+  const update = (newColor) => (colorNext = newColor);
+  return [color, update];
+};
+
+setInterval(() => {
+  if (colorNext && color !== colorNext) {
+    color = colorNext;
+    root.render(ColorPicker());
+  }
+}, 50);
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(ColorPicker());
+```
