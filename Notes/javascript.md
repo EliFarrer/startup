@@ -18,6 +18,12 @@ Default objects in javascript.
 
 You can mix `+` (concatenation) and `+` (addition). concatenation will always be used if a string is involved.
 
+## Formatted messages
+`console.log('hello %s', 'world');`
+
+## CSS styles
+`console.log('%c JavaScript demo', 'font-size:1.5em; color:green;');`
+- the `%c` specifies the CSS style
 
 
 ## Functions
@@ -198,12 +204,12 @@ This is Node js. Ryan Dahl did this. He took V8 (the Chromium open source interp
 
 Installed `Node` with `nvm` with `npm`.
 
-### Running node
+## Running node
 `node -e "console.log("hello world")` will execute js in your console. If you just type `node` then it will run in interpretive node.
 
 `node file.js` will execute the file.
 
-### Node Package Manager
+## Node Package Manager
 `npm` is the `N`ode `P`ackage `M`anager. It is the `pip` equivalent. NPM also manages packages, installation, package versions, and execution of projects.
 
 If you want to use a package,
@@ -212,11 +218,11 @@ If you want to use a package,
 
 > `npm uninstall package` will uninstall
 
-#### Setup a directory
+### Setup a directory
 Before this happens, your code needs to be able to use `npm`. We create a directory and then move into it and run `npm init` in it.
 > `-y` when you init a directory will create it automatically without having to answer a bunch of questions.
 
-#### Running something using NPM
+### Running something using NPM
 In the `package.json` file created when we try to run node, will be a `scripts` key. Next to it you can put a terminal command that will execute node on a file. This is called a launch configuration.
 
 In the directory we just made will be `package.json`
@@ -249,7 +255,7 @@ Note that `runtimeArgs` will add `--watch` as a parameter, so when you do `npm r
 
 > when you clone a directory, use `npm install` inside the directory to copy all the packages down.
 
-### Example
+## Example
 inside `index.js`
 ```
 const giveMeAJoke = require('give-me-a-joke');
@@ -267,12 +273,13 @@ Curl is a command line browser. It can cause breakpoints as well.
 
 > Debug something with command in VS code. Use Node.js Front end javascript debug in browser. Back end use vs code with Node.js
 s
-## More advanced js
+
+# More advanced js
 ```
 console.log('Hello World');
 ```
 
-### Console.log
+## Console.log
 This is super helpful for debugging.
 
 - `%s` is a string
@@ -303,7 +310,9 @@ Array
 - some run a function to test if any items match
 
 ## Objects
-Objects are basically key-value pairs, basically a dictionary or a map.
+Objects are basically key-value pairs, basically a dictionary or a map. The key is a string or symbol, the value is anything. They have constructors, `this`, and other static functions and inheritacne.
+
+You access properties ith `.` or `[]` notation. You make new ones with the `new` operator. You can add new properties just by calling the property. 
 
 ```
 const obj = {
@@ -321,7 +330,24 @@ const obj = {
 - `.values(obj)`
 - `delete obj.a;` will delete
 
+## Constructor
+Any function that returns an object is called a constructor and we can use the `new` operator.
+```
+function Person(name) {
+  return {
+    name: name,
+  };
+}
+
+const p = new Person('Eich');
+console.log(p);
+// OUTPUT: {name: 'Eich'}
+```
+
+> the `this` pointer just refers to the object itself.
+
 ## Classes and Inheritance
+Classes are basically objcets intended to be used in a lot of different places.
 ```
 class Person {
   constructor(name) {
@@ -333,15 +359,18 @@ class Person {
   }
 }
 
-class employee extends person {
+class Employee extends Person {
   constructor(name, position) {
     super(name);
     this.position = position;
   }
-
-  print() {}  // overload the superclass defined print.
+  print() {
+    return super.print() + '. I am a ' + this.position;
+  }
 }
 ```
+
+> a # before a property would make that property private. For example, in `Person`, `#name;` or `this.#name` would referenec the private one.
 
 ## Destructing objects
 ```
@@ -358,24 +387,37 @@ function Clicker({initialCount}) {
 }
 ```
 
-## Other useful things
+# JSON files
+Textual representation. Contains `string`, `number`, `boolean`, `array`, `object`, or `null` adn nothing else. Encoded with UTF-8 It looks like this:
 ```
-setTimeout(() => console.log('time is up'), 2000);
-console.log('timeout will happen later');
-
-setInterval...
+{
+  "class": {
+    "title": "web programming",
+    "description": "Amazing"
+  },
+  "enrollment": ["Marco", "Jana", "فَاطِمَة"],
+  "start": "2025-02-01",
+  "end": null
+}
 ```
 
-## JSON files
-textual representation.
-
 ```
-const json = JSON.stringify(obj);
+const obj = { a: 2, b: 'crockford', c: undefined };
 
-const objFromJson = JSON.parse(json);
+const json = JSON.stringify(obj); // convert and object to JSON string
+
+const objFromJson = JSON.parse(json); // convert from JSON string to JSON object.
+
+console.log(obj, json, objFromJson);
+
+// OUTPUT:
+// {a: 2, b: 'crockford', c: undefined}
+// {"a":2, "b":"crockford"}
+// {a: 2, b: 'crockford'}
 ```
-> JSON doesn't have any undefined or other things like that so it will get dropped.
+> JSON doesn't have any undefined or other things like `undefined` so it will get dropped.
 
+# Local Storage
 Within your browser, there is local storage. We can store stuff on that users computer. 
 
 `localStorage.setItem('object', JSON.stringify(myObject));`
@@ -391,12 +433,6 @@ This is the `print` statement thing.
 
 `console.log('hello');` is to log
 
-## Formatted messages
-`console.log('hello %s', 'world');`
-## CSS styles
-`console.log('%c JavaScript demo', 'font-size:1.5em; color:green;');`
-- the `%c` specifies the CSS style
-
 ## Timers
 This is to see how long a piece of code is running.
 ```
@@ -406,6 +442,23 @@ for (let i = 0; i < 10000000; i++) {}
 console.timeEnd('demo time');
 // OUTPUT: demo time: 12.74 ms
 ```
+
+Timeout
+`setTimeout`, you pass in a function and a time. After that time passes, it will call the function. Note that JS will keep running and jump back to the function only once the time is expired.
+```
+setTimeout(() => console.log('time is up'), 2000);
+
+console.log('timeout will happen later');
+```
+
+`setInterval` is basically the same as `setTimeout`, but it calls the function repeatedly after the time interval passes.
+```
+const interval = setInterval(() => console.log('do something'), 1000);
+
+setTimeout(() => clearInterval(interval), 5000);
+```
+If you want to stop the exectution of an interval, you can capture it and then call `clearInterval` on it.
+
 ## Count
 ```
 console.count('a');
