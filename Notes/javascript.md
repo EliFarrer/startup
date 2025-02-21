@@ -430,6 +430,41 @@ We see this in the `Application` tab `Storage > Local Storage`.
 Local Storage can only hold `string`, `number` or `boolean`.
 
 # Destructuring
+This is pulling specific data out of objects or arrays.
+
+```
+const a = [1, 2, 4, 5];
+const [b, c] = a; // only grabs the first two values from a
+const [b, c, ...others] = a; // grabs the first two values and throws everything else in an array called others
+```
+
+This works basicall the same with objects, other than you need to include the property you want
+```
+const o = { a: 1, b: 'animals', c: ['fish', 'cats'] };
+const { a, c } = o; // gets the a and c properties
+const { a: count, b: type } = o; // will rename a to count and b to type with the same effect as the previous one
+```
+> note the `{}`
+
+You can also include default values
+```
+const { a, b = 22 } = {};
+const [c = 44] = [];
+
+console.log(a, b, c);
+// OUTPUT: undefined, 22, 44
+```
+
+React destructures teh array to get the variable adn update function in `React.useState`
+```
+function Clicker({ initialCount }) {
+  const [count, updateCount] = React.useState(initialCount);
+  return <div onClick={() => updateCount(count + 1)}>Click count: {count}</div>;
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<Clicker initialCount={3} />);
+```
 
 # JavaScript console
 This is the `print` statement thing.
