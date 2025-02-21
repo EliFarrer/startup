@@ -614,7 +614,7 @@ function fetchQuote() {
 
 Whenever our main `About` funciton is being calle,d that means things are getting rendered. so we just want to call `fetchQuote();` somewhere in our `About` function.
 
-This willl actually cause problems. It will re-render too much. `useEffect` will hook into the life cycle of react. That is how we respond to the lifecycle of the component.
+This will actually cause problems. It will re-render too much. `useEffect` will hook into the life cycle of react. That is how we respond to the lifecycle of the component.
 ```
 React.useEffect(() => {
   setQuote({text: 'Words are cheap. Showe me the code.', author: 'Linus Torvalds" });
@@ -667,16 +667,52 @@ Adding routing
 - `createElement` will generate HMTL and when the user interacts with those, React will react.
 
 ## State and Effect
-`useState` to get component state
-`useEffect` when a change happens.....
 
-``` function UseEffectHookDemo() {
+# React Hooks
+- `useState` is a hook. It gives you the variablea and then update function. Whenever you call the update function, it knows it needs to react and go in and updat things.
+- `useEffect` will update lifecuycle events (like rendering)
+  - nothing as the second parameterwill render every time
+  - `[]` will only do the first time
+  - `[count1]` will render every thime `count1` changes.
+
+```
+function UseEffectHookDemo() {
   React.useEffect(() => {
+    console.log('rendered');
+  });
 
-  })
+  return <div>useEffectExample</div>;
 }
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<UseEffectHookDemo />);
 ```
 
-nothing will render every time
-[] will only do the first time
-[count1] will render every thime count1 changes.
+```
+function Clicker() {
+  const [count, update] = React.useState(5);
+
+  return (
+    <div onClick={() => update(count - 1)}>
+      Click count: {count}
+      {count > 0 ? <Db /> : <div>DB Connection Closed</div>}
+    </div>
+  );
+}
+
+function Db() {
+  React.useEffect(() => {
+    console.log('connected');
+
+    return function cleanup() {
+      console.log('disconnected');
+    };
+  }, []);
+
+  return <div>DB Connection</div>;
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<Clicker />);
+```
+This example will render on the first time because of the `[]` and it will keep the database open until it is clicked 5 times or so. `cleanup` is triggered after these 5 clicks.
