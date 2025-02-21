@@ -418,15 +418,18 @@ console.log(obj, json, objFromJson);
 > JSON doesn't have any undefined or other things like `undefined` so it will get dropped.
 
 # Local Storage
-Within your browser, there is local storage. We can store stuff on that users computer. 
+Within your browser, there is local storage. We can store stuff on that users computer even after refreshes or HTML changes.
 
-`localStorage.setItem('object', JSON.stringify(myObject));`
+- `localStorage.setItem('object', JSON.stringify(myObject));` sets a JSON string to a name
+- `localStorage.getItem('object');` gets a JSON string from a name
+- `localStorage.removeItem('object');` remove an object
+- `localStorage.clear()` clears
 
-`localStorage.getItem('object');`
+We see this in the `Application` tab `Storage > Local Storage`.
 
-`'object'` is the name of the thing we are storing.
+Local Storage can only hold `string`, `number` or `boolean`.
 
-We see this in the application tab > Local storage.
+# Destructuring
 
 # JavaScript console
 This is the `print` statement thing.
