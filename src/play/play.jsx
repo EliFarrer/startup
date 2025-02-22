@@ -4,10 +4,9 @@ export function Play() {
     const [imageURL, setImageURL] = React.useState('');
 
 
-
     React.useEffect(() => {
-        setImageURL()
-    });
+        setImageURL('url(/background3.png)');
+    }, []);
 
   return (
     <main className="container-fluid">
@@ -19,7 +18,7 @@ export function Play() {
         </ul>
         </div>
 
-        <div className="container-fluid text-center" id="background-image" style={{backgroundImage:  'url(/public/background3.png)'}}>
+        <div className="container-fluid text-center" id="background-image" style={{backgroundImage: imageURL}}>
   
 
             <div className="container-fluid" id="back">
