@@ -2,9 +2,9 @@ import React from 'react';
 
 export function Scoreboard() {
   // some text example scores
-  // const score1 = { name:"ELI", num:'16'};
-  // const score2 = { name:"KPJM", num:'26'};
-  // const myscores = [score1, score2 ];
+  // const score1 = { name:"ei", num:'16'};
+  // const score2 = { name:"ei", num:'26'};
+  // const myscores = [ score1, score2 ];
 
   // localStorage.setItem('scores', JSON.stringify(myscores));
 
@@ -33,6 +33,8 @@ export function Scoreboard() {
     scoreEntries.push('No scores yet... :(');
   }
 
+  const userHighScore = findUserHighScore(scores);
+  // const userHighScore = 'hello';
 
   return (
     <main className="container-fluid">
@@ -52,8 +54,21 @@ export function Scoreboard() {
             <li className="playerScore">Peter: 18</li>
             <li className="playerScore">Eli: 1</li> */}
         </ol>
-        <h3 className="loggedPlayerHighScore">Your high score: 1</h3>
+        <h3 className="loggedPlayerHighScore">Your high score: {userHighScore}</h3>
         </div>
     </main>
   );
+}
+
+function findUserHighScore(scores) {
+  const userName = localStorage.getItem('userName');
+  var highestScore = 0;
+  for (const [i, score] of scores.entries()) {
+    if (score.name == userName) {
+      if (score.num > highestScore) {
+        highestScore = score.num;
+      }
+    }
+  }
+  return highestScore == 0 ? 'No score yet...' : highestScore;
 }
