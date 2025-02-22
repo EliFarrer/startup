@@ -1,6 +1,14 @@
 import React from 'react';
 
 export function Play() {
+    const [imageURL, setImageURL] = React.useState('');
+
+
+
+    React.useEffect(() => {
+        setImageURL()
+    });
+
   return (
     <main className="container-fluid">
         <div className="container-fluid" id="popup">Updates:
@@ -11,7 +19,9 @@ export function Play() {
         </ul>
         </div>
 
-        <div className="container-fluid text-center" id="background-image">
+        <div className="container-fluid text-center" id="background-image" style={{backgroundImage:  'url(/public/background3.png)'}}>
+  
+
             <div className="container-fluid" id="back">
             <p3>Logged in as <input className="form-control-sm" placeholder="Eli Farrer" /></p3>
             <label className="timeRemaining">Time left: <input className="form-control-sm" placeholder="30 seconds" /></label>
