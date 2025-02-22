@@ -290,3 +290,69 @@ Once we do all this, we can get rid of the html files.
 
 We need to bundle the thing up before we send it over. `npm run build`, this creates things in `/assets` that will make it ready to run in the browser. So we need a `deployReact.sh`, and there is the real script to use. Then it scp's the build directory.
 
+# Simon React Phase 2
+Remember to do `npm init` and that after that you can do `npm run dev` and stuff like that.
+
+## About component
+Fetches a quote. We wont do that yet, but we can use `useEffect` (the first time) to set the correct things.
+
+Goes from somethign like this:
+```
+<main className="container-fluid bg-secondary text-center">
+  <div>
+    <div id="picture" className="picture-box">
+      <img src="placeholder.jpg" alt="random" />
+    </div>
+    <p>...</p>
+
+    <div id="quote" className="quote-box bg-light text-dark">
+      <p className="quote">Words are cheap. Show me the code.</p>
+      <p className="author">Linus Torvalds</p>
+    </div>
+  </div>
+</main>
+```
+
+to this:
+```
+export function About(props) {
+  const [imageUrl, setImageUrl] = React.useState('');
+  const [quote, setQuote] = React.useState('Loading...');
+  const [quoteAuthor, setQuoteAuthor] = React.useState('unknown');
+
+  React.useEffect(() => {
+    setImageUrl(`placeholder.jpg`);
+    setQuote('Show me the code');
+    setQuoteAuthor('Linus Torvalds');
+  }, []);
+
+  return (
+    <main className='container-fluid bg-secondary text-center'>
+      <div>
+        <div id='picture' className='picture-box'>
+          <img src={imageUrl} alt='random image' />
+        </div>
+
+        <p>...</p>
+
+        <div className='quote-box bg-light text-dark'>
+          <p className='quote'>{quote}</p>
+          <p className='author'>{quoteAuthor}</p>
+        </div>
+      </div>
+    </main>
+  );
+}
+```
+
+So on the first time `useEffect` is called, it will update the image, quote and quote author. Each of them has a default state. But it will replace them when it fetches them.
+
+## Play component
+It broadcasts an event (someone getting a new score) every five seconds with `setInterval`. This happens when you construct it.
+
+Not sure what happens with `remove` and `add` Handler...
+
+## Scores component
+Accesses scores from `localStorage` and displays them. 
+
+## Login component
