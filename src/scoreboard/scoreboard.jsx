@@ -1,15 +1,16 @@
 import React from 'react';
 
 export function Scoreboard() {
-  const score1 = { name:"ELI", num:'16'};
-  const score2 = { name:"KPJM", num:'26'};
-  const myscores = { score1, score2 };
+  // some text example scores
+  // const score1 = { name:"ELI", num:'16'};
+  // const score2 = { name:"KPJM", num:'26'};
+  // const myscores = [score1, score2 ];
 
-  localStorage.setItem('scores', JSON.stringify(myscores));
+  // localStorage.setItem('scores', JSON.stringify(myscores));
 
   const [scores, setScores] = React.useState([]);
 
-  setTimeout(() => {
+  React.useEffect(() => {
     const text = localStorage.getItem('scores');
     console.log(text);
     if (text) { // if we have stuff
@@ -17,17 +18,15 @@ export function Scoreboard() {
       console.log("Scores text: " + text);
 
     }
-  }, 5000); // only do this the first time
+  }, []); // only do this the first time
 
   
   /* this is all the code we will inject into the table */
   const scoreEntries = [];
   if (scores.length) { // if we have scores
     for(const [i, score] of scores.entries()) {
-      console.log("I: " + i + " score: " + score);
       scoreEntries.push(
-        "yeet"
-        // <li>{score.name}: {score.num}</li>
+        <li>{score.name}: {score.num}</li>
       );
     }
   } else { // if we don't have any scores
