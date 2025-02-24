@@ -583,14 +583,21 @@ This isn't really used because you can use if statements with async and await.
 
 In the pizza one, all of the calls return promises for the next calls.
 
-# Async Await
-A common pattern would happen with lots of chaining of thens.... So we made a cleaner syntax
-
-Await is a new syntax that pulls the result out of then and returns it rather than the promise itself.
-
-we have a promise syntax and awayit syntax. it returns the result, like 'heads' or 'tails'
-
-If there is stuff you have to do after all the thens, you need to use await. Line by line you should use await.
+## Async Await
+### Await
+Await is a new syntax that pulls the result out of then and returns it rather than the promise itself. It blocks until the state of the promise is `fulfilled`, or throws an exception when it is `rejected`. The coin toss from above turns into this.
+```
+try {
+  const result = await coinToss();
+  console.log(`Toss result ${result}`);
+} catch (err) {
+  console.error(`Error: ${err}`);
+} finally {
+  console.log(`Toss completed`);
+}
+```
+### Async
+Async is something we use on a function. Await can only be used in top level JS functions or in a function defined with `async`. `async` means the function will return a promise.  
 
 The trouble with await is it is just syntactic sugar. It is literally just a then. When it compiles, it just puts it all in a big fat then block. 
 
@@ -598,4 +605,22 @@ The trouble with await is it is just syntactic sugar. It is literally just a the
 
 If you use an await, you have to be async, and everything above you have to be async.
 
+Something like this becomes...
+```
+  // Promise
+  placeOrder(order)
+    .then((order) => serveOrder(order))
+    .catch((order) => {
+      orderFailure(order);
+    });
+```
 
+```
+  try {
+    await placeOrder(order);
+    await makePizza(order);
+    serveOrder(order);
+  } catch (order) {
+    orderFailure(order);
+  }
+```
