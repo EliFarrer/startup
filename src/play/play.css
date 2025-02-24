@@ -1,0 +1,15 @@
+#background-image {
+    background-repeat: no-repeat;
+    scale: 100%;
+    background-position: center;
+    border-radius: 50px;
+}
+
+#back {
+    background-color: hsla(180, 15%, 84%, 0.651);
+    border-radius: 10px;
+    width: 50%;
+    min-width: 200px;
+    max-width: 500px;
+    background-position: center;
+}
