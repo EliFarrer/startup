@@ -348,6 +348,8 @@ export function About(props) {
 So on the first time `useEffect` is called, it will update the image, quote and quote author. Each of them has a default state. But it will replace them when it fetches them.
 
 ## Play component
+- `delay.js` returns a promise that `resolves` the promise after the timeout.
+
 It broadcasts an event (someone getting a new score) every five seconds with `setInterval`. This happens when you construct it.
 
 Not sure what happens with `remove` and `add` Handler...
