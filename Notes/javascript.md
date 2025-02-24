@@ -514,8 +514,8 @@ Each task takes a different amount of time. We want to do them all but in differ
 Browser rendering is single threaded. You can only run one task at one. If we write a basic fibonacci function and run it in the browser. It will render the website useless becaus of single threading.
 
 ## How Promises work
-A promise is when a task is done it will alert that it is done.
-
+### States
+A promise is when a task is done it will alert that it is done. They are always on three separate states:
 - pending: currently working on the task
 - fulfilled: task is done successfully
 - rejected: task failed
@@ -529,7 +529,15 @@ const p = new Promise(callback);
 
 p.then((result) => console.log(result));  // if you want to do something
 ```
-`then` is when it is resolved, it will call that function.
+
+### Resolve and Reject
+When you call `resolve` or `reject` from a promise, that is when it is completed, or fails.
+
+### Then Catch and Finally
+- `then` is called when the promies is resolved, it will call that function.
+- `catch` is called when the promies is rejected
+- `finally` is always called
+
 `Promise` is a promise object. you pass it a function and it passes its resolve function in as a parameter to your function.
 
 Declared a function -> go to new Promise -> resolve it so it is done => check to make sure it is done or fulfilled -> ...
@@ -539,7 +547,7 @@ in callback, `setTimeout(() => { resolve('done');}, 4000);
 If we want to change the item
 
 ```
-function goShow(item) {
+function goShop(item) {
   return (resolve) => {
     setTimeout(() => {
       resolve(item);
@@ -552,18 +560,26 @@ const p = new Promise(goShop('milk'));
 
 Reject function
 ```
-let p = new Promise((resolve, reject) => {
-  if (Math.random() < 0.5) {
-    resolve ('Success!');
-  } else {
-    reject('Failure!');
-  }
+const coinToss = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    if (Math.random() > 0.1) {
+      resolve(Math.random() > 0.5 ? 'heads' : 'tails');
+    } else {
+      reject('fell off table');
+    }
+  }, 10000);
 });
-// more stuff
-```
-This isn't really used becaus ethe one below is much more powerful.
 
-We can use then catch and finally to chain our options..... The catch will catch either of the previous thens.... Catch will always catch what was rejected. Finally will always be exectued.
+coinToss
+  .then((result) => console.log(`Coin toss result: ${result}`))
+  .catch((err) => console.log(`Error: ${err}`))
+  .finally(() => console.log('Toss completed'));
+
+// OUTPUT:
+//    Coin toss result: tails
+//    Toss completed
+```
+This isn't really used because you can use if statements with async and await.
 
 In the pizza one, all of the calls return promises for the next calls.
 
@@ -583,6 +599,3 @@ The trouble with await is it is just syntactic sugar. It is literally just a the
 If you use an await, you have to be async, and everything above you have to be async.
 
 
-
-# Questions
-- prevCount in arrow functions with react.usestate
