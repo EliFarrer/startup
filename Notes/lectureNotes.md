@@ -350,6 +350,8 @@ So on the first time `useEffect` is called, it will update the image, quote and 
 ## Play component
 - `delay.js` returns a promise that `resolves` the promise after the timeout.
 - `gameNotifier.js` Every time you construct a `GameEventNotifier`, it will call setInterval which will calculage a score, date, and username. Then it will send the event to a list.
+- `play.jsx` is really just the setup of the interface
+- `players.jsx` 
 It broadcasts an event (someone getting a new score) every five seconds with `setInterval`. This happens when you construct it.
 
 Not sure what happens with `remove` and `add` Handler...
