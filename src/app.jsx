@@ -48,7 +48,7 @@ export default function App() {
       </Routes>
   
       <footer className="container-fluid">
-        <p3>Author: Eli Farrer <NavLink type="button" className="btn btn-link" to="https://github.com/EliFarrer/startup.git">GitHub</NavLink></p3>
+        <p>Author: Eli Farrer <NavLink type="button" className="btn btn-link" to="https://github.com/EliFarrer/startup.git">GitHub</NavLink></p>
       </footer>
     </body>
     </BrowserRouter>
