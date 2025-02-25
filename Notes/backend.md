@@ -85,3 +85,7 @@ Making a request
 From the browser, we can only do `GET` requests.
 
 `curl -X POST https://quote.cs260.click -d '{"author":"lee", "quote":"code fast"}'` is a valid request, but the endpoint doesn't actually allow you to do this.
+
+Fetch is the `js` that will make a request `fetch(url).then(r => r.json()).then(j => console.log(j.value))`. First makes the request, converts to json and then prints it.
+
+`fetch(quote.cs260.click).then((r) => r.json()).then(t => console.log(t))` 
