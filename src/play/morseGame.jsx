@@ -4,15 +4,13 @@ import './play.css'
 
 function createTimer(time, setTimer) {
     setTimer(time);
-    console.log("New timer created");
-    let actualTime = time
+    let actualTime = time - 1; 
     const intervalID = setInterval(() => {
-        if (actualTime == 1) {
+        if (actualTime == 0) {
             clearInterval(intervalID);
             // log the score and other things
         }
-        console.log(`actual time: ${actualTime}, time: ${time}`);
-        setTimer(--actualTime);
+        setTimer(actualTime--);
     }, 1000);
 }
 
