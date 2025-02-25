@@ -9,7 +9,6 @@ import { Scoreboard } from './scoreboard/scoreboard';
 export default function App() {
   return (
     <BrowserRouter>
-    <body>
       <header>        
           {/* <!--navigation--> */}
           <nav className="navbar navbar-expand-lg">
@@ -50,7 +49,6 @@ export default function App() {
       <footer className="container-fluid">
         <p>Author: Eli Farrer <NavLink type="button" className="btn btn-link" to="https://github.com/EliFarrer/startup.git">GitHub</NavLink></p>
       </footer>
-    </body>
     </BrowserRouter>
   )
 }
