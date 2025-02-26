@@ -18,6 +18,20 @@ export function MorseGame(props) {
     const [backgroundColor, setBackgroundColor] = React.useState('rgba(0, 0, 0, 0)');
     const [userInput, updateUserInput] = React.useState("");
     
+
+    // whenever the background color changes of the answer box, it is immediately reduced to nothing.
+    React.useEffect(() => {
+        let tempColor = backgroundColor;
+        let temp = tempColor.split(',')[3];
+        let num = Number(temp.slice(1, temp.length-1)) - .0001;
+        if (num > 0) {
+            const idxOfLastComma = tempColor.lastIndexOf(',');
+            const newColor = tempColor.slice(0, idxOfLastComma+2) + String(num) + ')';
+            setBackgroundColor(newColor);
+        }
+    }, [backgroundColor]);
+
+
     const morseMap = JSON.parse('{"a": "._","b": "_...","c": "_._.","d": "_..","e": ".","f": ".._.","g": "__.","h": "....","i": "..","j": ".___","k": "_._","l": "._..","m": "__","n": "_.","o": "___","p": ".__.","q": "__._","r": "._.","s": "...","t": "_","u": ".._","v": "..._","w": ".__","x": "_.._","y": "_.__","z": "__.."}');
 
     function getMainElement(gameState) {
@@ -86,60 +100,35 @@ export function MorseGame(props) {
         while (true) {
             const newChar = _getRandomCharacter();
             if (newChar != oldCharacter) {
-                updateCurrentLetter(newChar);
-                break;
+                return newChar;
             }
         }
     }
 
 
     
-    // its doing the thing where it renders all at once
-    function fadeColorOut() {
-        const colorIntervalID = setInterval(() => {
-            console.log("start function");
-            console.log(`old color ${backgroundColor}`);
 
-            let tempColor = backgroundColor;
-            let temp = tempColor.split(',')[3];
-            let num = Number(temp.slice(1, temp.length-1)) - .001;
-            if (num < 0) {
-                num = 0;
-                clearInterval(colorIntervalID);
-            }
-            const idxOfLastComma = tempColor.lastIndexOf(',');
-            const newColor = tempColor.slice(0, idxOfLastComma+2) + String(num) + ')';
-            console.log(`new color ${newColor}`);
-            console.log(newColor);
-            setBackgroundColor(newColor);
-        }, 500);
-    }
 
     function checkSubmission() {
         console.log("check submision");
+        console.log(`Last letter: ${currentLetter}`);
 
         if (morseMap[currentLetter] == userInput) { // correct answer
-            console.log(`Last letter: ${currentLetter}`);
-            console.log(`New letter: ${currentLetter}`);
             correctAnswer();
 
 
-
-            // setBackgroundColor('rgba(101, 227, 95, 1)');
-            console.log(`updated the background color green ${backgroundColor}`);
-            // fadeColorOut();
+            setBackgroundColor('rgba(101, 227, 95, 1)');
         } else {    // incorrect
             incorrectAnswer();
 
-            // setBackgroundColor('rgba(237, 59, 59, 1)');
-            console.log(`updated the background color red ${backgroundColor}`);
-            // fadeColorOut();
+            setBackgroundColor('rgba(237, 59, 59, 1)');
         }
     }
 
 
     function correctAnswer() {
         updateCurrentLetter(getNewCharacter(currentLetter));
+        console.log(`New letter: ${currentLetter}`);
         updateScore(score + 1);
         updateUserInput("");
     }
