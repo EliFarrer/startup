@@ -15,9 +15,13 @@
 }
 
 .start-button {
-    margin: 5.2em;
+    margin: 3.45em;
 }
 
 .userInput {
     letter-spacing: .2rem;
+}
+
+.answerBox {
+    border-radius: 1em;
 }
