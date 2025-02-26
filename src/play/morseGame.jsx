@@ -7,9 +7,7 @@ function createTimer(time, setTimer, changeGameState) {
     let actualTime = time - 1; 
     const intervalID = setInterval(() => {
         if (actualTime == 0) {
-            clearInterval(intervalID);
-
-            endGame(changeGameState);
+            endGame(changeGameState, setTimer, intervalID);
         }
         setTimer(actualTime--);
     }, 1000);
@@ -17,9 +15,10 @@ function createTimer(time, setTimer, changeGameState) {
 }
 
 
-function endGame(changeGameState) {
+function endGame(changeGameState, setTimer, timerID) {
     // this will reset the game and log the score
-    changeGameState('start');
+    //log the score
+    reset(changeGameState, setTimer, timerID)
 }
 
 
@@ -34,7 +33,7 @@ function reset(changeGameState, setTimer, timerID) {
 function playGame(changeGameState, setTimer, updateTimerID) {
     // changes the state to playing and sets a timer
     changeGameState('playing');
-    const timerID = createTimer(10, setTimer, changeGameState);
+    const timerID = createTimer(3, setTimer, changeGameState);
     updateTimerID(timerID);
 }
 
