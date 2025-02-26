@@ -534,7 +534,7 @@ p.then((result) => console.log(result));  // if you want to do something
 When you call `resolve` or `reject` from a promise, that is when it is completed, or fails.
 
 ### Then Catch and Finally
-- `then` is called when the promies is resolved, it will call that function.
+- `then` is called when the promise is resolved, it will call that function.
 - `catch` is called when the promies is rejected
 - `finally` is always called
 
