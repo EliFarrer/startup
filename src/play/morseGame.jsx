@@ -30,8 +30,8 @@ export function MorseGame(props) {
                 <p>Current Letter:</p><h1 className="answerBox" style={{backgroundColor: backgroundColor}}>{currentLetter}</h1>
                 <h5>Your input: <span className="userInput">{userInput}</span></h5>
                 <div className="tapInput">       
-                    <button className="btn btn-primary" type="submit" onClick={() => addChar("_")}>_</button>
-                    <button className="btn btn-primary" type="submit" onClick={() => addChar(".")}>.</button>
+                    <button className="btn btn-primary" type="submit" onClick={() => addCharacter("_")}>_</button>
+                    <button className="btn btn-primary" type="submit" onClick={() => addCharacter(".")}>.</button>
                 </div>
                 <div><button className="btn btn-success" type="submit" onClick={() => checkSubmission()}>SUBMIT!</button></div>
             </div>
@@ -66,6 +66,7 @@ export function MorseGame(props) {
         clearInterval(timerID);
         updateUserInput("");
         updateCurrentLetter("");
+        updateScore(0);
     }
     
     
@@ -77,7 +78,7 @@ export function MorseGame(props) {
     }
     
     
-    function addChar(char) {
+    function addCharacter(char) {
         updateUserInput(userInput + char);
     }
 
@@ -94,44 +95,59 @@ export function MorseGame(props) {
 
     
     // its doing the thing where it renders all at once
-    // function fadeColorOut() {
-    //     const colorIntervalID = setInterval(() => {
-    //         console.log("start function");
-    //         console.log(`old color ${backgroundColor}`);
+    function fadeColorOut() {
+        const colorIntervalID = setInterval(() => {
+            console.log("start function");
+            console.log(`old color ${backgroundColor}`);
 
-    //         let tempColor = backgroundColor;
-    //         let temp = tempColor.split(',')[3];
-    //         let num = Number(temp.slice(1, temp.length-1)) - .001;
-    //         if (num < 0) {
-    //             num = 0;
-    //             clearInterval(colorIntervalID);
-    //         }
-    //         const idxOfLastComma = tempColor.lastIndexOf(',');
-    //         const newColor = tempColor.slice(0, idxOfLastComma+2) + String(num) + ')';
-    //         console.log(`new color ${newColor}`);
-    //         console.log(newColor);
-    //         setBackgroundColor(newColor);
-    //     }, 1000);
-    // }
+            let tempColor = backgroundColor;
+            let temp = tempColor.split(',')[3];
+            let num = Number(temp.slice(1, temp.length-1)) - .001;
+            if (num < 0) {
+                num = 0;
+                clearInterval(colorIntervalID);
+            }
+            const idxOfLastComma = tempColor.lastIndexOf(',');
+            const newColor = tempColor.slice(0, idxOfLastComma+2) + String(num) + ')';
+            console.log(`new color ${newColor}`);
+            console.log(newColor);
+            setBackgroundColor(newColor);
+        }, 500);
+    }
 
     function checkSubmission() {
         console.log("check submision");
 
-        if (morseMap[currentLetter] == userInput) { // correct
+        if (morseMap[currentLetter] == userInput) { // correct answer
             console.log(`Last letter: ${currentLetter}`);
-            updateCurrentLetter(getNewCharacter(currentLetter));
             console.log(`New letter: ${currentLetter}`);
-            updateScore(score + 1);
+            correctAnswer();
+
+
+
             // setBackgroundColor('rgba(101, 227, 95, 1)');
             console.log(`updated the background color green ${backgroundColor}`);
             // fadeColorOut();
         } else {    // incorrect
+            incorrectAnswer();
+
             // setBackgroundColor('rgba(237, 59, 59, 1)');
             console.log(`updated the background color red ${backgroundColor}`);
             // fadeColorOut();
         }
     }
 
+
+    function correctAnswer() {
+        updateCurrentLetter(getNewCharacter(currentLetter));
+        updateScore(score + 1);
+        updateUserInput("");
+    }
+
+
+    function incorrectAnswer() {
+        updateUserInput("");
+    }
 
 
     return (
