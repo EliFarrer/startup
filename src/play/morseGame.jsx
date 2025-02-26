@@ -47,9 +47,19 @@ export function MorseGame(props) {
     function getMainElement(gameState) {
         // this returns either the start button or the 'your letter' prompt
         if (gameState == 'start') {
-            return <button className="btn btn-success" type="submit" onClick={() => playGame(changeGameState, setTimer, updateTimerID)}>Start</button>;
+            return <button className="btn btn-success start-button" type="submit" onClick={() => playGame(changeGameState, setTimer, updateTimerID)}>Start</button>;
         } else if (gameState == 'playing') {
-            return <div><p>Current Letter:</p><h1>M</h1></div>;
+            return (
+            <div>
+                <p>Current Letter:</p><h1>M</h1>
+                <h5>Your input:<input className="form-control-sm" placeholder="_ _" /></h5>
+                <div className="tapInput">       
+                    <button className="btn btn-primary" type="submit">_</button>
+                    <button className="btn btn-primary" type="submit">.</button>
+                </div>
+                <div><button className="btn btn-success" type="submit">SUBMIT!</button></div>
+            </div>
+            )
         }
     }
 
@@ -66,12 +76,7 @@ export function MorseGame(props) {
         <p>Time left: {timer} seconds</p>
         <p>Score: {score}</p>
         <div>{getMainElement(gameState)}</div>
-        <h5>Your input:<input className="form-control-sm" placeholder="_ _" /></h5>
-        <div className="tapInput">       
-            <button className="btn btn-primary" type="submit">_</button>
-            <button className="btn btn-primary" type="submit">.</button>
-        </div>
-        <div><button className="btn btn-success" type="submit">SUBMIT!</button></div>
+
         <button className="btn btn-secondary" type="submit" onClick={() => reset(changeGameState, setTimer, timerID)}>RESET</button>
         </div>
         </div>
