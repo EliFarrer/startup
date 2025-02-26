@@ -17,3 +17,7 @@
 .start-button {
     margin: 5.2em;
 }
+
+.userInput {
+    letter-spacing: .2rem;
+}
