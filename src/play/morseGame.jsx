@@ -4,6 +4,9 @@ import './play.css'
 
 const GAME_TIME = 30;
 
+
+
+
 function createTimer(time, setTimer, changeGameState) {
     setTimer(time);
     let actualTime = time - 1; 
@@ -43,16 +46,20 @@ function playGame(changeGameState, setTimer, updateTimerID) {
 
 function addChar(char, userInput, updateUserInput) {
     let input = userInput;
-    input += (char + " ");
+    input += char;
     updateUserInput(input);
 }
+
+
 
 export function MorseGame(props) {
     const [timer, setTimer] = React.useState(0);
     const [timerID, updateTimerID] = React.useState(0);
     const [gameState, changeGameState] = React.useState('start');
     const [score, updateScore] = React.useState(0);
+    const [currentLetter, updateCurrentLetter] = React.useState("");
     const [userInput, updateUserInput] = React.useState("");
+    const morseMap = JSON.parse('{"a": ".-","b": "-...","c": "-.-.","d": "-..","e": ".","f": "..-.","g": "--.","h": "....","i": "..","j": ".---","k": "-.-","l": ".-..","m": "--","n": "-.","o": "---","p": ".--.","q": "--.-","r": ".-.","s": "...","t": "-","u": "..-","v": "...-","w": ".--","x": "-..-","y": "-.--","z": "--.."}');
 
     function getMainElement(gameState) {
         // this returns either the start button or the 'your letter' prompt
@@ -62,18 +69,21 @@ export function MorseGame(props) {
             return (
             <div>
                 <p>Current Letter:</p><h1>M</h1>
-                <h5>Your input: {userInput}</h5>
+                <h5>Your input: <span className="userInput">{userInput}</span></h5>
                 <div className="tapInput">       
                     <button className="btn btn-primary" type="submit" onClick={() => addChar("_", userInput, updateUserInput)}>_</button>
                     <button className="btn btn-primary" type="submit" onClick={() => addChar(".", userInput, updateUserInput)}>.</button>
                 </div>
-                <div><button className="btn btn-success" type="submit">SUBMIT!</button></div>
+                <div><button className="btn btn-success" type="submit" onClick={() => checkSubmission(userInput, currentLetter)}>SUBMIT!</button></div>
             </div>
             )
         }
     }
 
+    // function checkSubmission(userInput, currentLetter) {
+    //     if (morseMap[currentLetter] == userInput) 
 
+    // }
 
 
 
