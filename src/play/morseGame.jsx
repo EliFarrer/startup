@@ -27,12 +27,13 @@ function endGame(changeGameState, setTimer, timerID) {
 }
 
 
-function reset(changeGameState, setTimer, timerID, updateUserInput) {
+function reset(changeGameState, setTimer, timerID, updateUserInput, updateCurrentLetter) {
     // resets the timer and game state, but doesn't log the score
     changeGameState('start');
     setTimer(0);
     clearInterval(timerID);
     updateUserInput("");
+    updateCurrentLetter("");
 }
 
 
@@ -50,16 +51,19 @@ function addChar(char, userInput, updateUserInput) {
     updateUserInput(input);
 }
 
-
+function getRandomCharacter() {
+    const alph = "abcdefghijklmnopqrstuvwxyz";
+    return alph[Math.floor(Math.random() * 27)];
+}
 
 export function MorseGame(props) {
     const [timer, setTimer] = React.useState(0);
     const [timerID, updateTimerID] = React.useState(0);
     const [gameState, changeGameState] = React.useState('start');
     const [score, updateScore] = React.useState(0);
-    const [currentLetter, updateCurrentLetter] = React.useState("");
+    const [currentLetter, updateCurrentLetter] = React.useState(getRandomCharacter());
     const [userInput, updateUserInput] = React.useState("");
-    const morseMap = JSON.parse('{"a": ".-","b": "-...","c": "-.-.","d": "-..","e": ".","f": "..-.","g": "--.","h": "....","i": "..","j": ".---","k": "-.-","l": ".-..","m": "--","n": "-.","o": "---","p": ".--.","q": "--.-","r": ".-.","s": "...","t": "-","u": "..-","v": "...-","w": ".--","x": "-..-","y": "-.--","z": "--.."}');
+    const morseMap = JSON.parse('{"a": "._","b": "_...","c": "_._.","d": "_..","e": ".","f": ".._.","g": "__.","h": "....","i": "..","j": ".___","k": "_._","l": "._..","m": "__","n": "_.","o": "___","p": ".__.","q": "__._","r": "._.","s": "...","t": "_","u": ".._","v": "..._","w": ".__","x": "_.._","y": "_.__","z": "__.."}');
 
     function getMainElement(gameState) {
         // this returns either the start button or the 'your letter' prompt
@@ -68,22 +72,30 @@ export function MorseGame(props) {
         } else if (gameState == 'playing') {
             return (
             <div>
-                <p>Current Letter:</p><h1>M</h1>
+                <p>Current Letter:</p><h1>{currentLetter}</h1>
                 <h5>Your input: <span className="userInput">{userInput}</span></h5>
                 <div className="tapInput">       
                     <button className="btn btn-primary" type="submit" onClick={() => addChar("_", userInput, updateUserInput)}>_</button>
                     <button className="btn btn-primary" type="submit" onClick={() => addChar(".", userInput, updateUserInput)}>.</button>
                 </div>
-                <div><button className="btn btn-success" type="submit" onClick={() => checkSubmission(userInput, currentLetter)}>SUBMIT!</button></div>
+                <div><button className="btn btn-success" type="submit" onClick={() => checkSubmission(userInput, currentLetter, updateCurrentLetter)}>SUBMIT!</button></div>
             </div>
             )
         }
     }
 
-    // function checkSubmission(userInput, currentLetter) {
-    //     if (morseMap[currentLetter] == userInput) 
-
-    // }
+    function checkSubmission(userInput, currentLetter, updateCurrentLetter) {
+        if (morseMap[currentLetter] == userInput) {
+            while (true) {
+                const newChar = getRandomCharacter();
+                if (newChar != currentLetter) {
+                    updateCurrentLetter(newChar);
+                    break;
+                }
+            }
+        }
+    } // need an else statement here to say that something is wrong
+    // have it change the background color if you got it right or not.
 
 
 
@@ -97,7 +109,7 @@ export function MorseGame(props) {
         <p>Score: {score}</p>
         <div>{getMainElement(gameState)}</div>
 
-        <button className="btn btn-secondary" type="submit" onClick={() => reset(changeGameState, setTimer, timerID, updateUserInput)}>RESET</button>
+        <button className="btn btn-secondary" type="submit" onClick={() => reset(changeGameState, setTimer, timerID, updateUserInput, updateCurrentLetter)}>RESET</button>
         </div>
         </div>
     )
