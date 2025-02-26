@@ -20,16 +20,16 @@ export function MorseGame(props) {
     
 
     // whenever the background color changes of the answer box, it is immediately reduced to nothing.
-    React.useEffect(() => {
-        let tempColor = backgroundColor;
-        let temp = tempColor.split(',')[3];
-        let num = Number(temp.slice(1, temp.length-1)) - .0001;
-        if (num > 0) {
-            const idxOfLastComma = tempColor.lastIndexOf(',');
-            const newColor = tempColor.slice(0, idxOfLastComma+2) + String(num) + ')';
-            setBackgroundColor(newColor);
-        }
-    }, [backgroundColor]);
+    // React.useEffect(() => {
+    //     let tempColor = backgroundColor;
+    //     let temp = tempColor.split(',')[3];
+    //     let num = Number(temp.slice(1, temp.length-1)) - .0001;
+    //     if (num > 0) {
+    //         const idxOfLastComma = tempColor.lastIndexOf(',');
+    //         const newColor = tempColor.slice(0, idxOfLastComma+2) + String(num) + ')';
+    //         setBackgroundColor(newColor);
+    //     }
+    // }, [backgroundColor]);
 
 
     const morseMap = JSON.parse('{"a": "._","b": "_...","c": "_._.","d": "_..","e": ".","f": ".._.","g": "__.","h": "....","i": "..","j": ".___","k": "_._","l": "._..","m": "__","n": "_.","o": "___","p": ".__.","q": "__._","r": "._.","s": "...","t": "_","u": ".._","v": "..._","w": ".__","x": "_.._","y": "_.__","z": "__.."}');
@@ -106,21 +106,12 @@ export function MorseGame(props) {
     }
 
 
-    
-
-
     function checkSubmission() {
-        console.log("check submision");
-        console.log(`Last letter: ${currentLetter}`);
-
         if (morseMap[currentLetter] == userInput) { // correct answer
             correctAnswer();
-
-
             setBackgroundColor('rgba(101, 227, 95, 1)');
-        } else {    // incorrect
+        } else {                                    // incorrect
             incorrectAnswer();
-
             setBackgroundColor('rgba(237, 59, 59, 1)');
         }
     }
