@@ -1,13 +1,20 @@
-import React from 'react';
+import React, { act } from 'react';
 
 import './play.css'
 
-const GAME_TIME = 500;
+const GAME_TIME = 20;
 
 function _getRandomCharacter() {
     const alph = "abcdefghijklmnopqrstuvwxyz";
     return alph[Math.floor(Math.random() * 27)];
 }
+
+
+
+// I am not using any useEffect? DO I need to do that when i call check Submission? How does that work?
+// Login
+// Save scores
+// update with other user scores
 
 export function MorseGame(props) {
     const [timer, setTimer] = React.useState(0);
@@ -18,7 +25,6 @@ export function MorseGame(props) {
     const [backgroundColor, setBackgroundColor] = React.useState('rgba(0, 0, 0, 0)');
     const [userInput, updateUserInput] = React.useState("");
     
-
     // whenever the background color changes of the answer box, it is immediately reduced to nothing.
     // React.useEffect(() => {
     //     let tempColor = backgroundColor;
@@ -33,6 +39,13 @@ export function MorseGame(props) {
 
 
     const morseMap = JSON.parse('{"a": "._","b": "_...","c": "_._.","d": "_..","e": ".","f": ".._.","g": "__.","h": "....","i": "..","j": ".___","k": "_._","l": "._..","m": "__","n": "_.","o": "___","p": ".__.","q": "__._","r": "._.","s": "...","t": "_","u": ".._","v": "..._","w": ".__","x": "_.._","y": "_.__","z": "__.."}');
+
+
+    React.useEffect(() => {
+        if (gameState === 'end') {
+            logScore(score);
+        }
+    }, [score, gameState]);
 
     function getMainElement(gameState) {
         // this returns either the start button or the 'your letter' prompt
@@ -66,10 +79,42 @@ export function MorseGame(props) {
     }
     
     
-    function endGame() {
+    function endGame(id) {
         // this will reset the game and log the score
         //log the score
-        reset()
+        changeGameState('end');
+        clearInterval(id);
+    }
+
+    function logScore(score) {
+        let scores = [];
+        const scoreObject = {'name':props.userName, 'num':score};
+
+        const scoresText = localStorage.getItem('scores');
+        if (scoresText) {   // if we have it
+            scores = JSON.parse(scoresText);
+        }
+    
+        let found = false;
+        for (const [i, prevScore] of scores.entries()) {
+          if (score > prevScore.num) {    // ordered in biggest -> smallest
+            console.log(`score object ${scoreObject}`);
+            scores.splice(i, 0, scoreObject);  // inserting
+            found = true;
+            break;
+          }
+        }
+    
+        if (!found) {
+          scores.push(scoreObject);    // if it is the lowest score
+        }
+    
+        if (scores.length > 10) {   // cut of the end ones (only show the top 10 scores)
+          scores.length = 10;
+        }
+    
+        localStorage.setItem('scores', JSON.stringify(scores));
+        reset();
     }
     
     
@@ -119,8 +164,7 @@ export function MorseGame(props) {
 
     function correctAnswer() {
         updateCurrentLetter(getNewCharacter(currentLetter));
-        console.log(`New letter: ${currentLetter}`);
-        updateScore(score + 1);
+        updateScore(prevScore => prevScore + 1);
         updateUserInput("");
     }
 
