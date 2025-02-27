@@ -7,13 +7,33 @@ export function ScoreUpdates() {
 
     const [messages, updateMessages] = React.useState([]);
 
+    function getNewMessage() {
+        const nameIdx = Math.floor(Math.random() * names.length);
+        const randomScore = Math.floor(Math.random() * 40);
+        return names[nameIdx] + " scored " + randomScore;
+    }
 
 
     function createMessageArray() {
+        // only show top 3 entries
+
         let messageArray = [];
-        for (let i = 0; i < updates.length; i++) {
+
+
+        setInterval(() => {
+            let newMessages = [];
+            const newMessage = getNewMessage();
+            if (messages.length > 2) {
+                newMessages = [...messages.slice(1), newMessage];
+            } else {
+                newMessages = [...messages, newMessage]
+            }
+            updateMessages(newMessages);
+        }, 5000);
+
+        for (const [i, message] of messages.entries()) {
             messageArray.push(
-                <li key={i} className="playerUpdate">{updates[i]}</li>
+                <li key={i} className="playerUpdate">{message}</li>
             );
         }
         return messageArray;
