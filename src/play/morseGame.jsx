@@ -2,7 +2,7 @@ import React, { act } from 'react';
 
 import './play.css'
 
-const GAME_TIME = 20;
+const GAME_TIME = 5;
 
 function _getRandomCharacter() {
     const alph = "abcdefghijklmnopqrstuvwxyz";
@@ -124,7 +124,7 @@ export function MorseGame(props) {
         setTimer(0);
         clearInterval(timerID);
         updateUserInput("");
-        updateCurrentLetter("");
+        updateCurrentLetter(getNewCharacter(currentLetter));
         updateScore(0);
     }
     
