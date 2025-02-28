@@ -360,3 +360,4 @@ Not sure what happens with `remove` and `add` Handler...
 Accesses scores from `localStorage` and displays them. 
 
 ## Login component
+It basically just returns html. But in that html is js code taht asks what the authstate is. Depending on if it is unknown, it just returns the "welcome to simon" prompt. If it is authenticated, it returns the dialog for that (passing in different functions for logout and login things.)
