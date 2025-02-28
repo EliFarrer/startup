@@ -1,25 +1,22 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { AuthState } from './authState';
+import { Authenticated } from './authenticated';
+import { Unauthenticated } from './unauthenticated';
 
-
-export function Login() {
+export function Login({username, authState, onAuthChange}) {
   return (
     <main className="container-fluid text-center">
         <div>
-        <h2>Login to MORSE</h2>
-        <form>
-        {/* <!--login info--> */}
-        <div>
-            <span> Email: </span>
-            <input className="form-control-sm" placeholder="you@email.com" />
-        </div>
-        <div>
-            <span> Password: </span>
-            <input className="form-control-sm" type="password" placeholder="password" />
-        </div>
-        <NavLink className='btn btn-primary' to='play'>Login</NavLink>
-        <NavLink className='btn btn-secondary' to='play'>Create Account</NavLink>
-        </form>
+        {authState !== AuthState.Unknowon && <h2>Welcome to MORSE</h2> /*if the auth state is unknown, it returns nothing, if it is not unknown, it will return the login prompt*/}
+        {authState === AuthState.Authenticated && (
+          /* authenticated case */
+          <Authenticated username={username} onLogout={() => onAuthChange(username, AuthState.Unatuthenticated)}/>
+        )}
+        {authState === AuthState.Unatuthenticated && (
+          /* unauthenticated case */
+          <Unauthenticated username={username} onLogin={(loginUsername) => onAuthChange(loginUsername, AuthState.Authenticated)}/>
+        )}
+
         </div>
     </main>
   );
