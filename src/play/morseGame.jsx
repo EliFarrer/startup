@@ -13,8 +13,6 @@ function _getRandomCharacter() {
 
 // I am not using any useEffect? DO I need to do that when i call check Submission? How does that work?
 // Login
-// Save scores
-// update with other user scores
 
 export function MorseGame(props) {
     const [timer, setTimer] = React.useState(0);
