@@ -5,8 +5,13 @@ import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
 import { Login } from './login/login';
 import { Play } from './play/play';
 import { Scoreboard } from './scoreboard/scoreboard';
+import { AuthState } from './login/authState'
 
 export default function App() {
+  const [username, changeUsername] = React.useState(localStorage.getItem('username') || '');
+  const currentAuthState = username ? AuthState.Authenticated : AuthState.Unatuthenticated;
+  const [authState, changeAuthState] = React.useState(currentAuthState);
+
   return (
     <BrowserRouter>
       <header>        
@@ -40,7 +45,14 @@ export default function App() {
       </header>
 
       <Routes>
-        <Route path='/' element={<Login />} exact />
+        <Route path='/' element={<Login
+          username={username}
+          authState={authState}
+          onAuthChange={(uName, aState) => {  // this function allows us to change the username and authenticated state from within other modules
+            changeAuthState(aState);
+            changeUsername(uName);
+          }}
+          />} exact />
         <Route path='/play' element={<Play />} />
         <Route path='/scoreboard' element={<Scoreboard />} />
         <Route path='*' element={<NotFound />} />
