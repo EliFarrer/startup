@@ -53,10 +53,10 @@ export function Scoreboard() {
 }
 
 function findUserHighScore(scores) {
-  const userName = localStorage.getItem('userName');
+  const username = localStorage.getItem('username');
   var highestScore = 0;
   for (const [i, score] of scores.entries()) {
-    if (score.name == userName) {
+    if (score.name == username) {
       if (score.num > highestScore) {
         highestScore = score.num;
       }
