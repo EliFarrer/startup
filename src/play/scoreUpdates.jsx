@@ -28,6 +28,7 @@ export function ScoreUpdates() {
             } else {
                 newMessages = [...messages, newMessage]
             }
+            // console.log(`new messages ${newMessages}`); something weird may be happening here
             updateMessages(newMessages);
         }, 5000);
 
