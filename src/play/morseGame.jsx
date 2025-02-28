@@ -9,11 +9,6 @@ function _getRandomCharacter() {
     return alph[Math.floor(Math.random() * 27)];
 }
 
-
-
-// I am not using any useEffect? DO I need to do that when i call check Submission? How does that work?
-// Login
-
 export function MorseGame(props) {
     const [timer, setTimer] = React.useState(0);
     const [timerID, updateTimerID] = React.useState(0);
