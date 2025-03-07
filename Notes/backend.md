@@ -411,6 +411,80 @@ app.use(function (err, req, res, next) {
 ```
 This throws an error and then immediately catches it and returns the result.
 
+# Modules
+## Node modules (CommonJS modules)
+Need to export and import them. `const express = require('express');`
+
+If you want to export your own
+```
+function alertDisplay(msg) {
+    alert(msg);
+}
+
+module.exports = {
+    alertDisplay,
+};
+```
+
+## JS modules (ES modules) with Node
+If you want to use JS modules with Node, you need to specify that in `package.json`
+```
+{
+  "name": "service",
+  "version": "1.0.0",
+  "description": "This demonstrates a service for a web application.",
+  "type": "module",
+  "dependencies": {             // this is the place
+    "express": "^4.18.2"
+  }
+}
+```
+
+To use them, do
+```
+import express from 'express`;
+express().listen(3000);
+```
+
+To export from your own code:
+```
+export function alertDisplay(msg) {
+  console.log(msg);
+}
+```
+Then import it in another file
+```
+import { alertDisplay } from './alert.js';
+
+alertDisplay('called from main.js');
+```
+
+## JS modules (ES modules) in a browser
+Modules can only be called from other modules. 
+```
+<script type="module">
+  import { alertDisplay } from './alert.js';
+  alertDisplay('module loaded');
+</script>
+```
+
+If we wnat to use a module in a global scope:
+```
+<html>
+  <body>
+    <script type="module">
+      import { alertDisplay } from './alert.js';
+      window.btnClick = alertDisplay;
+
+      document.body.addEventListener('keypress', function (event) {
+        alertDisplay('Key pressed');
+      });
+    </script>
+    <button onclick="btnClick('button clicked')">Press me</button>
+  </body>
+</html>
+```
+
 # Authentication vs Authorization
 - Authentication: third party confirms who you are
 - Authorizatoin: What can you do?
