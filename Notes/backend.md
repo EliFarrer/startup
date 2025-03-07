@@ -129,30 +129,141 @@ This is the general format.
 > A URN (uniform resource name) does not specify location information
 > A URI (uniform resource identifer) can refer to a URL or URN.
 
+# Ports
+Ports allow us to use different connection protocols (like HTTP, HTTPS, or SSH).
+
+You can have as many servers as you want, but each need a different port.
+
+![ports](./ports.png)
+
+# Web Servers
+A web server hosts a web service and also knows how to accept connections and speak with HTTP. It is separate from the service. In today's world, we have made it so you can have a web server that contains your service.
+
+Express is a web server that can host your service.
+```
+const express = require('express');
+const app = express();
+
+// Serve static files from the 'public' directory
+app.use(express.static('public'));
+
+app.listen(80);
+```
+This program initalizes `express` and makes it so that you can serve static files.
+
+## Endpoints
+Endpoints are methods that we can call from the web. This makes it ineractive (rather than just giving a static HTML file). Add an endpoint like this
+```
+app.get('/time', (req, res) => {
+  res.json({ time: new Date().toDateString() });
+});
+```
+Note that `get` is the HTTP action, and `/time` is the path.
+
+## Gateways
+Gateways are web services that can serve up other services on different ports. We connect with a web server to our gateway and then it will connect us to the other services we have. So people connect to the gateway on port 443 and behind the scenes it redirects them to other ports.
+![gateways.png](./gateways.png)
+
+## Microservices
+A single small web services that you can duplicate to handle more users
+
+## Serverless
+This came after microservices. This basically takes the server out of the whole process. Everything else is handled by the gateway.
+
+# Web services
+The frontend is the `index.html` and everything else that that references.
+
+If we want our frontend to make a request to another service, we use `fetch(<url>)`. We want other people to be able to do the same for our service. Right now with React, JS, html, and css we have all the frontend, but we want to be able to make a web service that allows other people to call it. So we need to make the backend.
+
+An `endpoint` or `API` is just a function that you call that belongs in another program. We access them with the `fetch` function.
+
+![backend](./backend.png)
+
+So basically, our service contains our static files (frontend containing html, js, css, react...), our endpoints that the frontend calls to change things, and other requests (API's) that call other services. Our frontend can also call other services as well.
+
+# `Fetch`
+`fetch` is built into the browser's js runtime. It takes a URL and returns a promise. You pass it a url, and then call `then` on the result. In then, we pass a fucntion that is called after the data is retrieved.
+```
+fetch('https://quote.cs260.click')
+  .then((response) => response.json())
+  .then((jsonResponse) => {
+    console.log(jsonResponse);
+  });
+```
+Returns
+```
+{
+  author: 'Kyle Simpson',
+  quote: "There's nothing more permanent than a temporary hack."
+}
+```
+
+You can also `POST` things by passing in an HTTP request
+```
+fetch('https://jsonplaceholder.typicode.com/posts', {
+  method: 'POST',
+  body: JSON.stringify({
+    title: 'test title',
+    body: 'test body',
+    userId: 1,
+  }),
+  headers: {
+    'Content-type': 'application/json; charset=UTF-8',
+  },
+})
+  .then((response) => response.json())
+  .then((jsonResponse) => {
+    console.log(jsonResponse);
+  });
+```
+
 # Now we are writing a backend service thing
 We make a fetch request - by default is `index.html`. We write a super small program that listens and returns something. Everything up to the port gets to the right program. The program takes in the path and returns something (like a json file). We can return html, or static files.
 
 # Service Design
 How can we use good software design? The endpoints we are using will be called by other people.
 
+Try to make endpoints human readable and discoverable. Try to make it so that your endpoints are backwards compatable. Make sure things are documented as well.
+
+There are a few ways to organize endpoints in cluding REST, GraphQL, and RPC.
+
+There is a lot more information about this that you can check out.
+
+# Node Web Service
+Create a node project.
+
+```
+const http = require('http');
+const server = http.createServer(function (req, res) {
+  res.writeHead(200, { 'Content-Type': 'text/html' });
+  res.write(`<h1>Hello Node.js! [${req.method}] ${req.url}</h1>`);
+  res.end();
+});
+
+server.listen(8080, () => {
+  console.log(`Web service listening on port 8080`);
+});
+```
+This creates an HTTP server. Every time it receives a HTTP request, it calls the function. You can run this in the console by running `node index.js`, or you can run it in vscode which will enable the debugger.
+
 # Express
 We use npm to pull down express which makes this easier.
 
 > "People tell you to not reinvent things, but I think you should ... it will teach you things" - TJ Holowaychuk
 
-Express is just some js code that makes some wrappers over network requests. 
+Express is just some js code that makes some wrappers over network requests. It executes things in order every time you get a new HTTP request!!!
 
-`express.static('public');` will look in the public folder for static files
-
-5 objects:
+Key objects:
 - `express` constructor and default functionality. Top level object, when we call it it will create the app
 - `app` is the service application, sets the port.
 - `req` and `res` app gives you request and response. HTTP request and response.
+```
+const express = require('express');
+const app = express();
+app.listen(8080);
+```
 
-`mkdir tj`
-`npm init -y`
-`npm install express`
-
+`express.static('public');` will look in the public folder for static files
 
 ```
 const express = require('express');         // note that all objects are also functions in JS, this imports the code
@@ -169,15 +280,18 @@ app.listen(3000, () => {                    // what port we want to listen on wi
 });
 ```
 
-run from the console `node index.js`. Then we go to localhost with the port.
-
-If the port is already in use, it will say so. 
-
-Run the program from vs code, then use a curl request `curl -v localhost:3000`. Express looks at what you return and determines if it is a string.
+Run the program from vs code and open in your browser, then use a curl request `curl -v localhost:3000`. Express looks at what you return and determines if it is a string.
 
 We could also do something like `res.send(404, '<h1>Not found</h1>');`. 
 
 It is kinda weird that takes html files and stick it right in your code. So we can return a static file instead. `app.use(express.static('pubic'));`. `app.use` doesn't care if it is a get request or anything else. It will return whatever they asked for. So we can create files like `index.html`, `john.html`. Then when we request `localhost:3000/john.html` it will give you that. We can even serve up images or things like that by replacing the file with `image.png` or something like that.
+
+You can include parameters from a url.
+```
+app.get('/store/:storeName', (req, res, next) => {
+  res.send({ name: req.params.storeName });
+});
+```
 
 # Responses
 ```
@@ -201,7 +315,7 @@ res.send(400, 'trouble in River City');
 ```
 
 # Middleware
-This is a standard design method (like iterators). It doesn't really know how to do things, but it calls other stuff to do different things. The idea is we get some sort of request, then it goes to request, next and then request, then response and pass out the HTTP response.
+This is a standard design method (like iterators). The Mediator (like Express) doesn't really know how to do things, but it calls other stuff to do different things (the middleware). The idea is we get some sort of request, then it goes to request, next and then request, then response and pass out the HTTP response.
 
 We don't want Bob to steal our money. In our case it is more like an authToken or something like that.
 ```
@@ -209,11 +323,13 @@ function noBobs(req, res, next) {       // if a certain case (/bob path), it wil
     /bob/.text(req.path) ? res.status(401).send('No Bobs!') : next();
 }
 
-app.get('/secrets', noBobs, (req, res) => {    // if noBobs succeeds, it will call the next function (req, res)
-    res.send('<p>Hello</p>');
+app.get('/secrets', noBobs, (req, res) => {     // if noBobs succeeds, it will call the next function (req, res)
+    res.send('<p>Hello</p>');                   // note that the next function is in the noBobs.
 });
 ```
 This is useful for authentication. Make it a secure enpoint basically.
+
+![middleware](./middleware.png)
 
 We could even change the request
 ```
@@ -251,6 +367,49 @@ app.put('/data', (req, res) => {
     res.send(req.body.msg);
 });
 ```
+
+## Built in middlware
+```
+app.use(express.static('public'));
+```
+Will respond with static files that match the URL
+
+`npm install cookie-parser`
+```
+const cookieParser = require('cookie-parser');
+
+app.use(cookieParser());
+
+app.post('/cookie/:name/:value', (req, res, next) => {
+  res.cookie(req.params.name, req.params.value);
+  res.send({ cookie: `${req.params.name}:${req.params.value}` });
+});
+
+app.get('/cookie', (req, res, next) => {
+  res.send({ cookie: req.cookies });
+});
+```
+This is an example of a third party middleware function. We often see middleware adding fields to `req` and `res`.
+
+## You rown middleware
+```
+app.use((req, res, next) => {
+  console.log(req.originalUrl);
+  next();
+});
+```
+This is a logging function.
+## Error handling middleware
+```
+app.get('/error', (req, res, next) => {
+  throw new Error('Trouble in river city');
+});
+
+app.use(function (err, req, res, next) {
+  res.status(500).send({ type: err.name, message: err.message });
+});
+```
+This throws an error and then immediately catches it and returns the result.
 
 # Authentication vs Authorization
 - Authentication: third party confirms who you are
