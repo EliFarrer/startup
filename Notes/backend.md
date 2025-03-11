@@ -92,8 +92,17 @@ Content types: Mine types
 - `image/jpg`
 - `video/mp4`
 
+> note that in things like `express`, `res.send(<thing>)` will return the thing as part of the output
+
+### CURL
 Making a request
 `curl -v https://quote.cs260.click`
+- `-v` is verbose
+- `-X` lets you specify a http type like POST, PUT....
+- `-H` lets you set the header
+- `-d` is the data (remeber it depends on what kind of data you want to use)
+- `-c` lets you specify a file to store cookies in
+- `-b` is used to specifiy a file that has cookies in it that will be sent to service.
 
 From the browser, we can only do `GET` requests.
 
@@ -485,9 +494,18 @@ If we wnat to use a module in a global scope:
 </html>
 ```
 
+# Security
+SOP or Same Origin Policy is that JS can only make requests to a domain if it is in the same domain the user is viewing. This doesn't work great if you want to use a public resource.
+
+CORS or Cross Origin Resource Sharing is where the client talks to the server and gives it the origin of a request. Based on that the server responds with what is allowed. 
+
+The browser is in charge of doing this.
+
+Make sure to test services before using them. When you make a request, the response will include if you are allowed to access it with the header `access-control-allow-origin`.
+
 # Authentication vs Authorization
-- Authentication: third party confirms who you are
-- Authorizatoin: What can you do?
+- Authentication: username and pasword
+- Authorizatoin: Access to different thigns
 
 Pass an auth token back to our service, the backend looks at it and checks to make sure everything is good. Then it saves teh score.
 
@@ -497,7 +515,7 @@ Standard protocols for Authentication:
 - CAS (The one BYU uses)
 - OIDC (adds Authorization onto OAuth)
 
-Single sign on: use our credientials to log in
+Single sign on: use same credentials for multiple web apps. Federated login: login once and authToken used for multiple websites, like logging into gmail, youtube, google docs.
 - AuthO
 - Google
 - Facebook
@@ -511,25 +529,120 @@ We create our own Custom authentication. We need to
 - verify credentials
 - restrict access
 
+## Account creation and login
+Need three endpoints (four is helpful)
+- register (POST)
+- login (POST)
+- logout (DLETE)
+- get me (GET)
+
+### Requests
+An example of register would look like:
+```
+POST /api/auth HTTP/2
+Content-Type: application/json
+{
+  "email":"marta@id.com",
+  "password":"toomanysecrets"
+}
+
+HTTP/2 200 OK
+Content-Type: application/json
+Set-Cookie: auth=tokenHere
+{
+  "email":"marta@id.com"
+}
+```
+
+### Service
+The code for this would look something like this
+```
+const express = require('express');
+const app = express();
+
+//register
+app.post('/api/auth', async (req, res) => {
+  res.send({email: 'marta@id.com'});
+});
+
+// login
+app.put('/api/auth', async (req, res) => {
+  res.send({ email: 'marta@id.com' });
+});
+
+// logout
+app.delete('/api/auth', async (req, res) => {
+  res.send({});
+});
+
+// getMe
+app.get('/api/user', async (req, res) => {
+  res.send({ email: 'marta@id.com' });
+});
+
+app.listen(3000);
+```
+
+### Handle requests
+We know everything we receive will be a json object. So we want to parse everything that way.
+```
+app.use(express.json());
+
+app.post('/api/auth'< (req, res) => {
+  res.send(req.body);
+});
+```
+This will parse everything as json.
+
+#### Users and passwords
 How do we store credentials successfully? We don't want to just store a raw text password. If they get in you db, they have access to all your passwords. So we cryptographically hash it. We cannot get to it again, but what we can do is we can get a password and hash it and then look if they match.
 - `Salt` puts random generated text onto your password and then it 
 - `Pepper` is a random value you put on all of the passwords, but you don't share it.
 
 We will use `Bcrypt`. In `webServices/login/exampleCode/bcrypt`. Step through this for help.
 
-## Example:
-app.post is a post request with a `register` path.
-app.put is updating the authorizaton
 
-Then we run and debug the code.
- 
-We need to include a body.
+Use this code:
+```
+const bcrypt = require('bcryptjs');
 
-We use curl as our client `curl localhost:3000/register -H "Content-Type: application/json" -d '{"user":"cow","password":"1"}'` will retister a user.
-We are using the `express.json()` middleware, so we include `application/json` which will parse it as a json.
-We use curl as our client `curl -X PUT localhost:3000/register -H "Content-Type: application/json" -d '{"user":"cow","password":"1"}'` will retister a user.
+const users = [];
 
-## Authorization tokens
+async function createUser(email, password) {
+  const passwordHash = await bcrypt.hash(password, 10);
+
+  const user = {
+    email: email,
+    password: passwordHash,
+  };
+
+  users.push(user);
+
+  return user;
+}
+
+function getUser(field, value) {
+  if (value) {
+    return users.find((user) => user[field] === value);
+  }
+  return null;
+}
+```
+
+### Register
+If we have the user already, return a 409 error. If we don't, it will create a user and then return the users email. We need to generate an auth token and store it on the browser with a cookie.
+```
+app.post('/api/auth', async (req, res) => {
+  if (await getUser('email', req.body.email)) {
+    res.status(409).send({ msg: 'Existing user' });
+  } else {
+    const user = await createUser(req.body.email, req.body.password);
+    res.send({ email: user.email });
+  }
+});
+```
+
+#### Authorization tokens
 `npm install uuid` This is an authtoken. We don't want the authToken to be tied to the password. It uses an algorithm, it is extremely unlikely that it will return the same thing twice.
 ```
 const uuid = require('uuid');
@@ -537,27 +650,237 @@ const token = uuid.v4()
 ...
 ```
 
+#### How do we pass the UUID (Auth tokens) around? Cookies
+The service generates an authToken. It stores it and sends it back in a cookie  The frontentd only cares that you have thie token. Cookies are a way where the frontend recovnizes if you have been there before. The server will ask for it every time until it takes it away. The frontend can't read the cookie, it just recovnizes that it has been there
 
-## How do we pass the UUID around? Cookies
-The frontentd only cares that you have thie token. Cookies are a way where the frontend recovnizes if you have been there before. The server will ask for it every time until it takes it away.
-
-We do a post with username and password, then we generate a token and store it. Then we stick the token into a cookie (which the frontend that can't read), but the next time we call the frontend, it returns the cookie to us.s
-
-
+When we set the cookie, we include a few options.
 ```
 Set-Cookie: token=<uuid>; Secure; HttpOnly; SameSite=Strict
 
 ```
-- `Secure` will only do HTTPS
+- `Secure` will only do HTTPS and not HTTP
 - `HttpOnly` will say that JS can't read the cookie
 - `SameSite=Strict` only give the cookie to the backend that generated the cookie.
 
-## Example
-`npm install express cookie-parser uuid`
+So things will look somethin glike this
+```
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
 
+// Create a token for the user and send a cookie containing the token
+function setAuthCookie(res, user) {
+  user.token = uuid.v4();
+
+  res.cookie('token', user.token, {
+    secure: true,
+    httpOnly: true,
+    sameSite: 'strict',
+  });
+}
 ```
-//sample code
+
+#### How to store the auth token in the cookie
+Should look like something like this
 ```
+const cookieParser = require('cookie-parser');
+const uuid = require('uuid');
+
+app.use(cookieParser());
+
+function setAuthCookie(res, user) {
+  user.token = uuid.v4();
+
+  res.cookie('token', user.token, {
+    secure: true,
+    httpOnly: true,
+    sameSite: 'strict',
+  });
+}
+
+// Registration endpoint
+app.post('/api/auth', async (req, res) => {
+  if (await getUser('email', req.body.email)) {
+    res.status(409).send({ msg: 'Existing user' });
+  } else {
+    const user = await createUser(req.body.email, req.body.password);
+
+    setAuthCookie(res, user);
+
+    res.send({ email: user.email });
+  }
+});
+```
+
+### login
+```
+app.put('/api/auth', async (req, res) => {
+  const user = await getUser('email', req.body.email);
+  if (user && (await bcrypt.compare(req.body.password, user.password))) {
+    setAuthCookie(res, user);
+
+    res.send({ email: user.email });
+  } else {
+    res.status(401).send({ msg: 'Unauthorized' });
+  }
+});
+```
+`bcrypt.compare` taqkes in the text password and does its hash thing and compares it to the stored user password.
+
+If the user exists and the passwords match, then we make a cookie and return the email, if not we return a 401 code.
+
+### logout
+```
+app.delete('/api/auth', async (req, res) => {
+  const token = req.cookies['token'];
+  const user = await getUser('token', token);
+  if (user) {
+    clearAuthCookie(res, user);
+  }
+
+  res.send({});
+});
+
+function clearAuthCookie(res, user) {
+  delete user.token;
+  res.clearCookie('token');
+}
+```
+If there is an actual user, we delete the token and cookie. If not, we ignore it.
+
+### getMe
+```
+app.get('/api/user/me', async (req, res) => {
+  const token = req.cookies['token'];
+  const user = await getUser('token', token);
+  if (user) {
+    res.send({ email: user.email });
+  } else {
+    res.status(401).send({ msg: 'Unauthorized' });
+  }
+});
+```
+This will make sure we have a saved token sent back from the client. We check it and return the email if it is valid.
+
+> We use curl as our client `curl localhost:3000/register -H "Content-Type: application/json" -d '{"user":"cow","password":"1"}'` will retister a user.
+> We are using the `express.json()` middleware, so we include `application/json` which will parse it as a json.
+> We use curl as our client `curl -X PUT localhost:3000/register -H "Content-Type: application/json" -d '{"user":"cow","password":"1"}'` will retister a user.
+
+## Summary
+So basically we make a register request and the service will add a new user with new cookie info. It will send back the cookie data to the client and print out the user email.
+Then when we login, curl handles the cookie (because we )
+
+## Connecting it all together
+Create an npm project with `npm install vite@latest -D`, `npm install react react-dom react-router-dom`. 
+`index.jsx`
+```
+function App() {
+  return (
+    <BrowserRouter>
+      <main>
+        <Routes>
+          <Route path='/' element={<Login />} exact />
+          <Route path='/profile' element={<Profile />} />
+        </Routes>
+      </main>
+    </BrowserRouter>
+  );
+}
+```
+Basic browser router login component
+
+`Login`
+```
+function Login() {
+  const navigate = useNavigate();
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+
+  function handleLogin() {
+    createAuth('PUT');
+  }
+
+  function handleRegister() {
+    createAuth('POST');
+  }
+
+  async function createAuth(method) {
+    const res = await fetch('api/auth', {
+      method: method,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    });
+    await res.json();
+    if (res.ok) {
+      navigate('/profile');
+    } else {
+      alert('Authentication failed');
+    }
+  }
+
+  return (
+    <div>
+      <h1>Login</h1>
+      <div>
+        <label>Email:</label>
+        <input type='text' onChange={(e) => setEmail(e.target.value)} required />
+      </div>
+      <div>
+        <label>Password:</label>
+        <input type='password' onChange={(e) => setPassword(e.target.value)} required />
+      </div>
+      <button type='submit' disabled={!(email && password)} onClick={handleLogin}>
+        Login
+      </button>
+      <button type='button' disabled={!(email && password)} onClick={handleRegister}>
+        Register
+      </button>
+    </div>
+  );
+}
+```
+So we are always updating the email and password. Then when the user clicks one of th ebuttons (handle login or handle register), we call that function and then it creats an authorization with a specific HTML method. It sends the correct data over and may navigate, but may not.
+
+`Profile`
+```
+function Profile() {
+  const navigate = useNavigate();
+  const [userInfo, setUserInfo] = React.useState('');
+
+  React.useEffect(() => {
+    (async () => {
+      const res = await fetch('api/user/me');
+      const data = await res.json();
+      setUserInfo(data);
+    })();
+  }, []);
+
+  function handleLogout() {
+    fetch('api/auth', {
+      method: 'DELETE',
+    });
+    navigate('/');
+  }
+
+  return (
+    <div>
+      <h1>Profile</h1>
+      <div>Logged in as: {userInfo.email}</div>
+      <button type='button' onClick={handleLogout}>
+        Logout
+      </button>
+    </div>
+  );
+}
+```
+On first render, it fetches the user info and converts it to json, then sets it. It has a logout button that will delete our authorization and return to the main page.
+
+### Running
+To run everything, f5 run index.js for the backend, and run the frontend with `npm run dev`. All this is in `profile/webServices/login/exampleCode/login`.
+
+
+
+
+
 
 ## Going over the code
 The frontend code is in the root, the backend is in a subdirectory.
