@@ -35,6 +35,7 @@ export function MorseGame(props) {
 
 
     React.useEffect(() => {
+        // the score is saved every time the game ends or the score changes
         if (gameState === 'end') {
             saveScore(score);
         }
@@ -71,14 +72,10 @@ export function MorseGame(props) {
         return intervalID;
     }
     
-    
     function endGame(id) {
-        // this will reset the game and log the score
-        //log the score
         changeGameState('end');
         clearInterval(id);
     }
-
 
     async function saveScore(score) {
         const newScore = { name: props.email, num: score };
@@ -89,39 +86,6 @@ export function MorseGame(props) {
           body: JSON.stringify(newScore),
         });
     }
-
-
-    // function logScore(score) {
-    //     let scores = [];
-    //     const scoreObject = {'name':props.userName, 'num':score};
-
-    //     const scoresText = localStorage.getItem('scores');
-    //     if (scoresText) {   // if we have it
-    //         scores = JSON.parse(scoresText);
-    //     }
-    
-    //     let found = false;
-    //     for (const [i, prevScore] of scores.entries()) {
-    //       if (score > prevScore.num) {    // ordered in biggest -> smallest
-    //         console.log(`score object ${scoreObject}`);
-    //         scores.splice(i, 0, scoreObject);  // inserting
-    //         found = true;
-    //         break;
-    //       }
-    //     }
-    
-    //     if (!found) {
-    //       scores.push(scoreObject);    // if it is the lowest score
-    //     }
-    
-    //     if (scores.length > 10) {   // cut of the end ones (only show the top 10 scores)
-    //       scores.length = 10;
-    //     }
-    
-    //     localStorage.setItem('scores', JSON.stringify(scores));
-    //     reset();
-    // }
-    
     
     function reset() {
         // resets the timer and game state, but doesn't log the score

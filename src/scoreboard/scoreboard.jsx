@@ -1,23 +1,15 @@
 import React from 'react';
 
 export function Scoreboard() {
-  // some text example scores
-  // const score1 = { name:"ei", num:'16'};
-  // const score2 = { name:"ei", num:'26'};
-  // const myscores = [ score1, score2 ];
-
-  // localStorage.setItem('scores', JSON.stringify(myscores));
-
   const [scores, setScores] = React.useState([]);
 
   React.useEffect(() => {
-    const text = localStorage.getItem('scores');
-    console.log(text);
-    if (text) { // if we have stuff
-      setScores(JSON.parse(text)); // converts to a javascript object
-      console.log("Scores text: " + text);
-
-    }
+    // fetch the scores and parse them and set them
+    fetch('/api/scores').then((response) => {
+      return response.json();
+    }).then((scores) => {
+      setScores(scores);
+    });
   }, []); // only do this the first time
 
   
@@ -40,11 +32,7 @@ export function Scoreboard() {
     <main className="container-fluid">
         <div className="container-fluid" id="popup">
         <h1 className="scoreboardTitle"> Scoreboard</h1> 
-        <ol className="scoreboard">{scoreEntries}
-            {/* <li className="playerScore">Johnathan: 34</li>
-            <li className="playerScore">Peter: 18</li>
-            <li className="playerScore">Eli: 1</li> */}
-        </ol>
+        <ol className="scoreboard">{scoreEntries}</ol>
         <h3 className="loggedPlayerHighScore">Your high score: {userHighScore}</h3>
         </div>
         <h3>Logged in as <input type="text" className="form-control-lg" placeholder="Eli Farrer" /></h3>
