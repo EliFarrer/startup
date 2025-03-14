@@ -107,7 +107,7 @@ app.listen(port, () => {
 function updateScores(newScore) {
     let found = false;
     for (const [i, prevScore] of scores.entries()) {
-      if (newScore.score > prevScore.score) {
+      if (newScore.num > prevScore.num) {
         scores.splice(i, 0, newScore);
         found = true;
         break;
