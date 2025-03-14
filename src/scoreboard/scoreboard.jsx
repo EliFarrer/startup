@@ -26,7 +26,6 @@ export function Scoreboard() {
   }
 
   const userHighScore = findUserHighScore(scores);
-  // const userHighScore = 'hello';
 
   return (
     <main className="container-fluid">
@@ -41,10 +40,10 @@ export function Scoreboard() {
 }
 
 function findUserHighScore(scores) {
-  const email = localStorage.getItem('email');
+  const currentUser = localStorage.getItem('email');
   var highestScore = 0;
   for (const [i, score] of scores.entries()) {
-    if (score.name == email) {
+    if (score.name == currentUser) {
       if (score.num > highestScore) {
         highestScore = score.num;
       }
