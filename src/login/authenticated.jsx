@@ -11,14 +11,14 @@ export function Authenticated(props) {
         }).catch(() => {
             alert("logout failed");
         }).finally(() => {
-            localStorage.removeItem('username');
+            localStorage.removeItem('email');
             props.onLogout();
         });
     }
 
     return (
         <div>
-        <h1>Hello {props.username}</h1>
+        <h1>Hello {props.email}</h1>
         <Button className='btn btn-primary' to='play' onClick={() => navigate('/play')}>Play</Button>
         <Button className='btn btn-secondary' to='play' onClick={() => logout()}>Logout</Button>
         </div>

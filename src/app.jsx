@@ -8,8 +8,8 @@ import { Scoreboard } from './scoreboard/scoreboard';
 import { AuthState } from './login/authState'
 
 export default function App() {
-  const [username, changeUsername] = React.useState(localStorage.getItem('username') || '');
-  const currentAuthState = username ? AuthState.Authenticated : AuthState.Unatuthenticated;
+  const [email, changeEmail] = React.useState(localStorage.getItem('email') || '');
+  const currentAuthState = email ? AuthState.Authenticated : AuthState.Unatuthenticated;
   const [authState, changeAuthState] = React.useState(currentAuthState);
 
   return (
@@ -46,11 +46,11 @@ export default function App() {
 
       <Routes>
         <Route path='/' element={<Login
-          username={username}
+          email={email}
           authState={authState}
           onAuthChange={(uName, aState) => {  // this function allows us to change the username and authenticated state from within other modules
             changeAuthState(aState);
-            changeUsername(uName);
+            changeEmail(uName);
           }}
           />} exact />
         <Route path='/play' element={<Play />} />

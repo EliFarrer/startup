@@ -11,12 +11,12 @@ export function Play() {
         setImageURL('url(/background3.png)');
     }, []);
 
-    const userName = localStorage.getItem('userName');
+    const email = localStorage.getItem('email');
 
   return (
     <main className="container-fluid">
         <ScoreUpdates/>
-        <MorseGame imageURL={imageURL} userName={userName}/>
+        <MorseGame imageURL={imageURL} email={email}/>
     </main>
   );
 }

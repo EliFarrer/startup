@@ -81,7 +81,7 @@ export function MorseGame(props) {
 
 
     async function saveScore(score) {
-        const newScore = { name: props.userName, num: score };
+        const newScore = { name: props.email, num: score };
     
         await fetch('/api/score', {
           method: 'POST',
@@ -184,7 +184,7 @@ export function MorseGame(props) {
         <div className="container-fluid text-center" id="background-image" style={{backgroundImage: props.imageURL}}>
 
         <div className="container-fluid" id="back">
-        <p>Logged in as <b>{props.userName}</b></p>
+        <p>Logged in as <b>{props.email}</b></p>
         <p>Time left: {timer} seconds</p>
         <p>Score: {score}</p>
         <div>{getMainElement(gameState)}</div>
