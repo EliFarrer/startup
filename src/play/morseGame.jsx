@@ -2,7 +2,7 @@ import React, { act } from 'react';
 
 import './play.css'
 
-const GAME_TIME = 30;
+const GAME_TIME = 5;
 
 function _getRandomCharacter() {
     const alph = "abcdefghijklmnopqrstuvwxyz";
@@ -36,7 +36,7 @@ export function MorseGame(props) {
 
     React.useEffect(() => {
         if (gameState === 'end') {
-            logScore(score);
+            saveScore(score);
         }
     }, [score, gameState]);
 
@@ -79,36 +79,48 @@ export function MorseGame(props) {
         clearInterval(id);
     }
 
-    function logScore(score) {
-        let scores = [];
-        const scoreObject = {'name':props.userName, 'num':score};
 
-        const scoresText = localStorage.getItem('scores');
-        if (scoresText) {   // if we have it
-            scores = JSON.parse(scoresText);
-        }
+    async function saveScore(score) {
+        const newScore = { name: props.userName, num: score };
     
-        let found = false;
-        for (const [i, prevScore] of scores.entries()) {
-          if (score > prevScore.num) {    // ordered in biggest -> smallest
-            console.log(`score object ${scoreObject}`);
-            scores.splice(i, 0, scoreObject);  // inserting
-            found = true;
-            break;
-          }
-        }
-    
-        if (!found) {
-          scores.push(scoreObject);    // if it is the lowest score
-        }
-    
-        if (scores.length > 10) {   // cut of the end ones (only show the top 10 scores)
-          scores.length = 10;
-        }
-    
-        localStorage.setItem('scores', JSON.stringify(scores));
-        reset();
+        await fetch('/api/score', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify(newScore),
+        });
     }
+
+
+    // function logScore(score) {
+    //     let scores = [];
+    //     const scoreObject = {'name':props.userName, 'num':score};
+
+    //     const scoresText = localStorage.getItem('scores');
+    //     if (scoresText) {   // if we have it
+    //         scores = JSON.parse(scoresText);
+    //     }
+    
+    //     let found = false;
+    //     for (const [i, prevScore] of scores.entries()) {
+    //       if (score > prevScore.num) {    // ordered in biggest -> smallest
+    //         console.log(`score object ${scoreObject}`);
+    //         scores.splice(i, 0, scoreObject);  // inserting
+    //         found = true;
+    //         break;
+    //       }
+    //     }
+    
+    //     if (!found) {
+    //       scores.push(scoreObject);    // if it is the lowest score
+    //     }
+    
+    //     if (scores.length > 10) {   // cut of the end ones (only show the top 10 scores)
+    //       scores.length = 10;
+    //     }
+    
+    //     localStorage.setItem('scores', JSON.stringify(scores));
+    //     reset();
+    // }
     
     
     function reset() {
