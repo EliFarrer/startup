@@ -4,19 +4,24 @@ const cookieParser = require('cookie-parser');
 const bcrypt = require('bcryptjs');
 const uuid = require('uuid');
 
+const authCookieName = 'token';
+
+// basic data
+let users = [];
+let scores = [];
+
 // define the port with command line arguments
 const port = process.argv.length > 2 ? process.argv[2] : 3000;
 
 // all of our requests will automatically be parsed as json files
 app.use(express.json());
 
+// use cookies to keep track of things
+app.use(cookieParser());
+
 // creates a router that will automatically funnel any /api requests to the appropriate handler
 let apiRouter = express.Router();
 app.use(`/api`, apiRouter);
-
-// basic data
-let users = [];
-let scores = [];
 
 // CreateAuth a new user
 apiRouter.post('/auth/create', async (req, res) => {
@@ -60,6 +65,7 @@ const verifyAuth = async (req, res, next) => {
     if (user) {
         next();
     } else {
+        // if the user is not authorized, it will not let them continue to the next function
         res.status(401).send({ msg: 'Unauthorized' });
     }
 };
@@ -126,7 +132,7 @@ async function createUser(email, password) {
         password: passwordHash,
         token: uuid.v4(),
     };
-    
+
     // throws it on the end
     users.push(user);
 
@@ -143,10 +149,10 @@ async function findUser(field, value) {
 
 // setAuthCookie in the HTTP response
 function setAuthCookie(res, authToken) {
-        res.cookie(authCookieName, authToken, {
-            // the parameters for a cookie: https, only use http (not js), and stick to the same domain
-            secure: true,
-            httpOnly: true,
-            sameSite: 'strict',
-        });
+    res.cookie(authCookieName, authToken, {
+        // the parameters for a cookie: https, only use http (not js), and stick to the same domain
+        secure: true,
+        httpOnly: true,
+        sameSite: 'strict',
+    });
 }
