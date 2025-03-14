@@ -95,6 +95,7 @@ export function MorseGame(props) {
         updateUserInput("");
         updateCurrentLetter(getNewCharacter(currentLetter));
         updateScore(0);
+        setBackgroundColor('rgba(0, 0, 0, 0)');
     }
     
     
@@ -111,12 +112,13 @@ export function MorseGame(props) {
     }
 
     function getNewCharacter(oldCharacter) {
-        while (true) {
-            const newChar = _getRandomCharacter();
-            if (newChar != oldCharacter) {
-                return newChar;
-            }
-        }
+        return 't';
+        // while (true) {
+        //     const newChar = _getRandomCharacter();
+        //     if (newChar != oldCharacter) {
+        //         return newChar;
+        //     }
+        // }
     }
 
 
