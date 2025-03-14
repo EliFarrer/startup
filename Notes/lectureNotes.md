@@ -361,3 +361,29 @@ Accesses scores from `localStorage` and displays them.
 
 ## Login component
 It basically just returns html. But in that html is js code taht asks what the authstate is. Depending on if it is unknown, it just returns the "welcome to simon" prompt. If it is authenticated, it returns the dialog for that (passing in different functions for logout and login things.)
+
+# Service
+This is basically making secure login and removing localstorage to instead store data in our backend code. The next phase will store the data in a database. It also handles third party service endpoint calls.
+
+The big difference between react and service is that we now have a service directory. In `about`, the only thing that is different is that service is making requests to third party api's. `scores` just makes a fetch request to the api that handles scores. In `game`, saving the scores becomes more simple because it just makes a request to save them. `login` just makes a delete request to logout. The `unauthenticated` file changes local storage to make a request.
+
+The `service.js` file is the biggest thing. It uses `cookieParser`, `express.json` and `express.static` middleware. It creates a `Router` and then defines the endpoints. Then it has a few functions to make the api calls a little simpler.s
+
+On the backend, `index.js` is what will host the service
+
+After basic setup, install packages
+
+To test out endpoints, we can do things like this:
+```
+host=http://localhost:3000
+
+curl -X POST $host/api/auth/create -H 'Content-Type: application/json' -d '{"email":"s@byu.edu", "password":"byu"}' -c cookies.txt -b cookies.txt
+
+curl -X POST $host/api/score  -H 'Content-Type: application/json' -d '{"name":"Harvey", "score":"337", "date":"2022/11/20"}' -c cookies.txt -b cookies.txt
+
+curl $host/api/scores -c cookies.txt -b cookies.txt
+```
+> Remeber that -c and -b are used for cookies!
+> Also remember to use the cookie parser
+
+Endpoints are in the `/api` path and everything else is in the `public` directory
