@@ -19,6 +19,9 @@ app.use(express.json());
 // use cookies to keep track of things
 app.use(cookieParser());
 
+// public files
+app.use(express.static('public'));
+
 // creates a router that will automatically funnel any /api requests to the appropriate handler
 let apiRouter = express.Router();
 app.use(`/api`, apiRouter);
