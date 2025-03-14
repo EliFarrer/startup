@@ -11,7 +11,7 @@ export function Authenticated(props) {
         }).catch(() => {
             alert("logout failed");
         }).finally(() => {
-            localStorage.removeItem('email');
+            localStorage.removeItem('email');   // want to keep this to show the current user that is on
             props.onLogout();
         });
     }

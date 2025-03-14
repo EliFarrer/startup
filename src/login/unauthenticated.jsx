@@ -25,7 +25,7 @@ export function Unauthenticated(props) {
           },
         });
         if (response?.status === 200) { // allows us to access something that may not be defined without throwing an error
-          localStorage.setItem('email', email);
+          localStorage.setItem('email', email); // keep this so you can keep track of who is currently logged in
           props.onLogin(email);
         } else {
           const body = await response.json();
