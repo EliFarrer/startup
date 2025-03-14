@@ -1146,3 +1146,30 @@ Rearranging folders and stuff
 
 
 The vite configuration file will forward every request that ends in `/api` will forward it to 'http://localhost:3000' which is only for development. In production, the static files are loaded up by the backend server. The static files then make requests back to the backend that loaded it up. See simon deployment stuff for the service for extra info.
+
+Remember then syntax with promises.
+```
+React.useEffect(() => {
+    setImageURL('url(/background3.png)');
+
+    fetch('/api/auth/user').then((res) => {
+      res.json();
+    }).then((user) => {
+      changeEmail(user);
+    });
+}, []);
+```
+In this example,we use `{}` on our first then statement and so we don't automatically return anything. In every promise, using the `then` syntax, the result of the promise is passed in as a parameter to the next then statement. So in our case, user will be undefined bcause we don't return anything. To fix it, we just need to add a `return`.
+```
+React.useEffect(() => {
+    setImageURL('url(/background3.png)');
+
+    fetch('/api/auth/user').then((res) => {
+      return res.json();
+    }).then((user) => {
+      changeEmail(user);
+    });
+}, []);
+```
+
+Also with the whole store the current user thing. That is a bad idea because our database needs to store global data and not local data.
