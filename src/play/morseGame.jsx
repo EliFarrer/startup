@@ -26,21 +26,7 @@ export function MorseGame(props) {
         updateBackgroundPicture('https://picsum.photos/400/300');
     }, []);
 
-    // whenever the background color changes of the answer box, it is immediately reduced to nothing.
-    // React.useEffect(() => {
-    //     let tempColor = backgroundColor;
-    //     let temp = tempColor.split(',')[3];
-    //     let num = Number(temp.slice(1, temp.length-1)) - .0001;
-    //     if (num > 0) {
-    //         const idxOfLastComma = tempColor.lastIndexOf(',');
-    //         const newColor = tempColor.slice(0, idxOfLastComma+2) + String(num) + ')';
-    //         setBackgroundColor(newColor);
-    //     }
-    // }, [backgroundColor]);
-
-
     const morseMap = JSON.parse('{"a": "._","b": "_...","c": "_._.","d": "_..","e": ".","f": ".._.","g": "__.","h": "....","i": "..","j": ".___","k": "_._","l": "._..","m": "__","n": "_.","o": "___","p": ".__.","q": "__._","r": "._.","s": "...","t": "_","u": ".._","v": "..._","w": ".__","x": "_.._","y": "_.__","z": "__.."}');
-
 
     React.useEffect(() => {
         // the score is saved every time the game ends or the score changes
