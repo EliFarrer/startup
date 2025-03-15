@@ -53,7 +53,9 @@ export default function App() {
             changeEmail(uName);
           }}
           />} exact />
-        <Route path='/play' element={<Play />} />
+        <Route path='/play' element={<Play 
+        imageURL={'../public/background.png'}
+        />} />
         <Route path='/scoreboard' element={<Scoreboard />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
