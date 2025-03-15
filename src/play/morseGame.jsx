@@ -17,7 +17,15 @@ export function MorseGame(props) {
     const [currentLetter, updateCurrentLetter] = React.useState("t");
     const [backgroundColor, setBackgroundColor] = React.useState('rgba(0, 0, 0, 0)');
     const [userInput, updateUserInput] = React.useState("");
-    
+    const [backgroundPicture, updateBackgroundPicture] = React.useState("");
+
+
+    // where in the world is my picture?
+
+    React.useEffect(() => {
+        updateBackgroundPicture('https://picsum.photos/400/300');
+    }, []);
+
     // whenever the background color changes of the answer box, it is immediately reduced to nothing.
     // React.useEffect(() => {
     //     let tempColor = backgroundColor;
@@ -112,13 +120,12 @@ export function MorseGame(props) {
     }
 
     function getNewCharacter(oldCharacter) {
-        return 't';
-        // while (true) {
-        //     const newChar = _getRandomCharacter();
-        //     if (newChar != oldCharacter) {
-        //         return newChar;
-        //     }
-        // }
+        while (true) {
+            const newChar = _getRandomCharacter();
+            if (newChar != oldCharacter) {
+                return newChar;
+            }
+        }
     }
 
 
@@ -146,8 +153,7 @@ export function MorseGame(props) {
 
 
     return (
-
-        <div className="container-fluid text-center" id="background-image" style={{backgroundImage: props.imageURL}}>
+        <div className="container-fluid text-center" id="background-image" style={{backgroundImage: `url(${backgroundPicture})`}}>
 
         <div className="container-fluid" id="back">
         <p>Logged in as <b>{props.email}</b></p>
