@@ -496,6 +496,58 @@ If we wnat to use a module in a global scope:
 </html>
 ```
 
+## Service Daemons
+Programs shut down when the computer goes down. WE want it to run in the background sometimes though. This is where service daemons come in.
+
+Say you want to set up another subdomain:
+### Modify caddy file
+SSH into your server
+```
+tacos.cs260.click {
+  reverse_proxy _ localhost:5000
+  header Cache-Control none
+  header -server
+  header Access-Control-Allow-Origin *
+}
+```
+- disable caching
+- don't say I am using caddy
+- allow other origin servers to make requests
+
+Then restart caddy `sudo service caddy restart`
+
+### Create the web service
+`cp -r ~/services/startup ~/services/tacos`
+
+Set up a port from a command line arguments 
+```
+const port = process.argv.length > 2 ? process.argv[2] : 3000;
+app.listen(port, () => {
+  console.log(`Listening on port ${port}`);
+});
+```
+
+enable a static file
+```
+app.use(express.static('public'));
+```
+
+Then start it up with `node index.js 5000`. Or even `curl https://tacos.cs260.click`
+
+Caddy will receive this request and map it from `tacos` to `localhost`
+
+### Configure PM2 to host the web service
+The problem is that as soon as you ssh out, it will all shut down. That is why we have `PM2`.
+
+While `ssh`ed in, run `pm2 ls`
+
+Run this and it will keep things running even when you are gone!
+```
+cd ~/services/tacos
+pm2 start index.js -n tacos -- 5000
+pm2 save
+```
+
 # Security
 SOP or Same Origin Policy is that JS can only make requests to a domain if it is in the same domain the user is viewing. This doesn't work great if you want to use a public resource.
 
@@ -904,13 +956,124 @@ For us we build something, and then push it to github. Then every once in a whil
 
 In industry things are a little different. It starts with the developer. They push to a version repository where it goes through testing and analysis in a continuous integration (CI) program. If it passes there, it goes to a version repository. That contains all the versions. Then that controls pushing it to production. Sometimes we have a staging environment which doesn't have user data. This is only used internally. All the teams look at it internally first and they work on it. A Sales environment has dummy data. You can also have other environments like integration testing, or penetration or load testing.
 
+![full scale deployment](./fullScaleDeployment.png)
+
+We use a simple shell script to deploy ours.
+
+Parsing the command line arguments
+```
+while getopts k:h:s: flag
+do
+    case "${flag}" in
+        k) key=${OPTARG};;
+        h) hostname=${OPTARG};;
+        s) service=${OPTARG};;
+    esac
+done
+
+if [[ -z "$key" || -z "$hostname" || -z "$service" ]]; then
+    printf "\nMissing required parameter.\n"
+    printf "  syntax: deployService.sh -k <pem key file> -h <hostname> -s <service>\n\n"
+    exit 1
+fi
+
+printf "\n----> Deploying $service to $hostname with $key\n"
+```
+
+Creat a distribution directory
+```
+# Step 1
+printf "\n----> Build the distribution package\n"
+rm -rf dist
+mkdir dist
+cp -r application dist
+cp *.js dist
+cp package* dist
+```
+
+Set a target directory
+```
+# Step 2
+printf "\n----> Clearing out previous distribution on the target\n"
+ssh -i $key ubuntu@$hostname << ENDSSH
+rm -rf services/${service}
+mkdir -p services/${service}
+ENDSSH
+```
+
+Copy `dist` to production
+```
+# Step 3
+printf "\n----> Copy the distribution package to the target\n"
+scp -r -i $key dist/* ubuntu@$hostname:services/$service
+```
+
+Install packages and restart `PM2`
+```
+# Step 4
+printf "\n----> Deploy the service on the target\n"
+ssh -i $key ubuntu@$hostname << ENDSSH
+cd services/${service}
+npm install
+pm2 restart ${service}
+ENDSSH
+```
+
+Remove local `dist` directory
+```
+# Step 5
+printf "\n----> Removing local copy of the distribution package\n"
+rm -rf dist
+```
+
 A peculiarity of this class. Everything outside of service is frontend code. Inside service is backend code. Vite looks in src to compile everything together.
+
 Now that we write a service, we are in charge of hosting the static files. We want to use vite's hot loading server that continuously updates. Right now we have two servers one for the frontend and the other for the backend. We want to switch that so we can update them all at the same time. So the backend code starts as a subdirectory of the frontend code and then it flips.
 
 # Shell Script
 Not there are two different programs with different dependencies, the frontend and the backend. Both you have to `npm install`
 
 # Uploading files
+Have you ever wanted to upload a file to a website?
+
+Frontend: you can only have certian filetypes, also calls `uploadFile`
+```
+<html lang="en">
+  <body>
+    <h1>Upload an image</h1>
+    <input type="file" id="fileInput" name="file" accept=".png, .jpeg, .jpg" onchange="uploadFile(this)" />
+    <div>
+      <img style="padding: 2em 0" id="upload" />
+    </div>
+    <script defer src="frontend.js"></script>
+  </body>
+</html>
+```
+
+JS
+```
+async function uploadFile(fileInput) {
+  const file = fileInput.files[0];
+  if (file) {
+    const formData = new FormData();
+    formData.append('file', file);    // appending the data as a file
+
+    const response = await fetch('/upload', {
+      method: 'POST',
+      body: formData,
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+      document.querySelector('#upload').src = `/${data.file}`;
+    } else {
+      alert(data.message);
+    }
+  }
+}
+```
+
+Multer handles all the backend. It reads files from http requests, enforces size of upload, stores the file in the `public` directory
 `npm install express multer`
 - `express` handles network communicaiton
 - `multer` handles HTTP file transfer
@@ -924,31 +1087,55 @@ open vs code
 the package.json file has the correct depencencies
 create index.js
 
+What if you want to save the files and rename them
 ```
+const express = require('express');
+const multer = require('multer');
+
+const app = express();
+
+app.use(express.static('public'));
+
 const upload = multer({
-    storage: multer.discStorage({
-        destination: 'public/',     // write things to public direcctory
-        filename: (req, file, cb) => {      // renames the file
-            const filetype = fil.originalname.split('.').pop();
-            const id = Math.round(Math.random() * 1e9);
-            const filename = `${id}.${filetype}`;
-            cb(null, filename);
-        },
-    }),
-    limits: { fileSize: 64000 },    // sets a storage capacity
+  storage: multer.diskStorage({
+    destination: 'public/',
+    filename: (req, file, cb) => {
+      const filetype = file.originalname.split('.').pop();
+      const id = Math.round(Math.random() * 1e9);
+      const filename = `${id}.${filetype}`;
+      cb(null, filename);
+    },
+  }),
+  limits: { fileSize: 64000 },
 });
 
+app.post('/upload', upload.single('file'), (req, res) => {
+  if (req.file) {
+    res.send({
+      message: 'Uploaded succeeded',
+      file: req.file.filename,
+    });
+  } else {
+    res.status(400).send({ message: 'Upload failed' });
+  }
+});
+
+app.use((err, req, res, next) => {
+  if (err instanceof multer.MulterError) {
+    res.status(413).send({ message: err.message });
+  } else {
+    res.status(500).send({ message: err.message });
+  }
+});
+
+app.listen(3000, () => {
+  console.log('Server is running on port 3000');
+});
 // post request. When we have an upload request, it calls the multer middleware, and then calls our function.
 // our static middleware is going to 
-
-
 ```
 
 Express gets requests and it walks down the tree to find a mathing function. 
-
-Our frontend
-```
-```
 
 Express will be our HTTP server. We need to create a public directory, create an `index.html` then add a the frontend .js file.
 
@@ -956,7 +1143,7 @@ Fetch by default returns a promise....
 
 Launch backend code in vscode and debug the frontend code in the browser. We rented 8gb.
 
-AWS S3 has a big capacity, only pay for what you use. You can call their services to store more things.
+AWS S3 has a big capacity, only pay for what you use. You can call their services to store more things. Often servers switch out for bigger capacity or things like that so any static files will be lost if you switch. There are also often multiple servers. Which one is your user's data on?
 
 # Databases
 Our service makes a request to get the scores. Our service doesn't store those, so we talk to a database even farther back. Our database is not on our server because of storage space.
