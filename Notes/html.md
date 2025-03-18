@@ -157,7 +157,7 @@ Need github link in footer.
 </body>
 ```
 Would produce
-![structure](structure.png)
+![structure](./images/structure.png)
 
 ## Input
 Here are the elements

@@ -143,7 +143,7 @@ Ports allow us to use different connection protocols (like HTTP, HTTPS, or SSH).
 
 You can have as many servers as you want, but each need a different port.
 
-![ports](./ports.png)
+![ports](./images/ports.png)
 
 # Web Servers
 A web server hosts a web service and also knows how to accept connections and speak with HTTP. It is separate from the service. In today's world, we have made it so you can have a web server that contains your service.
@@ -171,7 +171,7 @@ Note that `get` is the HTTP action, and `/time` is the path.
 
 ## Gateways
 Gateways are web services that can serve up other services on different ports. We connect with a web server to our gateway and then it will connect us to the other services we have. So people connect to the gateway on port 443 and behind the scenes it redirects them to other ports.
-![gateways.png](./gateways.png)
+![gateways.png](./images/gateways.png)
 
 ## Microservices
 A single small web services that you can duplicate to handle more users
@@ -186,7 +186,7 @@ If we want our frontend to make a request to another service, we use `fetch(<url
 
 An `endpoint` or `API` is just a function that you call that belongs in another program. We access them with the `fetch` function.
 
-![backend](./backend.png)
+![backend](./images/backend.png)
 
 So basically, our service contains our static files (frontend containing html, js, css, react...), our endpoints that the frontend calls to change things, and other requests (API's) that call other services. Our frontend can also call other services as well.
 
@@ -338,7 +338,7 @@ app.get('/secrets', noBobs, (req, res) => {     // if noBobs succeeds, it will c
 ```
 This is useful for authentication. Make it a secure enpoint basically.
 
-![middleware](./middleware.png)
+![middleware](./images/middleware.png)
 
 We could even change the request
 ```
@@ -956,7 +956,7 @@ For us we build something, and then push it to github. Then every once in a whil
 
 In industry things are a little different. It starts with the developer. They push to a version repository where it goes through testing and analysis in a continuous integration (CI) program. If it passes there, it goes to a version repository. That contains all the versions. Then that controls pushing it to production. Sometimes we have a staging environment which doesn't have user data. This is only used internally. All the teams look at it internally first and they work on it. A Sales environment has dummy data. You can also have other environments like integration testing, or penetration or load testing.
 
-![full scale deployment](./fullScaleDeployment.png)
+![full scale deployment](./images/fullScaleDeployment.png)
 
 We use a simple shell script to deploy ours.
 
@@ -1315,7 +1315,7 @@ export default defineConfig({
 });
 ```
 The whole process will look something like this.
-![development process](development.png)
+![development process](./images/development.png)
 
 > When running in production, the Simon web service running under Node.js on port 3000 serves up the bundled Simon React application code when the browser requests index.html. The service pulls those files from the application's static HTML, CSS, and JavaScript files located in the public directory as described above.
 > 
