@@ -1,3 +1,4 @@
 /Notes/test/
 /node_modules
 /service/node_modules
+**/dbConfig.json
