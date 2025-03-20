@@ -1146,6 +1146,68 @@ Launch backend code in vscode and debug the frontend code in the browser. We ren
 AWS S3 has a big capacity, only pay for what you use. You can call their services to store more things. Often servers switch out for bigger capacity or things like that so any static files will be lost if you switch. There are also often multiple servers. Which one is your user's data on?
 
 # Databases
+## Storage Services
+Here are some example database services:
+```
+Amazon S3
+Google Cloud Storage
+Microsoft Azure Storage
+IBM Cloud Object Storage
+MinIO
+OpenStack Swift
+```
+
+We will use S3. It has unlimited capacity and you only pay for how much storage you use. If you want to use it, here are the steps:
+1) Creating a S3 bucket to store your data in.
+2) Getting credentials so that your application can access the bucket.
+3) Using the credentials in your application.
+4) Using the SDK to write, list, read, and delete files from the bucket.
+
+Install
+`npm install @aws-sdk/client-s3 @aws-sdk/credential-providers`
+
+Get an aws key and store it in `~/.aws/credentials`. Then create an instance in your code
+```
+const s3 = new S3Client({
+  credentials: fromIni(),
+});
+```
+
+Example
+```import { S3Client, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
+import { fromIni } from '@aws-sdk/credential-providers';
+
+const s3 = new S3Client({
+  credentials: fromIni(),
+});
+
+const bucketName = 'your-bucket-name-here';
+
+async function uploadFile(fileName, fileContent) {
+  const command = new PutObjectCommand({
+    Bucket: bucketName,
+    Key: fileName,
+    Body: fileContent,
+  });
+  return s3.send(command);
+}
+
+async function readFile(fileName) {
+  const command = new GetObjectCommand({
+    Bucket: bucketName,
+    Key: fileName,
+  });
+  const { Body } = await s3.send(command);
+  return Body.transformToString();
+}
+
+await uploadFile('test.txt', 'Hello S3!');
+const data = await readFile('test.txt');
+
+console.log(data);
+```
+
+## Data Services
 Our service makes a request to get the scores. Our service doesn't store those, so we talk to a database even farther back. Our database is not on our server because of storage space.
 
 Relational databases and relational queries. SQL is basically the standard for retrieving data.
@@ -1163,22 +1225,47 @@ The nice thing is that we are using someone else to store our data. So we don't 
 | InfluxDB | Time series data |
 
 ## MongoDB
-Collections of data, products, users, purchases is called a database. Clusters are copies of databases for redundancy.
+Collections of data, products, users, purchases is called a database. Clusters are copies of databases for redundancy. A collection is an array with a bunch of JSON objects in it. It will automatically specify the id if you don't.
 
-Collection, three different documents {} in collection []. It will automatically specify the id if you don't.
+Mongo is pretty fluid (like js) of what you can add to objects. It doesn't have a set schema where you have to specify everything that goes in the database. Cluster -> Database -> collections (useres, scores, classes taken)
 
-Mongo is pretty fluid (like js) of what you can add to objects.
+Create your cluster on MongoDB Atlas. Make sure to include what computers can connect `0.0.0.0/0`
+Here is an example of some queries.
+```
+// find all houses
+db.house.find();
 
-Cluster -> Database -> collections (useres, scores, classes taken)
+// find houses with two or more bedrooms
+db.house.find({ beds: { $gte: 2 } });
 
+// find houses that are available with less than three beds
+db.house.find({ status: 'available', beds: { $lt: 3 } });
 
+// find houses with either less than three beds or less than $1000 a night
+db.house.find({ $or: [(beds: { $lt: 3 }), (price: { $lt: 1000 })] });
 
-mongo VYDxe1N1o1i2yqmy
+// find houses with the text 'modern' or 'beach' in the summary
+db.house.find({ summary: /(modern|beach)/i });
+```
 
+Copy the connection string so you can use it in your code.
+
+```
 git init
-npm init things
+npm init -y
 npm install mongodb
+```
 
+Create a `dbConfig.json` file that looks like this
+```
+{
+  "hostname": "cs260.abcdefg.mongodb.net",
+  "userName": "myMongoUserName",
+  "password": "toomanysecrets"
+}
+```
+> DO NOT CHECK THIS INTO GITHUB
+We can use this to log in to the database. The values we provide will be put in the URI below.
 ```
 mongodb+srv://mongo:<db_password>@morsecodeclicker.jxrmo.mongodb.net/?retryWrites=true&w=majority&appName=morsecodeclicker
 ```
@@ -1232,6 +1319,12 @@ Inserting `await collection.insertOne(house);`
 
 > You need to close the network connection at the end with `await client.close();`. Do this with at `try finally` block.
 
+### Insert Data
+```
+await collection.insertOne(house);
+```
+If you don't give the object and id, mongo will assign one for you.
+
 ### Querying data
 `collection.find();` return everything
 `collection.find({beds: { $gte: 2}});` any object that has a `beds` field that is greater than or equal to 2
@@ -1250,14 +1343,14 @@ const cursor = collection.find(query, options);
 const rentals = await cursor.toArray();
 rentals.forEach((i) => console.log(i));
 ```
+> Note the await
 
 ### Deleting data
 ```
 const query = { property_type: 'Condo', beds: {$lt:2}};
 await collection.deleteMany(query);
-
-
 ```
+`deleteOne()` is also an optoin
 
 ### Update functionality
 
