@@ -44,6 +44,10 @@ function getScores() {
     return scores.find(query, options).toArray();
 }
 
+async function addScore(score) {
+    await scores.addOne(score);
+}
+
 module.exports = {
     addUser,
     getUser,
