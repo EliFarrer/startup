@@ -139,7 +139,6 @@ async function createUser(email, password) {
 
     // throws it on the end
     DB.addUser(user)
-    // users.push(user);
 
     return user;
 }
@@ -149,7 +148,7 @@ async function findUser(field, value) {
     if (!value) return null;
 
     if (field == "token") {
-        return DB.findUserByToken(value)
+        return DB.getUserByToken(value)
     }
     // assume email
     return DB.getUser(value);

@@ -24,11 +24,16 @@ async function addUser(user) {
 }
 
 function getUser(email) {
-    return users.getUser(email);
+    return users.getUser({email: email});
+}
+
+function getUserByToken(token) {
+    return users.getUser({token: token})
 }
 
 
 module.exports = {
     addUser,
-    getUser
+    getUser,
+    getUserByToken
 }
