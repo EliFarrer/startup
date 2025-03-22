@@ -23,6 +23,9 @@ async function addUser(user) {
     await users.insertOne(user);
 }
 
+function getUser(email) {
+    return users.getUser(email);
+}
 
 
 module.exports = {

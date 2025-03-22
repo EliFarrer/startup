@@ -3,6 +3,7 @@ const app = express();
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcryptjs');
 const uuid = require('uuid');
+const DB = require("./database.js");
 
 const authCookieName = 'token';
 
@@ -137,7 +138,8 @@ async function createUser(email, password) {
     };
 
     // throws it on the end
-    users.push(user);
+    DB.addUser(user)
+    // users.push(user);
 
     return user;
 }
@@ -146,8 +148,11 @@ async function createUser(email, password) {
 async function findUser(field, value) {
     if (!value) return null;
 
-    // goes through our list of users looking for where we have a user's field that matches our value. Then it returns that user
-    return users.find((u) => u[field] === value);   // checks values and types the same
+    if (field == "token") {
+        return DB.findUserByToken(value)
+    }
+    // assume email
+    return DB.getUser(value);
 }
 
 // setAuthCookie in the HTTP response
