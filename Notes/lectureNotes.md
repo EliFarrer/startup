@@ -387,3 +387,18 @@ curl $host/api/scores -c cookies.txt -b cookies.txt
 > Also remember to use the cookie parser
 
 Endpoints are in the `/api` path and everything else is in the `public` directory
+
+# Database
+## Frontend
+No significant changes in about.jsx
+
+No changes in Login/
+
+No changes in play/
+
+No changes in scores/
+
+So our frontend hasn't changed at all which makes sense bcause the database is really only connected to the backend.
+
+## Backend
+`index.js` in our service used to hard coded store the user data. Now any time we update that, we want to call one of our database functions that we export from `database.js`. So basically any function that deals with those arrays will need to do something with the database instead.
