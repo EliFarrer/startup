@@ -28,12 +28,17 @@ function getUser(email) {
 }
 
 function getUserByToken(token) {
-    return users.getUser({token: token})
+    return users.getUser({token: token});
+}
+
+async function updateUser(user) {
+    await users.updateOne({email: user.email}, {$set: user});
 }
 
 
 module.exports = {
     addUser,
     getUser,
-    getUserByToken
+    getUserByToken,
+    updateUser
 }

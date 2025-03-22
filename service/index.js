@@ -8,7 +8,6 @@ const DB = require("./database.js");
 const authCookieName = 'token';
 
 // basic data
-let users = [];
 let scores = [];
 
 // define the port with command line arguments
@@ -45,6 +44,8 @@ apiRouter.post('/auth/login', async (req, res) => {
     if (user) {
         if (await bcrypt.compare(req.body.password, user.password)) {   // verify the password
             user.token = uuid.v4();
+            // update the authorization of the user
+            await DB.updateUser(user);
             setAuthCookie(res, user.token);     // create an auth token for them
             res.send({ email: user.email });    // send the email back
             return;
