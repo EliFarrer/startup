@@ -35,6 +35,14 @@ async function updateUser(user) {
     await users.updateOne({email: user.email}, {$set: user});
 }
 
+function getScores() {
+    const query = {score: {$gt: 0, $lt: 200}}
+    const options = {
+        sort: {score: -1},      // sort the score in descending order
+        limit: 10,               // limit it to 10 entries
+    }
+    return scores.find(query, options).toArray();
+}
 
 module.exports = {
     addUser,

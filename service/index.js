@@ -76,8 +76,9 @@ const verifyAuth = async (req, res, next) => {
 };
 
 // GetScores
-apiRouter.get('/scores', verifyAuth, (_req, res) => {
+apiRouter.get('/scores', verifyAuth, async (_req, res) => {
     // before doing this, it will verify that a user is authorized
+    const scores = await DB.getScores();
     res.send(scores);
 });
 
