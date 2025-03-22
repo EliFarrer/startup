@@ -19,5 +19,13 @@ const scores = client.collection('scores');
   }
 })()
 
+async function addUser(user) {
+    await users.insertOne(user);
+}
 
 
+
+module.exports = {
+    addUser,
+    getUser
+}
