@@ -4,9 +4,9 @@ const config = require('./dbConfig.json');
 const url = `mongodb+srv://mongo:${config.password}@${config.hostname}/?retryWrites=true&w=majority&appName=${config.host}`
 
 const client = new MongoClient(url);
-const db = client.db(morse);
-const users = client.collection('users');
-const scores = client.collection('scores');
+const db = client.db('morse');
+const users = db.collection('users');
+const scores = db.collection('scores');
 
 // create a test connection function and immediately call it.
 (async function tryConnection () {
@@ -24,11 +24,11 @@ async function addUser(user) {
 }
 
 function getUser(email) {
-    return users.getUser({email: email});
+    return users.findOne({email: email});
 }
 
 function getUserByToken(token) {
-    return users.getUser({token: token});
+    return users.findOne({token: token});
 }
 
 async function updateUser(user) {
@@ -45,12 +45,14 @@ function getScores() {
 }
 
 async function addScore(score) {
-    await scores.addOne(score);
+    await scores.insertOne(score);
 }
 
 module.exports = {
     addUser,
     getUser,
     getUserByToken,
-    updateUser
+    updateUser,
+    getScores,
+    addScore
 }

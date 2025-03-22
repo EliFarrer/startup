@@ -7,9 +7,6 @@ const DB = require("./database.js");
 
 const authCookieName = 'token';
 
-// basic data
-let scores = [];
-
 // define the port with command line arguments
 const port = process.argv.length > 2 ? process.argv[2] : 3000;
 
