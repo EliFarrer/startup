@@ -7,12 +7,10 @@ export function Unauthenticated(props) {
 
     function loginUser() {
         loginOrCreate('/api/auth/login');
-        props.onLogin(email);
     }
 
     function createUser() {
         loginOrCreate('/api/auth/create');
-        props.onLogin(email);
     }
 
     // both login and create are post requests to different endpoints and essentially have the same function
@@ -29,7 +27,7 @@ export function Unauthenticated(props) {
           props.onLogin(email);
         } else {
           const body = await response.json();
-          alert(`⚠ Error: ${body.msg}`);
+          alert(`⚠ Error: ${body.msg}`); // this is where the issue lies. I don't want it to show the other part of the login if we are not authenticated
         }
       }
 
