@@ -99,21 +99,21 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Node.js/Express HTTP service** - I did not complete this part of the deliverable.
-- [ ] **Static middleware for frontend** - I did not complete this part of the deliverable.
-- [ ] **Calls to third party endpoints** - I did not complete this part of the deliverable.
-- [ ] **Backend service endpoints** - I did not complete this part of the deliverable.
-- [ ] **Frontend calls service endpoints** - I did not complete this part of the deliverable.
+- [x] **Node.js/Express HTTP service** - Express used for different endpoints
+- [x] **Static middleware for frontend** - Loads up static middleware.
+- [x] **Calls to third party endpoints** - Call third party endpoints to load in a new image every time you play the game.
+- [x] **Backend service endpoints** - Backend service endpoints complete.
+- [x] **Frontend calls service endpoints** - The frontend calls the backend endpoints
 
 ## 🚀 DB/Login deliverable
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **User registration** - I did not complete this part of the deliverable.
-- [ ] **User login and logout** - I did not complete this part of the deliverable.
-- [ ] **Stores data in MongoDB** - I did not complete this part of the deliverable.
-- [ ] **Stores credentials in MongoDB** - I did not complete this part of the deliverable.
-- [ ] **Restricts functionality based on authentication** - I did not complete this part of the deliverable.
+- [x] **User registration** - Saves the user information to the database.
+- [x] **User login and logout** - Retrieves user information from the database and removes authorization when logged out.
+- [x] **Stores data in MongoDB** - All necessary data is stored in mongodb.
+- [x] **Stores credentials in MongoDB** - Securely stores credentials using bcrypt.
+- [x] **Restricts functionality based on authentication** - The game will not let you play or save a score if you are not logged in.
 
 ## 🚀 WebSocket deliverable
 
