@@ -18,7 +18,7 @@ export function Scoreboard() {
   if (scores.length) { // if we have scores
     for(const [i, score] of scores.entries()) {
       scoreEntries.push(
-        <li>{score.name}: {score.num}</li>
+        <li>{score.name}: {score.score}</li>
       );
     }
   } else { // if we don't have any scores
@@ -44,8 +44,8 @@ function findUserHighScore(scores) {
   var highestScore = 0;
   for (const [i, score] of scores.entries()) {
     if (score.name == currentUser) {
-      if (score.num > highestScore) {
-        highestScore = score.num;
+      if (score.score > highestScore) {
+        highestScore = score.score;
       }
     }
   }

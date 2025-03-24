@@ -2,7 +2,7 @@ import React, { act } from 'react';
 
 import './play.css'
 
-const GAME_TIME = 20;
+const GAME_TIME = 5;
 
 function _getRandomCharacter() {
     const alph = "abcdefghijklmnopqrstuvwxyz";
@@ -72,7 +72,7 @@ export function MorseGame(props) {
     }
 
     async function saveScore(score) {
-        const newScore = { name: props.email, num: score };
+        const newScore = { name: props.email, score: score };
     
         await fetch('/api/score', {
           method: 'POST',
