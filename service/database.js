@@ -45,7 +45,7 @@ function getScores() {
 }
 
 async function addScore(score) {
-    await scores.addOne(score);
+    await scores.insertOne(score);
 }
 
 module.exports = {
