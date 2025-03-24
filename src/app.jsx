@@ -32,12 +32,18 @@ export default function App() {
                       <li className="nav-item">
                           <NavLink className='nav-link' to=''>Login</NavLink>
                       </li>
-                      <li className="nav-item">
+                      {/* 
+                      Note that && will return the first falsy operand or the last one if they are all truthy.
+                      It also takes precedence over ===.
+                      So if the first operand (===) is truthy, then it will return the second no matter what
+                      If the first operand is falsy, then it will return that, but it will do nothing.
+                      */}
+                      {currentAuthState === AuthState.Authenticated && <li className="nav-item">  
                           <NavLink className='nav-link' to='play'>Play</NavLink>
-                      </li>
-                      <li>
+                      </li>}
+                      {currentAuthState === AuthState.Authenticated && <li>
                           <NavLink className='nav-link' to='scoreboard'>Scoreboard</NavLink>
-                      </li>
+                      </li>}
                   </ul>
               </div>
           </div>
