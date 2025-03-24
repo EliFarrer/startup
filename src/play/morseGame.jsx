@@ -2,7 +2,7 @@ import React, { act } from 'react';
 
 import './play.css'
 
-const GAME_TIME = 5;
+const GAME_TIME = 20;
 
 function _getRandomCharacter() {
     const alph = "abcdefghijklmnopqrstuvwxyz";
