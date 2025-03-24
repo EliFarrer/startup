@@ -34,7 +34,7 @@ export function Scoreboard() {
         <ol className="scoreboard">{scoreEntries}</ol>
         <h3 className="loggedPlayerHighScore">Your high score: {userHighScore}</h3>
         </div>
-        <h3>Logged in as <input type="text" className="form-control-lg" placeholder="Eli Farrer" /></h3>
+        <h3>Logged in as <b>{localStorage.getItem("email")}</b></h3>
     </main>
   );
 }
