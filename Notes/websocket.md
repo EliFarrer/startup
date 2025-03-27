@@ -96,3 +96,45 @@ Express app witi static loader, then create a websocket server. Instead of passi
 We need to tell vite to forward the message. So we edit the vite.config.js. Edit the proxy option.
 
 The browser tried to make the connection, it went to vite and then vite forwarded the request to the right port.
+
+# How Simon implements websocket
+clone the directory
+install things (frontend in root and backend in service)
+add the dbconfig
+
+## Backend
+Vite makes it from jsx to js... It transpiles the code. You can also do hot reloading with vite
+
+`new WebSocketServer` will upgrade it
+
+`socket.on` are the endpoints basically
+`connection`, `message`, `pong` are the magic things
+
+in service, `index.js` is the same, but when we listen on the httpServer, we call into the perrProxy code
+
+The one connection will be upgraded to websocket
+
+- Is all the communication over websocket or over http?
+- 
+
+## Frontend
+gameNotifier
+whenever the state changes, we re render the websocket information
+
+on message: when receive notification
+
+on open: when the websocket opens
+
+on close: when the websocket closes
+
+## Random
+When you get an http request, express talks to it first
+
+Express, react, node.js, vite
+
+Express handles the stuff and debuggin on teh backend while vite handles that on the frontend
+
+vite is a development code. It ranspiles from jsx into js and html. You load that up with express or with live reloading with vite.
+
+One http server hosts bakcend server, another for vite hot reloading
+
