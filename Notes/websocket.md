@@ -107,16 +107,223 @@ socket.onmessage = (event) => {
 5) we can use `socket.send("message")` to simulate communication
 
 # Chat Program
-See the code injection thing he did. You need to be careful with what you do to make sure no one is controlling what you do.
+We wil have a React frontend that uses WS to display chat messages. The backend will be an Express server that forwards communcation between clients and server.
 
 Pull the soruce code from the instructions in chat.
 
+## Frontend
 1) Make a directory
 2) npm init
-3) install vite and react, react dom
+3) install vite (`npm install vite@latest -D`) react, react dom (`npm install react react-dom`)
+4) In package.json add a script to run vite (`"dev": "vite"`)
+5) Add a basic `index.html` file
+```
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Chat React</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="main.css" />
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <script type="module" src="/index.jsx"></script>
+  </body>
+</html>
+```
+6) Add a `index.js` file
+```
+import React from 'react';
+import ReactDOM from 'react-dom/client';
 
-Add a dev vite script in the packgage
-That was all the forntend
+// the main component that takes in a webSocket object
+function Chat({ webSocket }) {
+  const [name, setName] = React.useState('');
+
+  return (
+    <main>
+      <Name updateName={setName} />
+      <Message name={name} webSocket={webSocket} />
+      <Conversation webSocket={webSocket} />
+    </main>
+  );
+}
+
+// this just handles the users name
+function Name({ updateName }) {
+  return (
+    <main>
+      <div className='name'>
+        <fieldset id='name-controls'>
+          <legend>My Name</legend>
+          <input onChange={(e) => updateName(e.target.value)} id='my-name' type='text' />
+        </fieldset>
+      </div>
+    </main>
+  );
+}
+
+// this is what handles sending the message and all that
+function Message({ name, webSocket }) {
+  const [message, setMessage] = React.useState('');
+
+  function doneMessage(e) {
+    if (e.key === 'Enter') {
+      sendMsg();
+    }
+  }
+
+  function sendMsg() {
+    webSocket.sendMessage(name, message);
+    setMessage('');
+  }
+
+  const disabled = name === '' || !webSocket.connected;
+  return (
+    <main>
+      <fieldset id='chat-controls'>
+        <legend>Chat</legend>
+        <input disabled={disabled} onKeyDown={(e) => doneMessage(e)} value={message} onChange={(e) => setMessage(e.target.value)} type='text' />
+        <button disabled={disabled || !message} onClick={sendMsg}>
+          Send
+        </button>
+      </fieldset>
+    </main>
+  );
+}
+
+// this lists the conversation
+function Conversation({ webSocket }) {
+  const [chats, setChats] = React.useState([]);
+  React.useEffect(() => {
+    webSocket.addObserver((chat) => {
+      setChats((prevMessages) => [...prevMessages, chat]);
+    });
+  }, [webSocket]);
+
+  const chatEls = chats.map((chat, index) => (
+    <div key={index}>
+      <span className={chat.event}>{chat.from}</span> {chat.msg}
+    </div>
+  ));
+
+  return (
+    <main>
+      <div id='chat-text'>{chatEls}</div>
+    </main>
+  );
+}
+
+// this is where we create the webSocket
+class ChatClient {
+    observers = [];
+    connected = false;
+  
+    constructor() {
+      // Adjust the webSocket protocol to what is being used for HTTP
+      const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
+      this.socket = new WebSocket(`${protocol}://${window.location.host}/ws`);
+  
+      // Display that we have opened the webSocket
+      this.socket.onopen = (event) => {
+        this.notifyObservers('system', 'websocket', 'connected');
+        this.connected = true;
+      };
+  
+      // Display messages we receive from our friends
+      this.socket.onmessage = async (event) => {
+        const text = await event.data.text();
+        const chat = JSON.parse(text);
+        this.notifyObservers('received', chat.name, chat.msg);
+      };
+  
+      // If the webSocket is closed then disable the interface
+      this.socket.onclose = (event) => {
+        this.notifyObservers('system', 'websocket', 'disconnected');
+        this.connected = false;
+      };
+    }
+  
+    // Send a message over the webSocket
+    sendMessage(name, msg) {
+      this.notifyObservers('sent', 'me', msg);
+      this.socket.send(JSON.stringify({ name, msg }));
+    }
+  
+    addObserver(observer) {
+      this.observers.push(observer);
+    }
+  
+    notifyObservers(event, from, msg) {
+      this.observers.forEach((h) => h({ event, from, msg }));
+    }
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<Chat webSocket={new ChatClient()} />);
+```
+
+## Backend
+1) Create a service directory and add a `service.js` file
+2) install `express` and `ws`
+3) Add the code for Express
+```
+const { WebSocketServer } = require('ws');
+const express = require('express');
+
+// create an express app
+const app = express();
+
+// Serve up the chat frontend
+app.use(express.static('./public'));
+
+// set the port number
+const port = process.argv.length > 2 ? process.argv[2] : 3000;
+
+// start listening on a port
+server = app.listen(port, () => {
+  console.log(`Listening on ${port}`);
+});
+
+// Create a websocket object and pass in the express server
+const socketServer = new WebSocketServer({ server });
+
+// when we are connected
+socketServer.on('connection', (socket) => {
+  socket.isAlive = true;
+
+  // Forward messages to everyone except the sender
+  socket.on('message', function message(data) {
+    socketServer.clients.forEach(function each(client) {
+      if (client !== socket && client.readyState === WebSocket.OPEN) {
+        client.send(data);
+      }
+    });
+  });
+
+  // Respond to pong messages by marking the connection alive
+  socket.on('pong', () => {
+    socket.isAlive = true;
+  });
+});
+
+// Periodically send out a ping message to make sure clients are alive
+setInterval(() => {
+  socketServer.clients.forEach(function each(client) {
+    if (client.isAlive === false) return client.terminate();
+
+    client.isAlive = false;
+    client.ping();
+  });
+}, 10000);
+```
+
+
+
+
+
+
 
 Now we create a server
 new directory
