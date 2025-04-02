@@ -1,4 +1,5 @@
-import React, { act } from 'react';
+import React from 'react';
+import { GameNotifier } from './gameNotifier';
 
 import './play.css'
 
@@ -79,6 +80,8 @@ export function MorseGame(props) {
           headers: { 'content-type': 'application/json' },
           body: JSON.stringify(newScore),
         });
+
+        GameNotifier.broadcastScore(newScore);
     }
     
     function reset() {
