@@ -9,7 +9,7 @@ export function Play() {
 
     React.useEffect(() => {
         setImageURL('url(/background3.png)');
-    }, []);
+    });
 
     const email = localStorage.getItem('email');
 
