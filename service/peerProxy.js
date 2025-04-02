@@ -36,3 +36,5 @@ function peerProxy(server) {
         });
     }, 10000)
 }
+
+module.exports = { peerProxy };
