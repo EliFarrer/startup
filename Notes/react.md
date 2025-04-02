@@ -671,9 +671,10 @@ Adding routing
 # React Hooks
 - `useState` is a hook. It gives you the variablea and then update function. Whenever you call the update function, it knows it needs to react and go in and updat things.
 - `useEffect` will update lifecuycle events (like rendering)
-  - nothing as the second parameterwill render every time
+  - nothing as the second parameter will render every time
   - `[]` will only do the first time
   - `[count1]` will render every thime `count1` changes.
+  - if the return value is a function, react will call it as a cleanup method
 
 ```
 function UseEffectHookDemo() {
