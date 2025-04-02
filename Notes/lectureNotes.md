@@ -402,3 +402,34 @@ So our frontend hasn't changed at all which makes sense bcause the database is r
 
 ## Backend
 `index.js` in our service used to hard coded store the user data. Now any time we update that, we want to call one of our database functions that we export from `database.js`. So basically any function that deals with those arrays will need to do something with the database instead.
+
+# Websocket
+peerProxy.js is the file that handles upgrading to websocket and handling messages and ping pong.
+
+The gameNotifier.js conatins all the connection, broadcasting and receiving and displaying of events
+
+Remember how we added to our vite.config.js file
+```
+server: {
+  proxy: {
+    '/api': 'http://localhost:300'
+  }
+}
+```
+so that any time we called an `/api` endpoint, it rerouted that request to our port 3000. We need to do the same with websocket.
+```
+server: {
+  proxy: {
+    '/api': 'http://localhost:3000',
+    '/ws': {
+      target: 'ws://localhost:3000',
+      ws: true,
+    },
+  },
+},
+```
+> This doesn't matter in the production environment, but it does matter in debugging.
+
+Run the backend in vs code with `node` and f5, and the frontend with `vite` (`npm run dev`)
+
+Note that we need to pass in our express server we create in index.js to our peer proxy
