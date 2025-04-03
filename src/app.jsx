@@ -47,6 +47,10 @@ export default function App() {
                   </ul>
               </div>
           </div>
+          {authState === AuthState.Authenticated && 
+          <NavLink className='nav-link btn btn-outline-secondary my-2 my-sm-0' type="submit" to='' onClick={() => changeAuthState(AuthState.Unatuthenticated)}>Logout</NavLink>
+            //<button class="btn btn-outline-success my-2 my-sm-0" type="submit" to='index'>Logout</button>
+          }
           </nav>
       </header>
 
