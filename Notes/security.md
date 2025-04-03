@@ -106,3 +106,52 @@ White hat: someone who thinks like a black hat, but for protection.
 Security minded
 - secure real time logging and metrics
 - action playbooks
+
+
+# Juice Shop
+Clone the repo, go into juice-shop
+then npm install
+npm start to get it running
+go to localhost:3000
+
+1) Do some reconissance
+- create an account
+- wawtch network traffic
+- look at features
+- how do they store data
+- websocket
+- http
+- users and roles
+
+Weaknesses:
+- they return the roles in the jwt authorization
+- they give us the password
+- they return the id, so number 1 is probably the admin
+- cookieconsent_status: if you agree to the cokies
+- the authenticcation token in the cookie and in local storage
+    - they don't require it to be a secure cross-site scripting thing (XSS)
+- we make a bunch of curl requests with the admin email, and guess a bunch of passwords
+    - now we are logged in as an admin
+    - then we use the path /@/administration
+    - now we can see customer feedback
+        - now we can try crosside scripting. We create a script in a review and then when the admin opens it, it will execute code on their end
+- terms and conditions
+    - they use ftp to give us the terms and conditions
+    - try url bypass with localhost:3000/ftp/x
+        - they dump a whole stack trace
+        - it is a directory, try the ../.. thing
+    - the url localhost:3000/ftp is all of the big files
+    - localhost:3000/ftp/package.json.bak%2500cow.md
+        - the website sees we are asking for the md file, but the code only sees the package.json.bak
+
+Tips
+- make notes of everything you can exploit
+- look for text fields
+- copy requests as curl, and then make the requests.
+- searches and chats are good for injection. Admins will look in these
+- look at cookies and auth tokens
+- jwt authorization
+
+
+Make sure the backend is secure (if people call endpoints), also make sure the front is secure and sanitizes data.
+
