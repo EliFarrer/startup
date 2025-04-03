@@ -8,7 +8,6 @@ export function ScoreUpdates() {
 
     const [messages, updateMessages] = React.useState([]);
 
-
     React.useEffect(() => {
         GameNotifier.addHandler(handleMessage);
 
@@ -45,7 +44,7 @@ export function ScoreUpdates() {
 
         for (const [i, message] of messages.entries()) {
             messageArray.push(
-                <li key={i} className="playerUpdate">{message}</li>
+                <li key={i} className="playerUpdate">{message.name} scored {message.score}</li>
             );
         }
         return messageArray;
