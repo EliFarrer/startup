@@ -38,10 +38,10 @@ export default function App() {
                       So if the first operand (===) is truthy, then it will return the second no matter what
                       If the first operand is falsy, then it will return that, but it will do nothing.
                       */}
-                      {currentAuthState === AuthState.Authenticated && <li className="nav-item">  
+                      {authState === AuthState.Authenticated && <li className="nav-item">  
                           <NavLink className='nav-link' to='play'>Play</NavLink>
                       </li>}
-                      {currentAuthState === AuthState.Authenticated && <li>
+                      {authState === AuthState.Authenticated && <li>
                           <NavLink className='nav-link' to='scoreboard'>Scoreboard</NavLink>
                       </li>}
                   </ul>
@@ -55,8 +55,8 @@ export default function App() {
           email={email}
           authState={authState}
           onAuthChange={(uName, aState) => {  // this function allows us to change the username and authenticated state from within other modules
-            changeAuthState(aState);
             changeEmail(uName);
+            changeAuthState(aState);
           }}
           />} exact />
         <Route path='/play' element={<Play 
