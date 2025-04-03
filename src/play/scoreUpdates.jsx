@@ -47,7 +47,8 @@ export function ScoreUpdates() {
                 <li key={i} className="playerUpdate">{message.name} scored {message.score}</li>
             );
         }
-        return messageArray;
+        
+        return messageArray.length < 4 ? messageArray : messageArray.slice(-3);
     }
 
     return (
