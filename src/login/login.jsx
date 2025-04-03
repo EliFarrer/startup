@@ -14,7 +14,11 @@ export function Login({email, authState, onAuthChange}) {
         )}
         {authState === AuthState.Unatuthenticated && (
           /* unauthenticated case */
-          <Unauthenticated email={email} onLogin={(loginEmail) => onAuthChange(loginEmail, AuthState.Authenticated)}/>
+          <Unauthenticated 
+            email={email} 
+            onLogin={(loginEmail) => {
+              onAuthChange(loginEmail, AuthState.Authenticated);
+            }}/>
         )}
 
         </div>
