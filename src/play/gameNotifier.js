@@ -31,7 +31,7 @@ class GameEventNotifier {
     }
 
     broadcastScore(score) {
-        this.socket.send(score.stringify());
+        this.socket.send(JSON.stringify(score));
     }
     
     // receives some kind of event (an EventMessage)
