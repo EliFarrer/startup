@@ -1,9 +1,10 @@
-const express = require('express');
-const app = express();
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcryptjs');
+const express = require('express');
 const uuid = require('uuid');
-const DB = require("./database.js");
+const app = express();
+const DB = require('./database.js');
+const { peerProxy } = require('./peerProxy.js');
 
 const authCookieName = 'token';
 
@@ -95,12 +96,6 @@ res.status(500).send({ type: err.name, message: err.message });
 app.use((_req, res) => {
 res.sendFile('index.html', { root: 'public' });
 });
-
-
-// begin the backend service
-app.listen(port, () => {
-  console.log(`Listening on port ${port}`);
-});
     
 async function createUser(email, password) {
     // hashes the password
@@ -139,3 +134,12 @@ function setAuthCookie(res, authToken) {
         sameSite: 'strict',
     });
 }
+
+
+// begin the backend service
+const httpServer = app.listen(port, () => {
+    console.log(`Listening on port ${port}`);
+  });
+
+
+peerProxy(httpServer);
