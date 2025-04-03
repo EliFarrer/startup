@@ -1,7 +1,7 @@
 const { WebSocketServer } = require('ws');
 
 function peerProxy(server) {
-    socketServer = new WebSocketServer({server});
+    const socketServer = new WebSocketServer({ server });
 
     socketServer.on('connection', (socket) => {
         socket.isAlive = true;
@@ -10,7 +10,7 @@ function peerProxy(server) {
         socket.on('message', function message(data) {
             // the clients are all of the people connected to the ws
             socketServer.clients.forEach((client) => {
-                if (client != socket && client.readyState === WebSocket.OPEN) {
+                if (client !== socket && client.readyState === WebSocket.OPEN) {
                     client.send(data);
                 }
             });
